@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-17T13:57:41.111Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="E5QmO7EfRJucTt9YSDcH" version="14.2.2" type="github" pages="7">
+<mxfile host="app.diagrams.net" modified="2021-01-17T14:35:53.995Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="MGPNhzYYdRJ1b5ppcmZp" version="14.2.2" type="github" pages="7">
   <diagram id="s1T5G4_UyyOQQvvGk7o1" name="Główny diagram">
     <mxGraphModel dx="3076" dy="2051" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -1373,10 +1373,16 @@
     </mxGraphModel>
   </diagram>
   <diagram id="qmloSDY_62x-EexJ4suU" name="Gracz">
-    <mxGraphModel dx="1422" dy="882" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1185" dy="735" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="Q1jXE3XdTnFyZf_lpmnh-0" />
         <mxCell id="Q1jXE3XdTnFyZf_lpmnh-1" parent="Q1jXE3XdTnFyZf_lpmnh-0" />
+        <mxCell id="FjMe5xLurBR4g4TV23Dm-0" value="Gracz - Akcje" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontColor=#333333;fontStyle=1" vertex="1" parent="Q1jXE3XdTnFyZf_lpmnh-1">
+          <mxGeometry x="40" y="50" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="FjMe5xLurBR4g4TV23Dm-1" value="Gracz - Akcje" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontColor=#333333;fontStyle=1" vertex="1" parent="Q1jXE3XdTnFyZf_lpmnh-1">
+          <mxGeometry x="40" y="110" width="240" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
