@@ -1,0 +1,71 @@
+PlayerDocument
+{
+	"Id":"asdafsasfasf"
+	"Nick":"",
+	"TotalWealth":"",
+	"Sectors":
+	[
+	{
+		"SectorId":"12d12d12d12d1",
+		"SectorResources":
+		{
+			"Wood": 34.234,
+			"Coal": 213123,
+			"Sand": 232323,
+			"Stone": 123		
+		},
+		"Buildings": [
+			{
+				"Code":"Piaskownia:12d12d12d12d1",
+				"CurrentLvl" : 3,
+				"Status":
+				{
+					"Code":"Building",
+					"Lvl": 4,
+					"FinishTime":"2021-02-23T12:23:21"
+				},
+				"Efficiency": 0				
+			},
+			{
+				"Code":"Huta Szkła",
+				"CurrentLvl" :"1",
+				"Status":
+				{
+					"Code":"Broken",					
+					"Lvl": 1
+					"Description":"Zepsuł Ci się kabel."
+					"Efficiency": -5
+				}
+				"Efficiency": 95				
+			},
+			{
+				"Code":"Huta Węgla",
+				"CurrentLvl" :"5",
+				"Status":
+				{
+					"Code":"Fixing",	
+					"Efficiency": -5,
+					"FinishTime":"2021-02-23T12:23:21"
+				}
+				"Efficiency": 95				
+			}
+			]
+	}
+	]
+}
+
+SectorDocument
+{
+	"SectorId":"12d12d12d12d1"
+	"CityId": "asdasfasf121f",
+	
+}
+
+Village
+{
+	"XCoordinate":23.4242424,
+	"YCoordinate":45.4242424,
+	"ForestPercentage":23.2,
+	""
+	
+}
