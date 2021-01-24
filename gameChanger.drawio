@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-24T10:20:10.380Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="XXsGkeip9UBl7F30mJnG" version="14.2.6" type="github" pages="8">
+<mxfile host="app.diagrams.net" modified="2021-01-24T12:38:40.985Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="rb7gWXCzmFbdu1z5KBof" version="14.2.6" type="github" pages="8">
   <diagram id="s1T5G4_UyyOQQvvGk7o1" name="Główny diagram">
     <mxGraphModel dx="2628" dy="1777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -1512,7 +1512,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="BksjGItfJ0XTiYLL5y5p" name="Transport">
-    <mxGraphModel dx="1178" dy="735" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2019" dy="1260" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="16bZdih0jO2VuDJpDChe-0" />
         <mxCell id="16bZdih0jO2VuDJpDChe-1" parent="16bZdih0jO2VuDJpDChe-0" />
@@ -1524,15 +1524,6 @@
         </mxCell>
         <mxCell id="PkA7M3o5Kq9nZ3VYmUvB-0" value="&lt;h1&gt;Typy transportów&lt;/h1&gt;&lt;p&gt;Transport surowców może się odbywać trzema drogami.&lt;br&gt;Lądową - Ciężarówka&lt;br&gt;Powietrznę - Samolot&lt;br&gt;Wodną - Łódź&lt;br&gt;&lt;br&gt;Każda trasa będzie miała odblokowane typy transportu, który gracz może wybrać. Każda osada będzie miała jedną sztukę pojazdu w każdym typie - wersja pierwsza.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
           <mxGeometry x="80" y="380" width="560" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="PkA7M3o5Kq9nZ3VYmUvB-4" value="&lt;h1&gt;Ciężarówka&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
-          <mxGeometry x="10" y="650" width="190" height="50" as="geometry" />
-        </mxCell>
-        <mxCell id="PkA7M3o5Kq9nZ3VYmUvB-5" value="&lt;h1&gt;Łódź&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
-          <mxGeometry x="10" y="710" width="190" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="PkA7M3o5Kq9nZ3VYmUvB-6" value="&lt;h1&gt;Samolot&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
-          <mxGeometry x="10" y="765" width="190" height="40" as="geometry" />
         </mxCell>
         <mxCell id="PkA7M3o5Kq9nZ3VYmUvB-7" value="Ilość surowców" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
           <mxGeometry x="240" y="585" width="110" height="30" as="geometry" />
@@ -1603,11 +1594,68 @@
         <mxCell id="PkA7M3o5Kq9nZ3VYmUvB-34" value="Wysoka" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
           <mxGeometry x="850" y="770" width="110" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-1" value="Ciężarówka" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="40" y="660" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-3" value="Łódź" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="40" y="715" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-4" value="Samolot" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="40" y="770" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-5" value="Ciężarówka" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="80" y="920" width="110" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-6" value="Łódź" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="80" y="1260" width="110" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-7" value="Samolot" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="80" y="1600" width="110" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-8" value="Pogoda - opady" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="220" y="870" width="470" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-9" value="Pora dnia" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="1200" y="870" width="470" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-10" value="Pogoda - wiatr" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="710" y="870" width="470" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-14" value="Brak" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="220" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-15" value="Śnieg" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="580" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-16" value="Deszcz" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d6b656;fillColor=#fff2cc;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="400" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-17" value="Kierunek zgodny&lt;br&gt;z transportem" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="710" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-18" value="Brak" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d6b656;fillColor=#fff2cc;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="890" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-19" value="Kierunek przeciwny&lt;br&gt;z transportem" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="1070" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-20" value="Dzień" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="1200" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-22" value="Noc" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="1570" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-23" value="Zmierzch" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d6b656;fillColor=#fff2cc;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="1450" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-XYl7B7qmTvIYEzURDM-24" value="Świt" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#d6b656;fillColor=#fff2cc;align=center;" vertex="1" parent="16bZdih0jO2VuDJpDChe-1">
+          <mxGeometry x="1330" y="920" width="110" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram id="qLAwDFyKyvwwuj3n1RsF" name="Mechanizmy Programowanie">
-    <mxGraphModel dx="1662" dy="1038" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="673" dy="420" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="UOtHNET0LEOoeOri1iea-0" />
         <mxCell id="UOtHNET0LEOoeOri1iea-1" parent="UOtHNET0LEOoeOri1iea-0" />
@@ -1696,10 +1744,10 @@
           <mxGeometry x="414" y="1320" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-10" value="Send Resources" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="280" y="980" width="120" height="20" as="geometry" />
+          <mxGeometry x="280" y="1900" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-11" value="Resources Arrived" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="414" y="980" width="120" height="20" as="geometry" />
+          <mxGeometry x="420" y="1900" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-12" value="View" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
           <mxGeometry x="550" y="950" width="120" height="20" as="geometry" />
@@ -1769,6 +1817,18 @@
         </mxCell>
         <mxCell id="mzhUDpaGr6SBGkFSW-G0-4" value="Assign to work" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
           <mxGeometry x="280" y="830" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="qznrUauxqR2rd7xvNBrf-0" value="Transport" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="280" y="1830" width="400" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="qznrUauxqR2rd7xvNBrf-1" value="View" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="560" y="1870" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="qznrUauxqR2rd7xvNBrf-2" value="Build Vechicle" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="280" y="1870" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="qznrUauxqR2rd7xvNBrf-4" value="Vehichle built" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="420" y="1870" width="120" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
