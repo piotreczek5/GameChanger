@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-24T12:38:40.985Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="rb7gWXCzmFbdu1z5KBof" version="14.2.6" type="github" pages="8">
+<mxfile host="app.diagrams.net" modified="2021-01-24T12:45:40.541Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="Psxe1r4IdbrnMtEpRE8d" version="14.2.6" type="github" pages="8">
   <diagram id="s1T5G4_UyyOQQvvGk7o1" name="Główny diagram">
     <mxGraphModel dx="2628" dy="1777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -475,7 +475,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="FRiidnjKs-AY-Ucfc2zR" name="Wyprawy">
-    <mxGraphModel dx="974" dy="608" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2355" dy="1470" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="vzt6ACOalsX2bfsqbkGv-0" />
         <mxCell id="vzt6ACOalsX2bfsqbkGv-1" parent="vzt6ACOalsX2bfsqbkGv-0" />
@@ -594,7 +594,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="GUqsCamsFSOAWaNCxf2h" name="Konstrukcja">
-    <mxGraphModel dx="3673" dy="2429" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3316" dy="2207" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="_TpoznF11xlDtj4n7Ig8-0" />
         <mxCell id="_TpoznF11xlDtj4n7Ig8-1" parent="_TpoznF11xlDtj4n7Ig8-0" />
@@ -1369,8 +1369,8 @@
         <mxCell id="nVlq4DqaUboQuLs5Cfsm-204" value="2 * (p -1)" style="text;html=1;strokeColor=#0e8088;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#b0e3e6;fontStyle=0;fontSize=12;" parent="_TpoznF11xlDtj4n7Ig8-1" vertex="1">
           <mxGeometry x="-1160" y="-60" width="60" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="SuFsz87f1Vrq7rp8fxoX-2" value="&lt;h1&gt;Pracownicy&lt;/h1&gt;&lt;div&gt;Każdy budynek będzie obstawiony przez kadrę ludzi, którzy mają określone wykształcenie. Ich wykształcenie będzie można podnosić - kierunkować (hutnik, cieśla, górnik) w Uniwersytecie.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Dostępni ludzie bez doświadczenia, będą przybywali do Twojego miasta ze świata (arbitralna lokacja). Każdy pracownik będzie miał swój poziom doświadczenia. Np. 1-10.&lt;/div&gt;&lt;div&gt;Każdy poziom doświadczenia pracownika będzie poprawiał wydajność lokacji jednocześnie zwiększał jego pensje.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;strokeColor=#000000;" vertex="1" parent="_TpoznF11xlDtj4n7Ig8-1">
-          <mxGeometry x="-1070" y="-280" width="490" height="175" as="geometry" />
+        <mxCell id="SuFsz87f1Vrq7rp8fxoX-2" value="&lt;h1&gt;Pracownicy&lt;/h1&gt;&lt;div&gt;Każdy budynek będzie obstawiony przez kadrę ludzi, którzy mają określone wykształcenie. Ich wykształcenie będzie można podnosić - kierunkować (hutnik, cieśla, górnik) w Uniwersytecie.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Dostępni ludzie bez doświadczenia, będą przybywali do miasta ze świata (arbitralna lokacja). Każdy pracownik będzie miał swój poziom doświadczenia. Np. 1-10.&lt;/div&gt;&lt;div&gt;Każdy poziom doświadczenia pracownika będzie poprawiał wydajność lokacji jednocześnie zwiększał jego pensje.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;strokeColor=#000000;" vertex="1" parent="_TpoznF11xlDtj4n7Ig8-1">
+          <mxGeometry x="-1070" y="-280" width="490" height="170" as="geometry" />
         </mxCell>
         <mxCell id="SuFsz87f1Vrq7rp8fxoX-4" value="&lt;h1&gt;&lt;span style=&quot;font-size: 20px ; text-align: center&quot;&gt;Maszyny&lt;/span&gt;&lt;br&gt;&lt;/h1&gt;&lt;p&gt;Maszyny produkują dobra / materiały. W odróżnieniu od budynków nie potrzebują ludzi, co eliminuje dostarczanie pożywienia do nich.&amp;nbsp;&lt;br&gt;&lt;br&gt;Maszyny również mogę mieć różny poziom zaawansowania co zmniejsza % awaryjności.&lt;br&gt;&lt;br&gt;Przykłady:&lt;br&gt;&lt;br&gt;Panele Słoneczne&amp;nbsp;&lt;br&gt;Turbiny powietrzne&lt;br&gt;Turbiny wodne&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="_TpoznF11xlDtj4n7Ig8-1">
           <mxGeometry x="-1068.5" y="-785" width="450" height="210" as="geometry" />
@@ -1512,7 +1512,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="BksjGItfJ0XTiYLL5y5p" name="Transport">
-    <mxGraphModel dx="2019" dy="1260" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1178" dy="735" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="16bZdih0jO2VuDJpDChe-0" />
         <mxCell id="16bZdih0jO2VuDJpDChe-1" parent="16bZdih0jO2VuDJpDChe-0" />
@@ -1655,7 +1655,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="qLAwDFyKyvwwuj3n1RsF" name="Mechanizmy Programowanie">
-    <mxGraphModel dx="673" dy="420" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1662" dy="1038" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="UOtHNET0LEOoeOri1iea-0" />
         <mxCell id="UOtHNET0LEOoeOri1iea-1" parent="UOtHNET0LEOoeOri1iea-0" />
