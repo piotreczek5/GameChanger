@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-01-24T12:50:46.104Z" agent="5.0 (Windows)" etag="5EK9LJ8Gi505P-IepMZz" version="14.2.4" type="github" pages="9">
+<mxfile host="app.diagrams.net" modified="2021-01-24T14:11:09.148Z" agent="5.0 (Windows)" etag="VLBYuFoqSH5tXMH4AnDG" version="14.2.4" type="github" pages="9">
   <diagram id="s1T5G4_UyyOQQvvGk7o1" name="Główny diagram">
-    <mxGraphModel dx="3076" dy="1932" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2839" dy="1805" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -594,7 +594,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="GUqsCamsFSOAWaNCxf2h" name="Konstrukcja">
-    <mxGraphModel grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" page="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3076" dy="1932" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="_TpoznF11xlDtj4n7Ig8-0" />
         <mxCell id="_TpoznF11xlDtj4n7Ig8-1" parent="_TpoznF11xlDtj4n7Ig8-0" />
@@ -1491,6 +1491,21 @@
         <mxCell id="FjMe5xLurBR4g4TV23Dm-1" value="Gracz - Akcje" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontColor=#333333;fontStyle=1" parent="Q1jXE3XdTnFyZf_lpmnh-1" vertex="1">
           <mxGeometry x="40" y="110" width="240" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="B_A6Opg4wlv7evjR4zBy-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="Q1jXE3XdTnFyZf_lpmnh-1" source="0dJ11gMpQGKirgn1Pan--0" target="B_A6Opg4wlv7evjR4zBy-0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0dJ11gMpQGKirgn1Pan--0" value="&lt;font style=&quot;font-size: 18px&quot;&gt;&lt;b&gt;HP&lt;/b&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="Q1jXE3XdTnFyZf_lpmnh-1">
+          <mxGeometry x="590" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="B_A6Opg4wlv7evjR4zBy-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="Q1jXE3XdTnFyZf_lpmnh-1" source="B_A6Opg4wlv7evjR4zBy-0" target="B_A6Opg4wlv7evjR4zBy-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="B_A6Opg4wlv7evjR4zBy-0" value="&lt;b&gt;100&lt;/b&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="Q1jXE3XdTnFyZf_lpmnh-1">
+          <mxGeometry x="590" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="B_A6Opg4wlv7evjR4zBy-2" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="Q1jXE3XdTnFyZf_lpmnh-1">
+          <mxGeometry x="590" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
@@ -1512,7 +1527,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="BksjGItfJ0XTiYLL5y5p" name="Transport">
-    <mxGraphModel grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" page="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1422" dy="763" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="16bZdih0jO2VuDJpDChe-0" />
         <mxCell id="16bZdih0jO2VuDJpDChe-1" parent="16bZdih0jO2VuDJpDChe-0" />
@@ -1655,7 +1670,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="qLAwDFyKyvwwuj3n1RsF" name="Mechanizmy Programowanie">
-    <mxGraphModel grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" page="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1422" dy="763" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="UOtHNET0LEOoeOri1iea-0" />
         <mxCell id="UOtHNET0LEOoeOri1iea-1" parent="UOtHNET0LEOoeOri1iea-0" />
@@ -1923,9 +1938,6 @@
         </mxCell>
         <mxCell id="0Uyx_tUR4BE7oA_gu6Yb-11" value="&lt;i&gt;&lt;b&gt;Wszelkie wartości i nazwy do zbalansowania i dogadania &lt;/b&gt;&lt;/i&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1qH2XBLiKCLqWjPX5g7S-1">
           <mxGeometry x="540" y="130" width="120" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="0Uyx_tUR4BE7oA_gu6Yb-12" value="Obszar 2:&lt;br&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1qH2XBLiKCLqWjPX5g7S-1">
-          <mxGeometry x="354" y="640" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="0Uyx_tUR4BE7oA_gu6Yb-14" value="Znaleziska" style="whiteSpace=wrap;html=1;" vertex="1" parent="1qH2XBLiKCLqWjPX5g7S-1">
           <mxGeometry x="40" y="320" width="120" height="20" as="geometry" />
