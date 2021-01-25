@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-25T20:49:16.554Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="_SaYxljV1AhksO3H9auG" version="14.2.7" type="github" pages="9">
+<mxfile host="app.diagrams.net" modified="2021-01-25T20:50:00.116Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="PIkUMRczFhdYrQbhSJPR" version="14.2.7" type="github" pages="9">
   <diagram id="s1T5G4_UyyOQQvvGk7o1" name="Główny diagram">
     <mxGraphModel dx="3327" dy="2207" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -475,7 +475,7 @@
         <mxCell id="ljCDfoWMe4VZLI-Eqsbi-10" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Kompetencja&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz grają w grę chciałby odczuwać, że wraz z upływem czasu jego akcje podejmowane przynoszą lepsze rezultaty niż gdy doświadczenia nie miał. Osiągać tzw. mistrzostwo w wykonywanej czynności. Dobrze zaprojektowany rosnący poziom trudności będzie testował umiejętności gracza.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="-1617.5" y="910" width="815" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="ljCDfoWMe4VZLI-Eqsbi-11" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Więź&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz ma potrzebę dzielić się swoim doświadczeniem lub dowiadywać się o nim od innych graczy. Wszelakie formy rankingu, czatu, możliwości podglądu działania innych graczy będą miały korzystny efekt na jego pozycje w środowisku.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
+        <mxCell id="ljCDfoWMe4VZLI-Eqsbi-11" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Więź&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz ma potrzebę dzielić się swoim doświadczeniem lub dowiadywać się o nim od innych graczy. Wszelakie formy rankingu, czatu, możliwości podglądu działania innych graczy będą miały korzystny efekt na jego pozycje w środowisku. Stanie się częścią grupy.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="-1615" y="1010" width="815" height="100" as="geometry" />
         </mxCell>
       </root>
