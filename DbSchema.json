@@ -1,71 +1,119 @@
 PlayerDocument
 {
 	"Id":"asdafsasfasf"
-	"Nick":"",
+	"Nick": string,
 	"TotalWealth":"",
-	"Sectors":
-	[
+	"CurrentStatus": 
 	{
-		"SectorId":"12d12d12d12d1",
-		"SectorResources":
+		"StatusCode" : string (IDLE,TRAVELING,JOURNEY)
+		"CurrentSector" : ObjectId( sector )
+	},
+	"SectorsOwnership":
+	[
 		{
-			"Wood": 34.234,
-			"Coal": 213123,
-			"Sand": 232323,
-			"Stone": 123		
-		},
-		"Buildings": [
-			{
-				"Code":"Piaskownia:12d12d12d12d1",
-				"CurrentLvl" : 3,
-				"Status":
-				{
-					"Code":"Building",
-					"Lvl": 4,
-					"FinishTime":"2021-02-23T12:23:21"
-				},
-				"Efficiency": 0				
-			},
-			{
-				"Code":"Huta Szkła",
-				"CurrentLvl" :"1",
-				"Status":
-				{
-					"Code":"Broken",					
-					"Lvl": 1
-					"Description":"Zepsuł Ci się kabel."
-					"Efficiency": -5
-				}
-				"Efficiency": 95				
-			},
-			{
-				"Code":"Huta Węgla",
-				"CurrentLvl" :"5",
-				"Status":
-				{
-					"Code":"Fixing",	
-					"Efficiency": -5,
-					"FinishTime":"2021-02-23T12:23:21"
-				}
-				"Efficiency": 95				
-			}
-			]
-	}
+			"SectorId" : ObjectId (sectorId),
+			"DateAquired" : DateTime
+		}
 	]
+	"Caravans": [
+		{
+			"SourceCity" : ObjectId (city),
+			"DestinationCity" : ObjectId (city),
+			"Resources" : 
+				[
+					{"Wood": int},
+					{"Stone": int}
+				]
+			"InitialMinutesToDeliver" : int 
+			"PlannedDeliveryTime": DateTime
+			"CurrentRouteIndex" : int,
+			"CurrentWeather"
+			{
+				"Code" : string,
+				"ETATimeMultiplier": decimal
+			}
+		},		
+	],
+    "Messages" : [ ObjectId(message)]
 }
 
 SectorDocument
 {
-	"SectorId":"12d12d12d12d1"
-	"CityId": "asdasfasf121f",
-	
+	"SectorId":Id,
+	"City": ObjectId (city)
+	"PlayerOwner": ObjectId (player)
+	"SectorResourceProduction":
+	[
+		{"Wood": int},
+		{"Coal": int},
+		{"Sand": int}	
+	],
+	"Buildings": [
+		{
+			"Code":"Piaskownia:12d12d12d12d1",
+			"CurrentLvl" : int,
+			"Status":
+			{
+				"Code":"Building",
+				"Lvl": int,
+				"FinishTime":"2021-02-23T12:23:21"
+			},
+			"Efficiency": int,
+			"Depletion" : decimal
+		},
+		{
+			"Code":"Huta Szkła",
+			"CurrentLvl" : int,
+			"Status":
+			{
+				"Code":"Broken",					
+				"Lvl": int
+				"Description":"Zepsuł Ci się kabel."
+				"Efficiency": int
+			}
+			"Efficiency": int,
+			"Depletion" : decimal			
+		},
+		{
+			"Code":"Huta Węgla",
+			"CurrentLvl" : int,
+			"Status":
+			{
+				"Code":"Fixing",	
+				"Efficiency":int,
+				"FinishTime":"2021-02-23T12:23:21"
+			}
+			"Efficiency": int,
+			"Depletion" : decimal					
+		}
+		]
 }
 
-Village
+
+City
 {
-	"XCoordinate":23.4242424,
-	"YCoordinate":45.4242424,
-	"ForestPercentage":23.2,
-	""
-	
+	"CityId" : Id
+	"Name" : string,
+	"Date" : DateTime,
+	"Daylight" : decimal,
+	"Sectors": [ ObjectId(Sector),ObjectId(Sector),ObjectId(Sector) ]
 }
+
+Ranking
+{
+	"LastUpdatedTime": DateTime,
+	"Players":
+	[
+		"PlayerName" : string
+		"TotalWealth" : int,
+		"Position": int
+	]
+}
+
+Solid data:
+
+Sectors 
+	Name
+	Coordinates
+	
+
