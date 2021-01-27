@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-27T17:58:37.106Z" agent="5.0 (Windows)" etag="dDTuf7VvZUrWy05sE1IX" version="14.2.7" type="github" pages="9">
+<mxfile host="app.diagrams.net" modified="2021-01-27T18:08:16.664Z" agent="5.0 (Windows)" etag="kwgLNnpAhDmxwL4jqq7K" version="14.2.7" type="github" pages="9">
   <diagram id="s1T5G4_UyyOQQvvGk7o1" name="Główny diagram">
     <mxGraphModel dx="3327" dy="2067" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -1962,6 +1962,12 @@
         </mxCell>
         <mxCell id="mX2sirrEa3FYqQuyjft3-3" value="&lt;b&gt;-Stałe prędkości pojazdów&lt;br&gt;-Odległość / prędkość&lt;br&gt;-Możliwość napadu podczas transportu&lt;br&gt;&lt;br&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1qH2XBLiKCLqWjPX5g7S-1">
           <mxGeometry x="80" y="690" width="220" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="mX2sirrEa3FYqQuyjft3-4" value="&lt;b&gt;- Lokacje przybliżone do prawdziwych miast&lt;br&gt;- Pogoda zaczytana z prawdziwych miast&lt;br&gt;- Możliwość handlu tylko w danym mieście&lt;br&gt;&lt;br&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1qH2XBLiKCLqWjPX5g7S-1">
+          <mxGeometry x="530" y="720" width="190" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="mX2sirrEa3FYqQuyjft3-5" value="&lt;b&gt;- Max 4 miasta na dany kraj&lt;br&gt;- Wielkość krajów ustalają twórcy&lt;br&gt;- Jebać biedę&lt;br&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1qH2XBLiKCLqWjPX5g7S-1">
+          <mxGeometry x="389" y="700" width="131" height="140" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
