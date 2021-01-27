@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-01-24T14:11:09.148Z" agent="5.0 (Windows)" etag="VLBYuFoqSH5tXMH4AnDG" version="14.2.4" type="github" pages="9">
+<mxfile host="app.diagrams.net" modified="2021-01-25T20:50:00.116Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="PIkUMRczFhdYrQbhSJPR" version="14.2.7" type="github" pages="9">
   <diagram id="s1T5G4_UyyOQQvvGk7o1" name="Główny diagram">
-    <mxGraphModel dx="2839" dy="1805" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3327" dy="2207" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -459,6 +459,24 @@
         </mxCell>
         <mxCell id="64xwlVSxZveyszwk2zIi-2" value="Pracownicy" style="text;html=1;strokeColor=#d79b00;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fillColor=#ffe6cc;" parent="1" vertex="1">
           <mxGeometry x="-1210" y="130" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ljCDfoWMe4VZLI-Eqsbi-1" value="&lt;b style=&quot;font-size: 25px;&quot;&gt;PSYCHOLOGIA&lt;br style=&quot;font-size: 25px;&quot;&gt;GIER&lt;br style=&quot;font-size: 25px;&quot;&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a0522d;strokeColor=#6D1F00;fontColor=#ffffff;fontSize=25;" vertex="1" parent="1">
+          <mxGeometry x="-1615" y="490" width="815" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ljCDfoWMe4VZLI-Eqsbi-7" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Autonomia&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz ma poczucie, że sam kieruje swoim losem w grze. Gra sama w sobie nie wymusza na nim konkretnego zachowania. Poczucie o możliwości rozwoju w jakimkolwiek kierunku chce.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1615" y="610" width="815" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ljCDfoWMe4VZLI-Eqsbi-8" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Paradoks hazardzisty&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz myślący, że ma szansę na udaną akcję 50% wykonując dwie z nich ma głębokie przekonanie, że co najmniej jedna z nich powinna się udać. By zmniejszyć, lub zwiększyć znaczenie prawdopodobieństwa należałoby liczyć poprzednie rezultaty.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1615" y="710" width="815" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ljCDfoWMe4VZLI-Eqsbi-9" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Wybór&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Graczowi powinno umożliwić się jakiś wybór. Nawet jeśli ten wybór to pozorna ściema i miałby prowadzić do akcji, która jest przez nas zdefiniowana, to sam fakt dokonania wyboru wzmacnia w graczu poczucie kontroli.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1615" y="820" width="815" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ljCDfoWMe4VZLI-Eqsbi-10" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Kompetencja&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz grają w grę chciałby odczuwać, że wraz z upływem czasu jego akcje podejmowane przynoszą lepsze rezultaty niż gdy doświadczenia nie miał. Osiągać tzw. mistrzostwo w wykonywanej czynności. Dobrze zaprojektowany rosnący poziom trudności będzie testował umiejętności gracza.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1617.5" y="910" width="815" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ljCDfoWMe4VZLI-Eqsbi-11" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Więź&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz ma potrzebę dzielić się swoim doświadczeniem lub dowiadywać się o nim od innych graczy. Wszelakie formy rankingu, czatu, możliwości podglądu działania innych graczy będą miały korzystny efekt na jego pozycje w środowisku. Stanie się częścią grupy.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-1615" y="1010" width="815" height="100" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
