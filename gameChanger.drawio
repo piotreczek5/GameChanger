@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-01-28T20:09:54.974Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36" etag="SDaKLaqVFw6-NEB_knkJ" version="14.2.7" type="github" pages="9">
+<mxfile host="app.diagrams.net" modified="2021-01-28T20:26:53.276Z" agent="5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36" etag="QGcniKYUCuZjqwJ_d7Ol" version="14.2.7" type="github" pages="10">
   <diagram id="s1T5G4_UyyOQQvvGk7o1" name="Główny diagram">
-    <mxGraphModel dx="2839" dy="3073" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="4851" dy="3808" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -461,22 +461,22 @@
           <mxGeometry x="-1210" y="130" width="90" height="30" as="geometry" />
         </mxCell>
         <mxCell id="ljCDfoWMe4VZLI-Eqsbi-1" value="&lt;b style=&quot;font-size: 25px;&quot;&gt;PSYCHOLOGIA&lt;br style=&quot;font-size: 25px;&quot;&gt;GIER&lt;br style=&quot;font-size: 25px;&quot;&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a0522d;strokeColor=#6D1F00;fontColor=#ffffff;fontSize=25;" parent="1" vertex="1">
-          <mxGeometry x="-1615" y="490" width="815" height="100" as="geometry" />
+          <mxGeometry x="-1770" y="-2070" width="2257.5" height="100" as="geometry" />
         </mxCell>
         <mxCell id="ljCDfoWMe4VZLI-Eqsbi-7" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Autonomia&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz ma poczucie, że sam kieruje swoim losem w grze. Gra sama w sobie nie wymusza na nim konkretnego zachowania. Poczucie o możliwości rozwoju w jakimkolwiek kierunku chce.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="-1615" y="610" width="815" height="100" as="geometry" />
+          <mxGeometry x="-577.5" y="-1950" width="507.5" height="120" as="geometry" />
         </mxCell>
         <mxCell id="ljCDfoWMe4VZLI-Eqsbi-8" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Paradoks hazardzisty&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz myślący, że ma szansę na udaną akcję 50% wykonując dwie z nich ma głębokie przekonanie, że co najmniej jedna z nich powinna się udać. By zmniejszyć, lub zwiększyć znaczenie prawdopodobieństwa należałoby liczyć poprzednie rezultaty.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="-1615" y="710" width="815" height="100" as="geometry" />
+          <mxGeometry x="-1020" y="-2200" width="815" height="100" as="geometry" />
         </mxCell>
         <mxCell id="ljCDfoWMe4VZLI-Eqsbi-9" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Wybór&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Graczowi powinno umożliwić się jakiś wybór. Nawet jeśli ten wybór to pozorna ściema i miałby prowadzić do akcji, która jest przez nas zdefiniowana, to sam fakt dokonania wyboru wzmacnia w graczu poczucie kontroli.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="-1615" y="820" width="815" height="100" as="geometry" />
+          <mxGeometry x="-40" y="-1950" width="497.5" height="133" as="geometry" />
         </mxCell>
         <mxCell id="ljCDfoWMe4VZLI-Eqsbi-10" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Kompetencja&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz grają w grę chciałby odczuwać, że wraz z upływem czasu jego akcje podejmowane przynoszą lepsze rezultaty niż gdy doświadczenia nie miał. Osiągać tzw. mistrzostwo w wykonywanej czynności. Dobrze zaprojektowany rosnący poziom trudności będzie testował umiejętności gracza.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="-1617.5" y="910" width="815" height="100" as="geometry" />
+          <mxGeometry x="-1755" y="-1955" width="575" height="130" as="geometry" />
         </mxCell>
         <mxCell id="ljCDfoWMe4VZLI-Eqsbi-11" value="&lt;h1 style=&quot;font-size: 16px&quot;&gt;Więź&lt;/h1&gt;&lt;p style=&quot;font-size: 16px&quot;&gt;Gracz ma potrzebę dzielić się swoim doświadczeniem lub dowiadywać się o nim od innych graczy. Wszelakie formy rankingu, czatu, możliwości podglądu działania innych graczy będą miały korzystny efekt na jego pozycje w środowisku. Stanie się częścią grupy.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="-1615" y="1010" width="815" height="100" as="geometry" />
+          <mxGeometry x="-1110" y="-1960" width="512.5" height="130" as="geometry" />
         </mxCell>
         <mxCell id="KRajMN5WszrE1hZrohyz-1" value="Zależności od akcji" style="text;html=1;strokeColor=#996185;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=33;fillColor=#e6d0de;gradientColor=#d5739d;" vertex="1" parent="1">
           <mxGeometry x="1350" y="-2070" width="1340" height="100" as="geometry" />
@@ -2298,7 +2298,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="qLAwDFyKyvwwuj3n1RsF" name="Mechanizmy Programowanie">
-    <mxGraphModel dx="1422" dy="882" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="981" dy="608" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="UOtHNET0LEOoeOri1iea-0" />
         <mxCell id="UOtHNET0LEOoeOri1iea-1" parent="UOtHNET0LEOoeOri1iea-0" />
@@ -2312,16 +2312,16 @@
           <mxGeometry x="710" y="120" width="60" height="80" as="geometry" />
         </mxCell>
         <mxCell id="UOtHNET0LEOoeOri1iea-6" value="Command" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="280" y="540" width="120" height="60" as="geometry" />
+          <mxGeometry x="282.5" y="390" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="UOtHNET0LEOoeOri1iea-7" value="Query" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="555" y="540" width="120" height="60" as="geometry" />
+          <mxGeometry x="557.5" y="390" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="UOtHNET0LEOoeOri1iea-8" value="" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;shape=mxgraph.azure.queue_generic;pointerEvents=1;fillColor=#050000;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="445" y="450" width="110" height="45" as="geometry" />
+          <mxGeometry x="447.5" y="300" width="110" height="45" as="geometry" />
         </mxCell>
         <mxCell id="UOtHNET0LEOoeOri1iea-9" value="Events" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="414" y="540" width="120" height="60" as="geometry" />
+          <mxGeometry x="416.5" y="390" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="UOtHNET0LEOoeOri1iea-10" value="Player" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
           <mxGeometry x="160" y="900" width="30" height="60" as="geometry" />
@@ -2339,7 +2339,7 @@
           <mxGeometry x="280" y="920" width="400" height="20" as="geometry" />
         </mxCell>
         <mxCell id="UOtHNET0LEOoeOri1iea-16" value="Villages" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="280" y="1060" width="400" height="20" as="geometry" />
+          <mxGeometry x="280" y="1040" width="400" height="20" as="geometry" />
         </mxCell>
         <mxCell id="UOtHNET0LEOoeOri1iea-17" value="Building Built" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
           <mxGeometry x="414" y="640" width="120" height="20" as="geometry" />
@@ -2363,28 +2363,28 @@
           <mxGeometry x="280" y="1280" width="400" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-1" value="Advance" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="280" y="1320" width="120" height="20" as="geometry" />
+          <mxGeometry x="280" y="1310" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-2" value="View" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="560" y="1320" width="120" height="20" as="geometry" />
+          <mxGeometry x="560" y="1310" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-4" value="Travel To" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="280" y="1090" width="120" height="20" as="geometry" />
+          <mxGeometry x="285" y="1070" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-5" value="ArrivedToVillage" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="414" y="1090" width="120" height="20" as="geometry" />
+          <mxGeometry x="419" y="1070" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-6" value="View" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="550" y="1090" width="120" height="20" as="geometry" />
+          <mxGeometry x="555" y="1070" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-7" value="BuildSector" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="280" y="1120" width="120" height="20" as="geometry" />
+          <mxGeometry x="285" y="1100" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-8" value="SectorBuilt" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="414" y="1120" width="120" height="20" as="geometry" />
+          <mxGeometry x="419" y="1100" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-9" value="Technology Aquired" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="414" y="1320" width="120" height="20" as="geometry" />
+          <mxGeometry x="414" y="1310" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-10" value="Send Resources" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
           <mxGeometry x="280" y="1900" width="120" height="20" as="geometry" />
@@ -2399,22 +2399,22 @@
           <mxGeometry x="280" y="1390" width="400" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-16" value="View" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="560" y="1430" width="120" height="20" as="geometry" />
+          <mxGeometry x="560" y="1420" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-18" value="Journey" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
           <mxGeometry x="280" y="1180" width="400" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-19" value="Make journey" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="280" y="1220" width="120" height="20" as="geometry" />
+          <mxGeometry x="280" y="1210" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-20" value="View" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="560" y="1220" width="120" height="20" as="geometry" />
+          <mxGeometry x="560" y="1210" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-21" value="Journey Finished" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="414" y="1220" width="120" height="20" as="geometry" />
+          <mxGeometry x="414" y="1210" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-22" value="Recalculate" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
-          <mxGeometry x="414" y="1430" width="120" height="20" as="geometry" />
+          <mxGeometry x="414" y="1420" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="sV8lEvDvX1oBiuXJTK6I-23" value="Settings" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
           <mxGeometry x="280" y="1480" width="400" height="20" as="geometry" />
@@ -2472,6 +2472,27 @@
         </mxCell>
         <mxCell id="qznrUauxqR2rd7xvNBrf-4" value="Vehichle built" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="UOtHNET0LEOoeOri1iea-1" vertex="1">
           <mxGeometry x="420" y="1870" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="7M-qWjWJ7UvGdJudDem9-0" value="Explore" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="280" y="980" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="7M-qWjWJ7UvGdJudDem9-2" value="SectorExplored" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="414" y="980" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="7M-qWjWJ7UvGdJudDem9-3" value="Building broke" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="414" y="730" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="7M-qWjWJ7UvGdJudDem9-7" value="Equipment" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="280" y="1970" width="400" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="7M-qWjWJ7UvGdJudDem9-8" value="Equip item" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="280" y="2000" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="7M-qWjWJ7UvGdJudDem9-9" value="Un-equip item" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="280" y="2030" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="7M-qWjWJ7UvGdJudDem9-10" value="Upgrade item" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="UOtHNET0LEOoeOri1iea-1">
+          <mxGeometry x="280" y="2060" width="120" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
@@ -2578,6 +2599,17 @@
         </mxCell>
         <mxCell id="mX2sirrEa3FYqQuyjft3-5" value="&lt;b&gt;- Max 4 miasta na dany kraj&lt;br&gt;- Wielkość krajów ustalają twórcy&lt;br&gt;- Jebać biedę&lt;br&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1qH2XBLiKCLqWjPX5g7S-1" vertex="1">
           <mxGeometry x="389" y="700" width="131" height="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="2b4OK4yZ_NbH6b2Hr1Kz" name="Arena">
+    <mxGraphModel dx="1422" dy="882" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="ASdgYn9CiZiHyRCb8ih9-0" />
+        <mxCell id="ASdgYn9CiZiHyRCb8ih9-1" parent="ASdgYn9CiZiHyRCb8ih9-0" />
+        <mxCell id="ASdgYn9CiZiHyRCb8ih9-2" value="&lt;h1&gt;Arena&lt;/h1&gt;&lt;p&gt;Miejsce w którym gracz może się sprawdzić z innymi, wkładając do puli konkretną kwotę.&lt;/p&gt;&lt;p&gt;Jeśli wygra zyskuje pieniądze włożone, oraz pieniądze przeciwnika.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=17;" vertex="1" parent="ASdgYn9CiZiHyRCb8ih9-1">
+          <mxGeometry x="130" y="40" width="550" height="240" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
