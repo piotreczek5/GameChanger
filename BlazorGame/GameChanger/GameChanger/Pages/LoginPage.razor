@@ -1,0 +1,123 @@
+﻿@page "/"
+@layout LoginLayout
+
+@inject SignInManager<GameChangerUser> SignInManager;
+@inject AuthenticationStateProvider AuthStatePrvider;
+@inject UserManager<GameChangerUser> UserManager;
+@inject NavigationManager NavigationManager;
+@inject AuthenticationStateProvider AuthenticationStateProvider;
+@using Microsoft.AspNetCore.Identity
+@inject IUserService UserService;
+
+<div class="container">
+    <div class="col-12 row">
+        <p>&nbsp;</p>
+    </div>
+    <div class="col-12 row">
+        <div class="col-6" style="border-right:groove">
+            <div>
+                <br /><br /><br /><br /><br />
+            </div>
+            <img src="https://borlabs.io/wp-content/uploads/2019/09/blog-wp-login.png" width="600px" height="200px" />
+            <div>
+                <br /><br /><br /><br /><br />
+            </div>
+        </div>
+        <div class="col-6 justify-content-center" style="border-left:groove">
+            <EditForm Model="@_userLogin" OnValidSubmit="@ValidateUser">
+                <div>
+                    <br /><br /><br /><br /><br />
+                </div>
+                <div style="margin-left:auto;margin-right:auto">
+                    <h3> Game Changer Login</h3>
+                </div>
+                <div> <br /></div>
+                <div>
+                    <input class="form-control col-12" placeholder="Email address" @bind="_userLogin.UserName" />
+                </div>
+                <br />
+                <div>
+                    <input type="password" class="form-control col-12" placeholder="Password" @bind="_userLogin.Password" />
+                </div>
+                <br />
+                <div>
+                    <span class="col-12"></span>
+                    <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
+                </div>
+                <br />
+                <div hidden="@_hideResult">
+                    <p class="alert alert-@_alertType">@_resultText</p>
+                </div>
+                <div>
+                    <br /><br /><br /><br /><br />
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+@code{
+
+    private class UserLogin
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+
+    private bool _hideResult = true;
+    private string _alertType = "info";
+    private string _resultText = string.Empty;
+
+    private UserLogin _userLogin = new UserLogin();
+
+
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateTask;
+        if(authState?.User?.Identity?.IsAuthenticated == true)
+        {
+            NavigationManager.NavigateTo("/index");
+        }
+    }
+
+
+    private async Task<bool> ValidateUser()
+    {
+        var user = await UserManager.FindByNameAsync(_userLogin.UserName);
+
+        if (user != null)
+        {
+            var signInResult = await SignInManager.CheckPasswordSignInAsync(user, _userLogin.Password, false);
+
+            var authstate = await AuthStatePrvider.GetAuthenticationStateAsync();
+            if (signInResult.Succeeded == true)
+            {
+                ((GameChangerAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(user);
+                _resultText = $"Successfully Logged in. Welcome {user.PlayerId}";
+                _alertType = "success";
+                _hideResult = false;
+                NavigationManager.NavigateTo("/index");
+            }
+            else
+            {
+                _resultText = "Incorrect Password.";
+                _alertType = "danger";
+            }
+
+        }
+        else
+        {
+            _alertType = "warning";
+            _resultText = "Could not find user.";
+        }
+
+        _hideResult = false;
+
+        return await Task.FromResult(true);
+    }
+}
+

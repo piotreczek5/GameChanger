@@ -1,0 +1,17 @@
+﻿@page 
+@using Microsoft.AspNetCore.Identity
+@using GameChanger.GameUser.EntityFramework.Domain
+@attribute [IgnoreAntiforgeryToken]
+@inject SignInManager<GameChangerUser> SignInManager
+
+@functions
+{
+    public async Task<ActionResult> OnPost()
+    {
+        if(SignInManager.IsSignedIn(User))
+        {
+            await SignInManager.SignOutAsync();
+        }
+        return Redirect("/");
+    }
+}

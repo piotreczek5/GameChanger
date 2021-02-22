@@ -1,0 +1,26 @@
+﻿@page "/index"
+@layout MainLayout
+@inject IHttpContextAccessor httpContextAccessor
+@inject IMediator _mediator;
+
+<h1>UserLogged : @CurrentlyLoggedPlayer?.Nick </h1>
+
+@code {
+    protected PlayerDocument CurrentlyLoggedPlayer;
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await AuthState;
+        var currentUserMail = authState.User.Identity.Name;
+
+        var playerGuid = await _mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
+
+        CurrentlyLoggedPlayer = await _mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
+
+        await base.OnInitializedAsync();
+    }
+
+}

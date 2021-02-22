@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameChanger.Core\GameChanger.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MediatR\Handlers\" />
+    <Folder Include="MediatR\Messages\Commands\" />
+    <Folder Include="MediatR\Messages\Queries\" />
+  </ItemGroup>
+</Project>

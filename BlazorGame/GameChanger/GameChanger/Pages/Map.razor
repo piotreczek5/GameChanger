@@ -1,0 +1,51 @@
+﻿@page "/map"
+@using GameChanger.Map.MapData
+@inject MapConfiguration _mapConfiguration
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">@nameof(Land.Name)</th>
+                <th scope="col">@nameof(Land.AreaSurface)</th>
+                <th scope="col">@nameof(Land.ForestPercentCoverage)</th>
+                <th scope="col">@nameof(Land.WaterPercentCoverage)</th>
+                <th scope="col">@nameof(Land.FarmLandsPercentCoverage)</th>
+                <th scope="col">@nameof(Land.Cities)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var land in _mapConfiguration.Lands)
+            {
+                <tr>
+                    <td>@land.Name</td>
+                    <td>@land.AreaSurface</td>
+                    <td>@land.ForestPercentCoverage</td>
+                    <td>@land.WaterPercentCoverage</td>
+                    <td>@land.FarmLandsPercentCoverage</td>
+                    <td>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">XCoord</th>
+                                    <th scope="col">YCoord</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var city in land.Cities)
+                                {
+                                <tr>
+                                    <td>@city.Name</td>
+                                    <td>@city.XCoordinate</td>
+                                    <td>@city.YCoordinate</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

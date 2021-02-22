@@ -1,0 +1,16 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavManager
+
+
+    <div class="page">
+        <AuthorizeView>
+            <NotAuthorized>
+                <div class="col-12">
+                    <br /><br />
+                    @Body
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+
+
