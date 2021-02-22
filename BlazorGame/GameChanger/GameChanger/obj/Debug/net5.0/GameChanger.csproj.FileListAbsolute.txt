@@ -177,7 +177,6 @@ C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\De
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.genruntimeconfig.cache
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.UI.Views.V3.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.Bcl.HashCode.dll
-C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\NuGet.Frameworks.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win-arm64\native\sni.dll
@@ -185,3 +184,6 @@ C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\De
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win-x86\native\sni.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Humanizer.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe

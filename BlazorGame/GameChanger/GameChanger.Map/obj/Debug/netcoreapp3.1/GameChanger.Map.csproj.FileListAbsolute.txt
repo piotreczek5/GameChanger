@@ -1,0 +1,12 @@
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\bin\Debug\netcoreapp3.1\GameChanger.Map.deps.json
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\bin\Debug\netcoreapp3.1\GameChanger.Map.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\bin\Debug\netcoreapp3.1\GameChanger.Map.pdb
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\bin\Debug\netcoreapp3.1\GameChanger.Core.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\bin\Debug\netcoreapp3.1\GameChanger.Core.pdb
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\obj\Debug\netcoreapp3.1\GameChanger.Map.csprojAssemblyReference.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\obj\Debug\netcoreapp3.1\GameChanger.Map.AssemblyInfoInputs.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\obj\Debug\netcoreapp3.1\GameChanger.Map.AssemblyInfo.cs
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\obj\Debug\netcoreapp3.1\GameChanger.Map.csproj.CoreCompileInputs.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\obj\Debug\netcoreapp3.1\GameChanger.Map.csproj.CopyComplete
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\obj\Debug\netcoreapp3.1\GameChanger.Map.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Map\obj\Debug\netcoreapp3.1\GameChanger.Map.pdb

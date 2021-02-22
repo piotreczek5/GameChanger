@@ -153,7 +153,7 @@ using GameChanger.GameUser.Services;
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
+#line 9 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
 using Microsoft.AspNetCore.Identity;
 
 #line default
@@ -161,7 +161,6 @@ using Microsoft.AspNetCore.Identity;
 #nullable disable
     [Microsoft.AspNetCore.Components.LayoutAttribute(typeof(LoginLayout))]
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    [Microsoft.AspNetCore.Components.RouteAttribute("/Identity/Account/Login")]
     public partial class LoginPage : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -170,7 +169,7 @@ using Microsoft.AspNetCore.Identity;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 61 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
+#line 60 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
       
 
     private class UserLogin

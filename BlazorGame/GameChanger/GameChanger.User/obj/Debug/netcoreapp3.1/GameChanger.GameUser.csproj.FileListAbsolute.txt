@@ -1,0 +1,15 @@
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\bin\Debug\netcoreapp3.1\GameChanger.GameUser.deps.json
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\bin\Debug\netcoreapp3.1\GameChanger.GameUser.runtimeconfig.json
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\bin\Debug\netcoreapp3.1\GameChanger.GameUser.runtimeconfig.dev.json
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\bin\Debug\netcoreapp3.1\GameChanger.GameUser.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\bin\Debug\netcoreapp3.1\GameChanger.GameUser.pdb
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\bin\Debug\netcoreapp3.1\GameChanger.Core.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\bin\Debug\netcoreapp3.1\GameChanger.Core.pdb
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\obj\Debug\netcoreapp3.1\GameChanger.GameUser.csprojAssemblyReference.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\obj\Debug\netcoreapp3.1\GameChanger.GameUser.AssemblyInfoInputs.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\obj\Debug\netcoreapp3.1\GameChanger.GameUser.AssemblyInfo.cs
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\obj\Debug\netcoreapp3.1\GameChanger.GameUser.csproj.CoreCompileInputs.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\obj\Debug\netcoreapp3.1\GameChanger.GameUser.csproj.CopyComplete
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\obj\Debug\netcoreapp3.1\GameChanger.GameUser.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\obj\Debug\netcoreapp3.1\GameChanger.GameUser.pdb
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.User\obj\Debug\netcoreapp3.1\GameChanger.GameUser.genruntimeconfig.cache

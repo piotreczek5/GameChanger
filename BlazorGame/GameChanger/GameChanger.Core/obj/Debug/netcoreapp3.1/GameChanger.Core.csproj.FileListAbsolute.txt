@@ -1,0 +1,8 @@
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\bin\Debug\netcoreapp3.1\GameChanger.Core.deps.json
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\bin\Debug\netcoreapp3.1\GameChanger.Core.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\bin\Debug\netcoreapp3.1\GameChanger.Core.pdb
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\obj\Debug\netcoreapp3.1\GameChanger.Core.AssemblyInfoInputs.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\obj\Debug\netcoreapp3.1\GameChanger.Core.AssemblyInfo.cs
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\obj\Debug\netcoreapp3.1\GameChanger.Core.csproj.CoreCompileInputs.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\obj\Debug\netcoreapp3.1\GameChanger.Core.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\obj\Debug\netcoreapp3.1\GameChanger.Core.pdb
