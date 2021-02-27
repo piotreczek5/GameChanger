@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {
+    "net5.0": {
       "Convey/0.4.414": {
         "type": "package",
         "dependencies": {
@@ -2994,7 +2994,7 @@
       },
       "GameChanger.Core/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
+        "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Convey": "0.4.414",
           "Convey.Persistence.MongoDB": "0.4.414",
@@ -3008,11 +3008,14 @@
         },
         "runtime": {
           "bin/placeholder/GameChanger.Core.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "GameChanger.GameUser/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
+        "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "GameChanger.Core": "1.0.0",
           "Microsoft.AspNetCore.Components.Authorization": "3.1.12",
@@ -3026,11 +3029,14 @@
         },
         "runtime": {
           "bin/placeholder/GameChanger.GameUser.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "GameChanger.Map/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
+        "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "GameChanger.Core": "1.0.0"
         },
@@ -3039,7 +3045,10 @@
         },
         "runtime": {
           "bin/placeholder/GameChanger.Map.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -9503,7 +9512,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": [
+    "net5.0": [
       "GameChanger.Core >= 1.0.0",
       "GameChanger.GameUser >= 1.0.0",
       "GameChanger.Map >= 1.0.0",
@@ -9533,15 +9542,15 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "netcoreapp3.1"
+        "net5.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+        "net5.0": {
+          "targetAlias": "net5.0",
           "projectReferences": {
             "C:\\Users\\Piotrek\\Documents\\GameChanger\\BlazorGame\\GameChanger\\GameChanger.Core\\GameChanger.Core.csproj": {
               "projectPath": "C:\\Users\\Piotrek\\Documents\\GameChanger\\BlazorGame\\GameChanger\\GameChanger.Core\\GameChanger.Core.csproj"
@@ -9562,8 +9571,8 @@
       }
     },
     "frameworks": {
-      "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
+      "net5.0": {
+        "targetAlias": "net5.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -9598,7 +9607,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }
