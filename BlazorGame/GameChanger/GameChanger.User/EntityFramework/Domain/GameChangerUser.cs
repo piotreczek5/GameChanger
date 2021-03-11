@@ -11,6 +11,6 @@ namespace GameChanger.GameUser.EntityFramework.Domain
     public class GameChangerUser : IdentityUser
     {      
         [PersonalData]
-        public Guid PlayerId { get; set; }
+        public Guid PlayerId { get; set; }        
     }
 }

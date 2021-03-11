@@ -152,6 +152,13 @@ using GameChanger.GameUser.Services;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 21 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.GameData;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.LayoutAttribute(typeof(MainLayout))]
     [Microsoft.AspNetCore.Components.RouteAttribute("/index")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
@@ -162,7 +169,7 @@ using GameChanger.GameUser.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 8 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Index.razor"
+#line 9 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Index.razor"
        
     protected PlayerDocument CurrentlyLoggedPlayer;
 
@@ -177,6 +184,14 @@ using GameChanger.GameUser.Services;
         var playerGuid = await _mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
 
         CurrentlyLoggedPlayer = await _mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
+        if(!CurrentlyLoggedPlayer.WasInitialized)
+        {
+            var cities = MapConfiguration.Lands.SelectMany(c => c.Cities).ToList();
+            int randomCityIndex = new Random().Next(0, cities.Count);
+
+            await _mediator.Publish(new GenerateSectorCommand { PlayerId = playerGuid,CityName = cities[randomCityIndex].Name});
+        }
+
 
         await base.OnInitializedAsync();
     }
@@ -185,6 +200,7 @@ using GameChanger.GameUser.Services;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration MapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMediator _mediator { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IHttpContextAccessor httpContextAccessor { get; set; }
     }

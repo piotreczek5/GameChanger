@@ -152,6 +152,13 @@ using GameChanger.GameUser.Services;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 21 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.GameData;
+
+#line default
+#line hidden
+#nullable disable
     public partial class _Imports : System.Object
     {
         #pragma warning disable 1998

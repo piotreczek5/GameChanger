@@ -146,8 +146,29 @@ using GameChanger.GameUser.Services;
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
+#line 21 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.GameData;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
+using Newtonsoft.Json;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
 using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
+using GameChanger.GameUser.DataTypes;
 
 #line default
 #line hidden
@@ -162,47 +183,63 @@ using Microsoft.AspNetCore.Identity;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 60 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
+#line 65 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
       
-
-    private class UserLogin
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
-
     private bool _hideResult = true;
     private string _alertType = "info";
     private string _resultText = string.Empty;
 
-    private UserLogin _userLogin = new UserLogin() { UserName="pusz.piotr@wp.pl", Password = "Pusz.piotr!1"};
-
+    private InputModel Input = new InputModel() { Email = "pusz.piotr@wp.pl", Password = "Pusz.piotr!1"  };
 
     [CascadingParameter]
     private Task<AuthenticationState> AuthenticationStateTask { get; set; }
 
     protected async override Task OnInitializedAsync()
-    {
-        var authState = await AuthenticationStateTask;
-        if(authState?.User?.Identity?.IsAuthenticated == true)
+    {        
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        if (authState?.User?.Identity?.IsAuthenticated == true)
         {
             NavigationManager.NavigateTo("/index");
         }
     }
 
+    private async Task<bool> LoginAsync()
+    {
+        HttpClient client = new HttpClient();
+        client.BaseAddress = new Uri(@"http://localhost:50528");
+
+        string serializedUser = JsonConvert.SerializeObject(Input);
+
+        var requestMessage = new HttpRequestMessage(HttpMethod.Post, "api/Users/Login");
+        requestMessage.Content = new StringContent(serializedUser);
+
+        requestMessage.Content.Headers.ContentType
+            = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+        var response = await client.SendAsync(requestMessage);
+
+        var responseStatusCode = response.StatusCode;
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var loginInResult = JsonConvert.DeserializeObject<LoginResult>(responseBody);
+
+        await ((GameChangerAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(Input);
+
+        return loginInResult.Succeeded;
+    }
 
     private async Task<bool> ValidateUser()
     {
-        var user = await UserManager.FindByNameAsync(_userLogin.UserName);
+        var user = await UserManager.FindByNameAsync(Input.Email);
 
         if (user != null)
         {
-            var signInResult = await SignInManager.CheckPasswordSignInAsync(user, _userLogin.Password, false);
+            var succeded = await LoginAsync();
 
-            var authstate = await AuthStatePrvider.GetAuthenticationStateAsync();
-            if (signInResult.Succeeded == true)
+            if (succeded == true)
             {
-                ((GameChangerAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(user);
+
+
                 _resultText = $"Successfully Logged in. Welcome {user.PlayerId}";
                 _alertType = "success";
                 _hideResult = false;

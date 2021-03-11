@@ -154,7 +154,7 @@ using GameChanger.GameUser.Services;
 #nullable disable
 #nullable restore
 #line 2 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Map.razor"
-using GameChanger.Map.MapData;
+using GameChanger.Core.GameData;
 
 #line default
 #line hidden

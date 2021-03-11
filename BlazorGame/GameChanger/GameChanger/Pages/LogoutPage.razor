@@ -1,0 +1,30 @@
+﻿@page "/logoutpage"
+@using GameChanger.GameUser.EntityFramework.Domain;
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.AspNetCore.Mvc.RazorPages;
+@using Microsoft.AspNetCore.Components.Authorization;
+
+@inject SignInManager<GameChangerUser> SignInManager;
+@inject NavigationManager NavigationManager;
+
+@functions{
+
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+
+
+    public async void OnGet()
+    {
+        var state = await AuthenticationStateTask;
+        if (SignInManager.IsSignedIn(state.User))
+        {
+            await SignInManager.SignOutAsync();
+        }
+
+        NavigationManager.NavigateTo("/");
+
+    }
+}

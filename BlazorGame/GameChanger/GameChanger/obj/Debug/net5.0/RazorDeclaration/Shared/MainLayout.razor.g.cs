@@ -153,6 +153,13 @@ using GameChanger.GameUser.Services;
 #line hidden
 #nullable disable
 #nullable restore
+#line 21 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.GameData;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 2 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\MainLayout.razor"
 using GameChanger.Pages;
 

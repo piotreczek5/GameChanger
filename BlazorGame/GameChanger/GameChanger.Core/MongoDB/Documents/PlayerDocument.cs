@@ -11,5 +11,8 @@ namespace GameChanger.Core.MongoDB.Documents
     {
         public Guid Id { get; set; }
         public string Nick { get; set; }
+        public List<Guid> Sectors { get; set; } = new List<Guid>();
+        public bool WasInitialized { get; set; } = false;
+        public Guid CurrentSector { get; set; }
     }
 }

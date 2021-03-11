@@ -4,10 +4,14 @@
 <div class="page">
     <AuthorizeView>
         <Authorized>
+
             <div class="sidebar">
                 <NavMenu />
             </div>
-            <div class="main">
+            <div class="main">                
+                <nav class="navbar sticky-top navbar-d">
+                    <InfoBar />
+                </nav>
                 <div class="content px-4">
                     @Body
                 </div>

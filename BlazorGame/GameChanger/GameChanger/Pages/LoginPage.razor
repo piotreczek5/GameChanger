@@ -1,12 +1,13 @@
 ﻿@page "/"
 @layout LoginLayout
-
+@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Identity
+@using GameChanger.GameUser.DataTypes;
 @inject SignInManager<GameChangerUser> SignInManager;
 @inject AuthenticationStateProvider AuthStatePrvider;
 @inject UserManager<GameChangerUser> UserManager;
 @inject NavigationManager NavigationManager;
 @inject AuthenticationStateProvider AuthenticationStateProvider;
-@using Microsoft.AspNetCore.Identity
 @inject IUserService UserService;
 
 <div class="container">
@@ -24,7 +25,7 @@
             </div>
         </div>
         <div class="col-6 justify-content-center" style="border-left:groove">
-            <EditForm Model="@_userLogin" OnValidSubmit="@ValidateUser">
+            <EditForm Model="@Input" OnValidSubmit="@ValidateUser">
                 <div>
                     <br /><br /><br /><br /><br />
                 </div>
@@ -33,11 +34,15 @@
                 </div>
                 <div> <br /></div>
                 <div>
-                    <input class="form-control col-12" placeholder="Email address" @bind="_userLogin.UserName" />
+                    <input class="form-control col-12" placeholder="Email address" @bind="Input.Email" />
                 </div>
                 <br />
                 <div>
-                    <input type="password" class="form-control col-12" placeholder="Password" @bind="_userLogin.Password" />
+                    <input type="password" class="form-control col-12" placeholder="Password" @bind="Input.Password" />
+                </div>
+                <br />
+                <div>
+                    <input type="checkbox" class="form-control col-12"  @bind="Input.RememberMe" />
                 </div>
                 <br />
                 <div>
@@ -58,45 +63,61 @@
 
 
 @code{
-
-    private class UserLogin
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
-
     private bool _hideResult = true;
     private string _alertType = "info";
     private string _resultText = string.Empty;
 
-    private UserLogin _userLogin = new UserLogin() { UserName="pusz.piotr@wp.pl", Password = "Pusz.piotr!1"};
-
+    private InputModel Input = new InputModel() { Email = "pusz.piotr@wp.pl", Password = "Pusz.piotr!1"  };
 
     [CascadingParameter]
     private Task<AuthenticationState> AuthenticationStateTask { get; set; }
 
     protected async override Task OnInitializedAsync()
-    {
-        var authState = await AuthenticationStateTask;
-        if(authState?.User?.Identity?.IsAuthenticated == true)
+    {        
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        if (authState?.User?.Identity?.IsAuthenticated == true)
         {
             NavigationManager.NavigateTo("/index");
         }
     }
 
+    private async Task<bool> LoginAsync()
+    {
+        HttpClient client = new HttpClient();
+        client.BaseAddress = new Uri(@"http://localhost:50528");
+
+        string serializedUser = JsonConvert.SerializeObject(Input);
+
+        var requestMessage = new HttpRequestMessage(HttpMethod.Post, "api/Users/Login");
+        requestMessage.Content = new StringContent(serializedUser);
+
+        requestMessage.Content.Headers.ContentType
+            = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+        var response = await client.SendAsync(requestMessage);
+
+        var responseStatusCode = response.StatusCode;
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var loginInResult = JsonConvert.DeserializeObject<LoginResult>(responseBody);
+
+        await ((GameChangerAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(Input);
+
+        return loginInResult.Succeeded;
+    }
 
     private async Task<bool> ValidateUser()
     {
-        var user = await UserManager.FindByNameAsync(_userLogin.UserName);
+        var user = await UserManager.FindByNameAsync(Input.Email);
 
         if (user != null)
         {
-            var signInResult = await SignInManager.CheckPasswordSignInAsync(user, _userLogin.Password, false);
+            var succeded = await LoginAsync();
 
-            var authstate = await AuthStatePrvider.GetAuthenticationStateAsync();
-            if (signInResult.Succeeded == true)
+            if (succeded == true)
             {
-                ((GameChangerAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(user);
+
+
                 _resultText = $"Successfully Logged in. Welcome {user.PlayerId}";
                 _alertType = "success";
                 _hideResult = false;

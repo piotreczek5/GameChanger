@@ -2,6 +2,7 @@
 @layout MainLayout
 @inject IHttpContextAccessor httpContextAccessor
 @inject IMediator _mediator;
+@inject MapConfiguration MapConfiguration; 
 
 <h1>UserLogged : @CurrentlyLoggedPlayer?.Nick </h1>
 
@@ -19,6 +20,14 @@
         var playerGuid = await _mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
 
         CurrentlyLoggedPlayer = await _mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
+        if(!CurrentlyLoggedPlayer.WasInitialized)
+        {
+            var cities = MapConfiguration.Lands.SelectMany(c => c.Cities).ToList();
+            int randomCityIndex = new Random().Next(0, cities.Count);
+
+            await _mediator.Publish(new GenerateSectorCommand { PlayerId = playerGuid,CityName = cities[randomCityIndex].Name});
+        }
+
 
         await base.OnInitializedAsync();
     }

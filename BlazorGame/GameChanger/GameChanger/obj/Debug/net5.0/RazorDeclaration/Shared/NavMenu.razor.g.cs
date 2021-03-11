@@ -152,6 +152,13 @@ using GameChanger.GameUser.Services;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 21 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.GameData;
+
+#line default
+#line hidden
+#nullable disable
     public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -160,7 +167,7 @@ using GameChanger.GameUser.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 37 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\NavMenu.razor"
+#line 38 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\NavMenu.razor"
            
         private bool collapseNavMenu = true;
 

@@ -1,0 +1,75 @@
+﻿@using System;
+@using System.Threading;
+@using System.Threading.Tasks;
+@inherits LayoutComponentBase
+@inject IMediator _mediator;
+
+<AuthorizeView>
+    <Authorized>
+        <div class="position-sticky">
+            <div class="container">
+                <div class="top-row">
+
+                    <div class="col">
+                        Number of refreshes: @NumberOfRefreshes
+                    </div>
+                    <div class="col">
+                        Water: @WaterSupply
+                    </div>
+                    <div class="col">
+                        Wood: @WoodSupply
+                    </div>
+                    <div class="col">
+                        Stone: @StoneSupply
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    protected PlayerDocument CurrentlyLoggedPlayer;
+    protected SectorDocument CurrentSector;
+    protected int NumberOfRefreshes = 0;
+    private Timer _refreshSectorInfoTimer;
+
+    protected decimal? WaterSupply = 0.0m;
+    protected decimal? StoneSupply = 0.0m;
+    protected decimal? WoodSupply = 0.0m;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState;
+        var currentUserMail = authState.User.Identity.Name;
+
+        var playerGuid = await _mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
+
+        CurrentlyLoggedPlayer = await _mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
+
+        _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 2000, 3000);
+
+        base.OnInitialized();
+    }
+
+    private async void RefreshSector(object state)
+    {
+        _refreshSectorInfoTimer.Change(Timeout.Infinite, 0);
+        NumberOfRefreshes++;
+        CurrentSector = await _mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
+        WaterSupply = CurrentSector?.CurrentResources?.SingleOrDefault(r => r.Resource == ResourceType.WATER)?.Amount;
+        StoneSupply = CurrentSector?.CurrentResources?.SingleOrDefault(r => r.Resource == ResourceType.STONE)?.Amount;
+        WoodSupply = CurrentSector?.CurrentResources?.SingleOrDefault(r => r.Resource == ResourceType.WOOD)?.Amount;
+
+        await InvokeAsync(StateHasChanged);
+        _refreshSectorInfoTimer.Change(3000, 3000);
+
+    }
+
+}

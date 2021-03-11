@@ -9,7 +9,7 @@
         <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
             <ul class="nav flex-column">
                 <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <NavLink class="nav-link" href="/index" Match="NavLinkMatch.All">
                         <span class="oi oi-home" aria-hidden="true"></span> Home
                     </NavLink>
                 </li>
@@ -19,12 +19,13 @@
                     </NavLink>
                 </li>
                 <li class="nav-item px-3">
-                    <NavLink class="nav-link">
-                        <span class="oi oi-account-logout" aria-hidden="true"></span>    
-                            <form method="post" action="Identity/Account/LogOut?returnUrl=/">
+
+                    <div class="nav-link">
+                        <form method="get" action="LogoutPage">
+                            <span class="oi oi-account-logout" aria-hidden="true"></span>
                             <button type="submit" class="nav-link btn btn-link">Log out</button>
-                            </form>
-                    </NavLink>
+                        </form>
+                    </div>
                 </li>
             </ul>
         </div>
