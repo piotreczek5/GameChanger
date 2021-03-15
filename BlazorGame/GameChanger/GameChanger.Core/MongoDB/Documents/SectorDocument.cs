@@ -18,16 +18,29 @@ namespace GameChanger.Core.MongoDB.Documents
 
         public List<BuildingDocument> Buildings { get; set; } = new List<BuildingDocument>();
         public List<ResourceAmount> CurrentResources { get; set; } =
-            Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>()
-            .Select(rt => new ResourceAmount { Amount = 0.0m, Resource = rt })
-            .ToList();
+           Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>()
+           .Select(rt => new ResourceAmount { Amount = 0.0m, Resource = rt })
+           .ToList();
+
+        public List<ResourceAmount> CurrentResourceProduction { get; set; } = new List<ResourceAmount>();
+        public List<ResourceAmount> CurrentResourceConsumption { get; set; } = new List<ResourceAmount>();
+        public List<ResourceAmount> CurrentResourceBalance { get; set; } = new List<ResourceAmount>();
     }
 
     public class BuildingDocument
     {
         public string Name { get; set; }
         public int CurrentLvl { get; set; }
+        public BuildingTypes BuildingType { get; set; }
         public BuildingStatus Status { get; set; }
+
+        public BuildingDocument(Building building)
+        {
+            Name = building.Name;
+            CurrentLvl = 1;
+            BuildingType = building.BuildingType;
+            Status = new BuildingStatus() { Code = BuildingStatuses.BUILT };
+        }
     }
 
     public enum BuildingStatuses
@@ -35,12 +48,21 @@ namespace GameChanger.Core.MongoDB.Documents
         BUILDING,
         BROKEN,
         FIXING,
-        STANDARD
+        BUILT,
+        NOT_BUILT
     }
 
     public class BuildingStatus
     { 
         public BuildingStatuses Code { get; set; }
+    }
+
+    public enum BuildActions
+    {
+        BUILD,
+        FIX,
+        DESTROY,
+        UPGRADE
     }
 
 }

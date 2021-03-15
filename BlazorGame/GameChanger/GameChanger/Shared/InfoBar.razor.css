@@ -1,0 +1,8 @@
+﻿.centered{
+    text-align:center;
+}
+
+.centered .row
+{
+    justify-content:center;
+}

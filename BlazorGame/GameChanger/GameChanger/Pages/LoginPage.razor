@@ -73,7 +73,7 @@
     private Task<AuthenticationState> AuthenticationStateTask { get; set; }
 
     protected async override Task OnInitializedAsync()
-    {        
+    {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         if (authState?.User?.Identity?.IsAuthenticated == true)
         {
@@ -101,8 +101,6 @@
 
         var loginInResult = JsonConvert.DeserializeObject<LoginResult>(responseBody);
 
-        await ((GameChangerAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(Input);
-
         return loginInResult.Succeeded;
     }
 
@@ -116,11 +114,7 @@
 
             if (succeded == true)
             {
-
-
-                _resultText = $"Successfully Logged in. Welcome {user.PlayerId}";
-                _alertType = "success";
-                _hideResult = false;
+                await ((GameChangerAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(Input, user.PlayerId);
                 NavigationManager.NavigateTo("/index");
             }
             else
@@ -128,7 +122,6 @@
                 _resultText = "Incorrect Password.";
                 _alertType = "danger";
             }
-
         }
         else
         {

@@ -17,13 +17,14 @@ namespace GameChanger.GameUser.EntityFramework
         {
         }
         
-        public async Task MarkUserAsAuthenticated(InputModel user)
+        public async Task MarkUserAsAuthenticated(InputModel user, Guid playerGuid)
         {
             var identity = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.Name, user.Email),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.IsPersistent, "true"),
+                new Claim("PlayerGuid",playerGuid.ToString())
             }, "apiauth_type");
 
             var claimsPrincipal = new ClaimsPrincipal(identity);

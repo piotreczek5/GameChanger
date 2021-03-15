@@ -3,7 +3,6 @@ C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\De
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.AssemblyInfoInputs.cache
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.AssemblyInfo.cs
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.csproj.CoreCompileInputs.cache
-C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.RazorComponent.input.cache
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\RazorDeclaration\App.razor.g.cs
@@ -195,3 +194,7 @@ C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\De
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\ref\GameChanger.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.pdb
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.genruntimeconfig.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\scopedcss\Shared\InfoBar.razor.rz.scp.css
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\RazorDeclaration\Pages\Buildings.razor.g.cs
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\Razor\Pages\Buildings.razor.g.cs
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.MvcApplicationPartsAssemblyInfo.cs

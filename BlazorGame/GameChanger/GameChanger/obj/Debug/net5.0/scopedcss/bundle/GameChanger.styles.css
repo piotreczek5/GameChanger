@@ -1,3 +1,12 @@
+/* _content/GameChanger/Shared/InfoBar.razor.rz.scp.css */
+.centered[b-8lswzqvfe7]{
+    text-align:center;
+}
+
+.centered .row[b-8lswzqvfe7]
+{
+    justify-content:center;
+}
 /* _content/GameChanger/Shared/MainLayout.razor.rz.scp.css */
 .page[b-4jwmca6w8z] {
     position: relative;

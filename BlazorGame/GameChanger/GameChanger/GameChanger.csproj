@@ -6,11 +6,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameChanger.Core\GameChanger.Core.csproj" />
+    <ProjectReference Include="..\GameChanger.GameClock\GameChanger.GameClock.csproj" />
     <ProjectReference Include="..\GameChanger.User\GameChanger.GameUser.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>

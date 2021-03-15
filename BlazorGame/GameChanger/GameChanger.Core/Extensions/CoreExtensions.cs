@@ -1,6 +1,8 @@
 ﻿using Convey;
 using Convey.Persistence.MongoDB;
+using GameChanger.Core.EventScheduler;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.Services.Sector;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +17,9 @@ namespace GameChanger.Core.Extensions
         public static void AddCoreModule(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection
-                .AddMediatR(typeof(CoreExtensions));
+                .AddMediatR(typeof(CoreExtensions))
+                .AddSingleton<IEventScheduler,EventScheduler.EventScheduler> ()
+                .AddTransient<ISectorService,SectorService>();
         }
 
         public static IConveyBuilder AddCoreModule(this IConveyBuilder builder)

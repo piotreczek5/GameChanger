@@ -1,0 +1,150 @@
+﻿@page "/buildings"
+@inherits LayoutComponentBase
+
+    <nav class="navbar sticky-top" style="background-color:white; box-shadow:0px 20px 20px 0px #7c57bbc2; top:140px;text-align:center;justify-content:space-evenly;">
+        <div>
+            Buildings
+        </div>
+        <div>
+            <div>City</div>
+            <div>@CurrentPlayerSector?.City</div>
+        </div>
+        <div>
+            <div>Land</div>
+            <div>@CurrentPlayerSector?.Land</div>
+        </div>
+    </nav>
+        @foreach (BuildingTypes buildingType in Enum.GetValues(typeof(BuildingTypes)))
+        {
+            <table class="table table-striped" style="margin-top:20px;margin-bottom:20px; border:groove 1px;">
+                <tbody>
+                    <div style="justify-content:left">
+                        <tr>
+                            <td><p>Building Type: @buildingType.ToString()</p></td>
+                            <td>
+                                @switch (GetBuildingInfoFromSector(buildingType)?.Status?.Code)
+                                {
+                                    case BuildingStatuses.BROKEN:
+                                        <button class="btn btn-warning" @onclick="() => PerformBuildingAction(buildingType,BuildActions.FIX)">  Fix building </button>
+                                        break;
+                                    case BuildingStatuses.BUILDING:
+                                        <button class="btn btn-secondary" onclick="" disabled>  Building Now... </button>
+                                        break;
+                                    case BuildingStatuses.FIXING:
+                                        <button class="btn btn-secondary" onclick="" disabled>  Fixing ... </button>
+                                        break;
+                                    case BuildingStatuses.BUILT:
+                                        <button class="btn btn-success" @onclick="() =>PerformBuildingAction(buildingType,BuildActions.UPGRADE)">  Upgrade building </button>
+                                        <button class="btn btn-danger" @onclick="() => PerformBuildingAction(buildingType,BuildActions.DESTROY)"> Destroy </button>
+                                        break;
+                                    default:
+                                        <button class="btn btn-success" @onclick="() => PerformBuildingAction(buildingType,BuildActions.BUILD)"> Build </button>
+                                        break;
+                                }
+                            </td>
+                        </tr>
+
+                        @if (GetBuildingInfoFromSector(buildingType) != null)
+                        {
+                            <tr><p>Name : @GetBuildingInfoFromSector(buildingType).Name</p></tr>
+                            <tr><p>Description: @GetBuildingInfoFromConfiguration(buildingType).Description</p></tr>
+                            <tr><p>Lvl : @GetBuildingInfoFromSector(buildingType).CurrentLvl</p></tr>
+                            <tr><p>Status: @GetBuildingInfoFromSector(buildingType).Status.Code</p></tr>
+                            <tr><p>Type : @GetBuildingInfoFromSector(buildingType).BuildingType</p></tr>
+                        }
+                        else
+                        {
+                            <tr><p>Name : @GetBuildingInfoFromConfiguration(buildingType).Name</p></tr>
+                            <tr><p>Description: @GetBuildingInfoFromConfiguration(buildingType).Description</p></tr>
+                            <tr><p>Lvl : 0</p></tr>
+                            <tr><p>Status: @BuildingStatuses.NOT_BUILT</p></tr>
+                            <tr><p>Type : @GetBuildingInfoFromConfiguration(buildingType).BuildingType</p></tr>
+                        }
+
+                        <tr>
+                            <td>Building Costs</td>
+                            @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType).BuildCosts)
+                            {
+                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td>Consumption</td>
+                            @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType).BaseResourceConsumption)
+                            {
+                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td>Production</td>
+                            @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType).BaseResourceProduction)
+                            {
+                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                            }
+                        </tr>
+                    </div>
+                </tbody>
+            </table>
+        }
+
+        @code {
+            // var building in CurrentPlayerSector.Buildings
+            [CascadingParameter]
+            public Task<AuthenticationState> AuthState { get; set; }
+
+            protected List<BuildingDocument> PlayerBuildings { get; set; }
+            protected SectorDocument CurrentPlayerSector { get; set; }
+
+            protected override async Task OnInitializedAsync()
+            {
+                await UpdatePageData();
+                await base.OnInitializedAsync();
+            }
+
+            protected async Task UpdatePageData()
+            {
+                var authState = await AuthState;
+                var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
+
+                var playerInfo = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
+                CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = playerInfo.CurrentSector });
+            }
+
+
+            protected BuildingDocument GetBuildingInfoFromSector(BuildingTypes buildingType)
+            {
+                return CurrentPlayerSector?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType);
+            }
+
+            protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType)
+            {
+                return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType);
+            }
+
+            protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction)
+            {
+                switch(buildAction)
+                {
+                    case BuildActions.BUILD:
+                        await Mediator.Publish(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        break;
+                    case BuildActions.DESTROY:
+                        await Mediator.Publish(new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        //EventScheduler.ScheduleEvent(TimeSpan.FromSeconds(3), new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        break;
+                    case BuildActions.FIX:
+                        await Mediator.Publish(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        break;
+                    case BuildActions.UPGRADE:
+                        await Mediator.Publish(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        break;
+                }
+
+                await Mediator.Publish(new RecalculateSectorResourcesCommand { SectorId = CurrentPlayerSector.Id });
+
+                await UpdatePageData();
+                this.StateHasChanged();
+            }
+}

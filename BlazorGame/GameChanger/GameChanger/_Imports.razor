@@ -19,4 +19,14 @@
 @using GameChanger.GameUser.EntityFramework;
 @using GameChanger.GameUser.Services;
 @using GameChanger.Core.GameData;
+@using System;
+@using System.Threading;
+@using System.Threading.Tasks;
+@using GameChanger.Core.EventScheduler;
+@using GameChanger.Core.MediatR.Messages.Commands.Buildings;
+@using GameChanger.Core.MediatR.Messages.Commands.Sector;
 
+@inject IMediator Mediator;
+@inject IEventScheduler EventScheduler;
+@inject MapConfiguration MapConfiguration;
+@inject BuildingConfiguration BuildingConfiguration;

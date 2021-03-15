@@ -1,31 +1,35 @@
-﻿@using System;
-@using System.Threading;
-@using System.Threading.Tasks;
-@inherits LayoutComponentBase
-@inject IMediator _mediator;
+﻿@inherits LayoutComponentBase
 
 <AuthorizeView>
     <Authorized>
-        <div class="position-sticky">
-            <div class="container">
-                <div class="top-row">
+        <nav class="navbar sticky-top" style="background-color:white; box-shadow:0px 20px 20px 0px #7c57bbc2">
+            <div class="container" style="max-width:inherit;display:block;">
+                <div class="row">
+                    @foreach (var resource in ResourcesSupply.Keys)
+                    {
+                    <div class="col centered">
+                        <div class="row">
+                            <img src=@GetImagePathForType(resource) width="50px" height="50px" />
+                        </div>
+                        <div class="row">
+                            @resource.ToString()
+                        </div>
+                        <div class="row">+@ResourcesSupply[resource]</div>
+                       
+                        @if (ResourceBalance[resource] > 0)
+                        {
+                            <div class="row">+@ResourceBalance[resource]</div>
+                        }
+                        else
+                        {
+                            <div class="row">@ResourceBalance[resource]</div>
+                        }
 
-                    <div class="col">
-                        Number of refreshes: @NumberOfRefreshes
                     </div>
-                    <div class="col">
-                        Water: @WaterSupply
+                     }
                     </div>
-                    <div class="col">
-                        Wood: @WoodSupply
-                    </div>
-                    <div class="col">
-                        Stone: @StoneSupply
-                    </div>
-                </div>
             </div>
-           
-        </div>
+        </nav>
     </Authorized>
 </AuthorizeView>
 
@@ -37,39 +41,62 @@
 
     protected PlayerDocument CurrentlyLoggedPlayer;
     protected SectorDocument CurrentSector;
-    protected int NumberOfRefreshes = 0;
     private Timer _refreshSectorInfoTimer;
 
-    protected decimal? WaterSupply = 0.0m;
-    protected decimal? StoneSupply = 0.0m;
-    protected decimal? WoodSupply = 0.0m;
+    protected Dictionary<ResourceType, decimal> ResourcesSupply = new Dictionary<ResourceType, decimal>();
+    protected Dictionary<ResourceType, decimal> ResourceBalance = new Dictionary<ResourceType, decimal>();
+
+    private Guid _playerGuid;
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthState;
         var currentUserMail = authState.User.Identity.Name;
+        InitializeResources();
+        var playerGuid = await Mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
+        _playerGuid = playerGuid;
+        CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
 
-        var playerGuid = await _mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
-
-        CurrentlyLoggedPlayer = await _mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
-
-        _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 2000, 3000);
+        _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 0, 3000);
 
         base.OnInitialized();
+    }
+
+    private void InitializeResources()
+    {
+        Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>()
+            .Select(rt => new ResourceAmount { Amount = 0.0m, Resource = rt })
+            .ToList()
+            .ForEach(r =>
+            {
+                ResourcesSupply.Add(r.Resource, r.Amount);
+                ResourceBalance.Add(r.Resource, r.Amount);
+            });
     }
 
     private async void RefreshSector(object state)
     {
         _refreshSectorInfoTimer.Change(Timeout.Infinite, 0);
-        NumberOfRefreshes++;
-        CurrentSector = await _mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
-        WaterSupply = CurrentSector?.CurrentResources?.SingleOrDefault(r => r.Resource == ResourceType.WATER)?.Amount;
-        StoneSupply = CurrentSector?.CurrentResources?.SingleOrDefault(r => r.Resource == ResourceType.STONE)?.Amount;
-        WoodSupply = CurrentSector?.CurrentResources?.SingleOrDefault(r => r.Resource == ResourceType.WOOD)?.Amount;
+
+        CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
+
+
+        foreach(var resource in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())
+        {
+            ResourcesSupply[resource] = CurrentSector.CurrentResources.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+            ResourceBalance[resource] = CurrentSector.CurrentResourceBalance.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+        }
+     
+        //EventScheduler.ScheduleEvent(TimeSpan.FromSeconds(10), new IncreaseWoodSupplyCommand() { Amount = 3.4m, PlayerId = _playerGuid });
 
         await InvokeAsync(StateHasChanged);
-        _refreshSectorInfoTimer.Change(3000, 3000);
 
+        _refreshSectorInfoTimer.Change(3000, 3000);
+    }
+
+    protected string GetImagePathForType(ResourceType type)
+    {
+        return $"/images/{type.ToString().ToLower()}_main_bar.jpg";
     }
 
 }

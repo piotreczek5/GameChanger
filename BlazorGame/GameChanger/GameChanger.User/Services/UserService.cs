@@ -42,13 +42,5 @@ namespace GameChanger.GameUser.Services
 
             return await Task.FromResult(returnedUser);
         }
-
-        private static string Encrypt(string password)
-        {
-            var provider = MD5.Create();
-            string salt = "dawdawgawf2123asd@123";
-            byte[] bytes = provider.ComputeHash(Encoding.UTF32.GetBytes(salt + password));
-            return BitConverter.ToString(bytes).Replace("-", "").ToLower();
-        }
     }
 }
