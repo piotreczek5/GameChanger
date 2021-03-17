@@ -197,6 +197,13 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
 #line hidden
 #nullable disable
 #nullable restore
+#line 28 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MediatR.Messages.Queries.Sector;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 2 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\MainLayout.razor"
 using GameChanger.Pages;
 

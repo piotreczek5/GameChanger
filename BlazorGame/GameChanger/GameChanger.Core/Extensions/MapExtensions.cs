@@ -27,7 +27,8 @@ namespace GameChanger.Core.Extensions
         {
             return builder
                 .AddMongo()
-                .AddMongoRepository<SectorDocument, Guid>("Sectors");
+                .AddMongoRepository<SectorDocument, Guid>("Sectors")
+                .AddMongoRepository<SectorResourcesDocument,Guid> ("SectorResources");
         }
 
     }

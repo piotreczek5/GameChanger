@@ -199,6 +199,13 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 28 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MediatR.Messages.Queries.Sector;
+
+#line default
+#line hidden
+#nullable disable
     public partial class _Imports : System.Object
     {
         #pragma warning disable 1998

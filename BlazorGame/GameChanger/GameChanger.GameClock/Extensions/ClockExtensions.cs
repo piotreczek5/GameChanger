@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameChanger.Core.EventScheduler;
+using GameChanger.Core.Extensions;
+using GameChanger.Core.Services.Sector;
+using GameChanger.GameClock.Services;
+using MediatR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GameChanger.GameClock.Extensions
 {
     public static class ClockExtensions
     {
-        public static void AddCoreModule(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static void AddGameClock(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            serviceCollection
-                .AddMediatR(typeof(CoreExtensions))
-                .AddSingleton<IEventScheduler, EventScheduler.EventScheduler>()
-                .AddTransient<ISectorService, SectorService>();
+            serviceCollection                
+                .AddTransient<IGameClockService,GameClockService>()
+                .AddHostedService<RecalculateResourcesHostedService>();
         }
     }
 }

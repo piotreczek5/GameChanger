@@ -26,6 +26,7 @@
       "GameChanger/1.0.0": {
         "dependencies": {
           "GameChanger.Core": "1.0.0",
+          "GameChanger.GameClock": "1.0.0",
           "GameChanger.GameUser": "1.0.0",
           "Microsoft.EntityFrameworkCore.Design": "3.1.12",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.3",
@@ -2479,13 +2480,27 @@
           "MediatR": "9.0.0",
           "MediatR.Extensions.Microsoft.DependencyInjection": "9.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "5.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
+          "MongoDB.Bson": "2.11.2",
+          "MongoDB.Driver": "2.11.2",
+          "MongoDB.Driver.Core": "2.11.2"
         },
         "runtime": {
           "GameChanger.Core.dll": {}
         },
         "compile": {
           "GameChanger.Core.dll": {}
+        }
+      },
+      "GameChanger.GameClock/1.0.0": {
+        "dependencies": {
+          "GameChanger.Core": "1.0.0"
+        },
+        "runtime": {
+          "GameChanger.GameClock.dll": {}
+        },
+        "compile": {
+          "GameChanger.GameClock.dll": {}
         }
       },
       "GameChanger.GameUser/1.0.0": {
@@ -5501,6 +5516,11 @@
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
     },
     "GameChanger.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GameChanger.GameClock/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -199,6 +199,13 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 28 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MediatR.Messages.Queries.Sector;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.LayoutAttribute(typeof(MainLayout))]
     [Microsoft.AspNetCore.Components.RouteAttribute("/index")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase

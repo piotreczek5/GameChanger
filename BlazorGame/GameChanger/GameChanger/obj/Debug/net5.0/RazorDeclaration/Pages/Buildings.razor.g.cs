@@ -199,6 +199,13 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 28 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MediatR.Messages.Queries.Sector;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/buildings")]
     public partial class Buildings : LayoutComponentBase
     {
@@ -208,7 +215,7 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 92 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
+#line 95 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
                
             // var building in CurrentPlayerSector.Buildings
             [CascadingParameter]
@@ -227,11 +234,9 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
             {
                 var authState = await AuthState;
                 var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
-
                 var playerInfo = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
                 CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = playerInfo.CurrentSector });
             }
-
 
             protected BuildingDocument GetBuildingInfoFromSector(BuildingTypes buildingType)
             {
@@ -244,25 +249,23 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
             }
 
             protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction)
-            {
+            {                
                 switch(buildAction)
                 {
                     case BuildActions.BUILD:
-                        await Mediator.Publish(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        await Mediator.Publish(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.DESTROY:
-                        await Mediator.Publish(new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        await Mediator.Publish(new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         //EventScheduler.ScheduleEvent(TimeSpan.FromSeconds(3), new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
                         break;
                     case BuildActions.FIX:
-                        await Mediator.Publish(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        await Mediator.Publish(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.UPGRADE:
-                        await Mediator.Publish(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        await Mediator.Publish(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                 }
-
-                await Mediator.Publish(new RecalculateSectorResourcesCommand { SectorId = CurrentPlayerSector.Id });
 
                 await UpdatePageData();
                 this.StateHasChanged();

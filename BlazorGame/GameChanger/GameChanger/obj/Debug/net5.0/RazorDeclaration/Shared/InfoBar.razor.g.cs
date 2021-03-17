@@ -199,6 +199,13 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 28 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MediatR.Messages.Queries.Sector;
+
+#line default
+#line hidden
+#nullable disable
     public partial class InfoBar : LayoutComponentBase
     {
         #pragma warning disable 1998
@@ -231,6 +238,7 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
         _playerGuid = playerGuid;
         CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
 
+
         _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 0, 3000);
 
         base.OnInitialized();
@@ -253,19 +261,21 @@ using GameChanger.Core.MediatR.Messages.Commands.Sector;
         _refreshSectorInfoTimer.Change(Timeout.Infinite, 0);
 
         CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
-
-
-        foreach(var resource in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())
+        var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
+        
+        foreach (var resource in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())
         {
-            ResourcesSupply[resource] = CurrentSector.CurrentResources.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
-            ResourceBalance[resource] = CurrentSector.CurrentResourceBalance.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+            ResourcesSupply[resource] = currentSectorResources?.CurrentResources?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+            ResourceBalance[resource] = currentSectorResources?.CurrentResourceBalance?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
         }
-     
+
+        await Mediator.Publish(new RecalculateSectorBalanceCommand { SectorId = CurrentSector?.Id });
+
         //EventScheduler.ScheduleEvent(TimeSpan.FromSeconds(10), new IncreaseWoodSupplyCommand() { Amount = 3.4m, PlayerId = _playerGuid });
 
         await InvokeAsync(StateHasChanged);
 
-        _refreshSectorInfoTimer.Change(3000, 3000);
+        _refreshSectorInfoTimer.Change(500, 500);
     }
 
     protected string GetImagePathForType(ResourceType type)

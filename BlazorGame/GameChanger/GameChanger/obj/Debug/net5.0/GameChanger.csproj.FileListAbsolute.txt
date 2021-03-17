@@ -198,3 +198,8 @@ C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\De
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\RazorDeclaration\Pages\Buildings.razor.g.cs
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\Razor\Pages\Buildings.razor.g.cs
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\snappy32.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\snappy64.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\libzstd.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\GameChanger.GameClock.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\GameChanger.GameClock.pdb

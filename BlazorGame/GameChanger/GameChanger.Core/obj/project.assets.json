@@ -248,14 +248,24 @@
           "lib/netstandard2.0/MongoDB.Driver.Core.dll": {}
         },
         "contentFiles": {
-          "contentFiles/any/any/_._": {
-            "buildAction": "None",
+          "contentFiles/any/netstandard2.0/Core/Compression/Snappy/lib/win/snappy32.dll": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/netstandard2.0/Core/Compression/Snappy/lib/win/snappy64.dll": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/netstandard2.0/Core/Compression/Zstandard/lib/win/libzstd.dll": {
+            "buildAction": "Content",
             "codeLanguage": "any",
             "copyToOutput": false
           }
         },
         "build": {
-          "build/_._": {}
+          "build/MongoDB.Driver.Core.targets": {}
         },
         "runtimeTargets": {
           "runtimes/win/native/libzstd.dll": {
@@ -5387,7 +5397,10 @@
       "MediatR >= 9.0.0",
       "MediatR.Extensions.Microsoft.DependencyInjection >= 9.0.0",
       "Microsoft.Extensions.Configuration.Abstractions >= 3.1.12",
-      "Microsoft.Extensions.DependencyInjection.Abstractions >= 3.1.12"
+      "Microsoft.Extensions.DependencyInjection.Abstractions >= 3.1.12",
+      "MongoDB.Bson >= 2.11.2",
+      "MongoDB.Driver >= 2.11.2",
+      "MongoDB.Driver.Core >= 2.11.2"
     ]
   },
   "packageFolders": {
@@ -5456,6 +5469,18 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": {
             "target": "Package",
             "version": "[3.1.12, )"
+          },
+          "MongoDB.Bson": {
+            "target": "Package",
+            "version": "[2.11.2, )"
+          },
+          "MongoDB.Driver": {
+            "target": "Package",
+            "version": "[2.11.2, )"
+          },
+          "MongoDB.Driver.Core": {
+            "target": "Package",
+            "version": "[2.11.2, )"
           }
         },
         "imports": [

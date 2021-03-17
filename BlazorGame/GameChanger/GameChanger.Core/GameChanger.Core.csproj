@@ -11,6 +11,21 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.12" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.12" />
+    <PackageReference Include="MongoDB.Bson" Version="2.11.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.2" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.11.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\Piotrek\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\Piotrek\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/snappy32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\Piotrek\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/snappy64.dll" />
   </ItemGroup>
 
   <ItemGroup>

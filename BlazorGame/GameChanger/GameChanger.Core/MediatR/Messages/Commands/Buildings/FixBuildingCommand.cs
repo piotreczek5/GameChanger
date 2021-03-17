@@ -10,7 +10,7 @@ namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
 {
     public class FixBuildingCommand : INotification
     {
-        public Guid SectorId { get; set; }
+        public Guid? SectorId { get; set; }
         public BuildingTypes BuildingType { get; set; }
     }
 }

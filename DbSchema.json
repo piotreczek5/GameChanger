@@ -49,7 +49,14 @@ SectorDocument
 		{"Sand": int}	
 	],
 	"Buildings": [
-		{
+		{ObjectId},
+		{ObjectId}
+		]
+}
+BuildingDocument {
+{
+
+			"SectorId" : ObjectId
 			"Code":"Piaskownia:12d12d12d12d1",
 			"CurrentLvl" : int,
 			"Status":
@@ -86,9 +93,7 @@ SectorDocument
 			"Efficiency": int,
 			"Depletion" : decimal					
 		}
-		]
 }
-
 
 City
 {

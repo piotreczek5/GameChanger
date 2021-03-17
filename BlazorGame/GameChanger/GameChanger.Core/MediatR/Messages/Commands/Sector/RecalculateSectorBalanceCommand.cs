@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace GameChanger.Core.MediatR.Messages.Commands.Sector
 {
-    public class RecalculateSectorResourcesCommand : INotification
+    public class RecalculateSectorBalanceCommand : INotification
     {
-        public Guid SectorId { get; set; }
+        public Guid? SectorId { get; set; }
     }
 }

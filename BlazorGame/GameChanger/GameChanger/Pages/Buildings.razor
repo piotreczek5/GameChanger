@@ -30,6 +30,9 @@
                                     case BuildingStatuses.BUILDING:
                                         <button class="btn btn-secondary" onclick="" disabled>  Building Now... </button>
                                         break;
+                                    case BuildingStatuses.IDLE:
+                                        <button class="btn btn-secondary" onclick="" disabled>  Idle... </button>
+                                        break;
                                     case BuildingStatuses.FIXING:
                                         <button class="btn btn-secondary" onclick="" disabled>  Fixing ... </button>
                                         break;
@@ -107,11 +110,9 @@
             {
                 var authState = await AuthState;
                 var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
-
                 var playerInfo = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
                 CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = playerInfo.CurrentSector });
             }
-
 
             protected BuildingDocument GetBuildingInfoFromSector(BuildingTypes buildingType)
             {
@@ -124,25 +125,23 @@
             }
 
             protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction)
-            {
+            {                
                 switch(buildAction)
                 {
                     case BuildActions.BUILD:
-                        await Mediator.Publish(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        await Mediator.Publish(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.DESTROY:
-                        await Mediator.Publish(new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        await Mediator.Publish(new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         //EventScheduler.ScheduleEvent(TimeSpan.FromSeconds(3), new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
                         break;
                     case BuildActions.FIX:
-                        await Mediator.Publish(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        await Mediator.Publish(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.UPGRADE:
-                        await Mediator.Publish(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector.Id });
+                        await Mediator.Publish(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                 }
-
-                await Mediator.Publish(new RecalculateSectorResourcesCommand { SectorId = CurrentPlayerSector.Id });
 
                 await UpdatePageData();
                 this.StateHasChanged();

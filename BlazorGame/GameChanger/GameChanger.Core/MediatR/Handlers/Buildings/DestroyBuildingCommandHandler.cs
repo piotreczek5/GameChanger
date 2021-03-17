@@ -22,7 +22,10 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
 
         public async Task Handle(DestroyBuildingCommand notification, CancellationToken cancellationToken)
         {
-            var sector = await  _sectorDocuments.GetAsync(notification.SectorId);
+            if (!notification.SectorId.HasValue)
+                return;
+
+            var sector = await  _sectorDocuments.GetAsync(notification.SectorId.Value);
             if (sector == null)
             {
                 return;

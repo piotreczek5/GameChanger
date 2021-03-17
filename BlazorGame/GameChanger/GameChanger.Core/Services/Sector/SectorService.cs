@@ -1,5 +1,7 @@
 ﻿using GameChanger.Core.GameData;
+using GameChanger.Core.MediatR.Messages.Commands.Buildings;
 using GameChanger.Core.MongoDB.Documents;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,39 +13,42 @@ namespace GameChanger.Core.Services.Sector
     public class SectorService : ISectorService
     {
         private BuildingConfiguration _buildingConfiguration;
-
-        public SectorService(BuildingConfiguration buildingConfiguration)
+        private readonly IMediator _mediator;
+        public SectorService(BuildingConfiguration buildingConfiguration, IMediator mediator)
         {
             _buildingConfiguration = buildingConfiguration;
+            _mediator = mediator;
         }
 
-        public SectorDocument RecalculateSectorResources(SectorDocument sector)
+        public SectorResourcesDocument RecalculateSectorResourceBalances(SectorDocument sector, SectorResourcesDocument sectorResourcesDocument)
         {
-            var allBuldingsProduction = sector
+            var allNonIdleBuildings =
+                sector
                 .Buildings
+                .Where(b => b.Status.Code != BuildingStatuses.IDLE)
+                .Select(b => _buildingConfiguration
+                    .GetBuildingByType(b.BuildingType, b.CurrentLvl));
+
+            var allBuldingsProduction = allNonIdleBuildings
                 .SelectMany(b => 
-                    _buildingConfiguration
-                    .GetBuildingByType(b.BuildingType, b.CurrentLvl)
-                    ?.BaseResourceProduction
+                    
+                    b?.BaseResourceProduction
                     ?? new List<ResourceAmount> ())
                 .GroupBy(key => key.Resource)
                 .Select(group => new ResourceAmount { Resource = group.Key, Amount = group.Sum(r => r.Amount) })
                 .ToList();
 
-            var allBuldingsConsumption = sector
-                .Buildings
+            var allBuldingsConsumption = allNonIdleBuildings
                 .SelectMany(b =>                     
-                    _buildingConfiguration
-                    .GetBuildingByType(b.BuildingType, b.CurrentLvl)
-                    ?.BaseResourceConsumption ?? new List<ResourceAmount>())
+                    b?.BaseResourceConsumption ?? new List<ResourceAmount>())
                 .GroupBy(key => key.Resource)
                 .Select(group => new ResourceAmount { Resource = group.Key, Amount = group.Sum(r => r.Amount) })
                 .ToList();
 
-            sector.CurrentResourceProduction = allBuldingsProduction.ToList();
-            sector.CurrentResourceConsumption = allBuldingsConsumption.ToList();
-            
-            sector.CurrentResourceBalance =
+            sectorResourcesDocument.CurrentResourceProduction = allBuldingsProduction;
+            sectorResourcesDocument.CurrentResourceConsumption = allBuldingsConsumption;
+
+            sectorResourcesDocument.CurrentResourceBalance =
                 Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>()              
                 .Select(resource => 
                 new ResourceAmount { 
@@ -53,7 +58,54 @@ namespace GameChanger.Core.Services.Sector
                     (allBuldingsConsumption.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0)
                 }).ToList();
 
-            return sector;
+            return sectorResourcesDocument;
+        }
+
+        public void PerformBuildingConsumption(SectorResourcesDocument sectorResources, BuildingDocument building)
+        {
+            var buildingTemplate = _buildingConfiguration.GetBuildingByType(building.BuildingType, building.CurrentLvl);
+
+            foreach (var consumptionResource in buildingTemplate.BaseResourceConsumption)
+            {
+                var currentResource = sectorResources.CurrentResources.SingleOrDefault(r => r.Resource == consumptionResource.Resource);
+                if (currentResource == null)
+                {
+                    continue;
+                }
+
+                if (currentResource.Amount - consumptionResource.Amount < 0)
+                {
+                    _mediator
+                        .Publish(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.IDLE })
+                        .ConfigureAwait(false);
+                    return;
+                }
+            }
+
+            _mediator
+                .Publish(new DecreaseResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceConsumption })
+                .ConfigureAwait(false);
+
+            if (building.Status.Code == BuildingStatuses.IDLE)
+            {
+                _mediator
+                       .Publish(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.BUILT })
+                       .ConfigureAwait(false);
+            }
+        }
+
+        public void PerformBuildingProduction(SectorResourcesDocument sectorResources, BuildingDocument building)
+        {
+            var buildingTemplate = _buildingConfiguration.GetBuildingByType(building.BuildingType, building.CurrentLvl);
+
+            if (building.Status.Code != BuildingStatuses.BUILT)
+            {
+                return;
+            }
+
+            _mediator
+                .Publish(new IncreaseResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceProduction })
+                .ConfigureAwait(false);
         }
     }
 }

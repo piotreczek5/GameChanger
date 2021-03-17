@@ -16,16 +16,19 @@ namespace GameChanger.Core.MediatR.Handlers.Player
     {
         private readonly IMongoRepository<PlayerDocument, Guid> _playerDocuments;
         private readonly IMongoRepository<SectorDocument, Guid> _sectorDocuments;
+        private readonly IMongoRepository<SectorResourcesDocument, Guid> _sectorResourcesDocuments;
         private readonly MapConfiguration _mapConfiguration;
         public GenerateSectorHandler(
             IMongoRepository<PlayerDocument, Guid> playerDocuments,
             IMongoRepository<SectorDocument, Guid> sectorDocuments,
             MapConfiguration mapConfiguration,
-            BuildingConfiguration buildingConfiguration)
+            BuildingConfiguration buildingConfiguration,
+            IMongoRepository<SectorResourcesDocument, Guid> sectorResources)
         {
             _playerDocuments = playerDocuments;
             _sectorDocuments = sectorDocuments;
             _mapConfiguration = mapConfiguration;
+            _sectorResourcesDocuments = sectorResources;
         }
 
         public async Task Handle(GenerateSectorCommand notification, CancellationToken cancellationToken)
@@ -35,14 +38,21 @@ namespace GameChanger.Core.MediatR.Handlers.Player
             if(!player.WasInitialized && !player.Sectors.Any())
             {
                 var landOfCity = _mapConfiguration.Lands.Where(l => l.Cities.Any(c => c.Name == notification.CityName)).SingleOrDefault();
+                var sectorResources = new SectorResourcesDocument();
+                await _sectorResourcesDocuments.AddAsync(sectorResources);
+                
                 var sectorDocument = new SectorDocument
                 {
                     City = notification.CityName,
                     PlayerOwner = player.Id,
-                    Land = landOfCity?.Name      
+                    Land = landOfCity?.Name,
+                    SectorResourcesId = sectorResources.Id
                 };
+
                 await _sectorDocuments.AddAsync(sectorDocument);
                 player.Sectors.Add(sectorDocument.Id);
+                sectorResources.SectorId = sectorDocument.Id;
+                await _sectorResourcesDocuments.UpdateAsync(sectorResources);
                 player.CurrentSector = sectorDocument.Id;
             }
 

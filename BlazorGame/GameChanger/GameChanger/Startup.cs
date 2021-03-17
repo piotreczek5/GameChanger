@@ -1,5 +1,6 @@
 using Convey;
 using GameChanger.Core.Extensions;
+using GameChanger.GameClock.Extensions;
 using GameChanger.GameUser.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -32,7 +33,9 @@ namespace GameChanger
             services.AddServerSideBlazor();
             services.AddCoreModule(Configuration);
             services.AddMapModule(Configuration);
-            
+            services.AddGameClock(Configuration);
+
+
             services.AddConvey()
                 .AddCoreModule()
                 .AddMapModule();

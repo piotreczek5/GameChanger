@@ -17,14 +17,8 @@ namespace GameChanger.Core.MongoDB.Documents
         public string Land { get; set; }
 
         public List<BuildingDocument> Buildings { get; set; } = new List<BuildingDocument>();
-        public List<ResourceAmount> CurrentResources { get; set; } =
-           Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>()
-           .Select(rt => new ResourceAmount { Amount = 0.0m, Resource = rt })
-           .ToList();
-
-        public List<ResourceAmount> CurrentResourceProduction { get; set; } = new List<ResourceAmount>();
-        public List<ResourceAmount> CurrentResourceConsumption { get; set; } = new List<ResourceAmount>();
-        public List<ResourceAmount> CurrentResourceBalance { get; set; } = new List<ResourceAmount>();
+       
+        public Guid SectorResourcesId { get; set; }
     }
 
     public class BuildingDocument
@@ -49,7 +43,8 @@ namespace GameChanger.Core.MongoDB.Documents
         BROKEN,
         FIXING,
         BUILT,
-        NOT_BUILT
+        NOT_BUILT,
+        IDLE
     }
 
     public class BuildingStatus
