@@ -1,4 +1,7 @@
-﻿<AuthorizeView>
+﻿@using GameChanger.Core.Debugging;
+@inject Log Logger
+
+<AuthorizeView>
     <Authorized>
         <div class="top-row pl-4 navbar navbar-dark">
             <a class="navbar-brand" href="">GameChanger</a>
@@ -24,6 +27,12 @@
                     </NavLink>
                 </li>
                 <li class="nav-item px-3">
+                    <NavLink class="nav-link" @onclick="() => Logger.Messages.Clear()">
+                        <span class="oi oi-clock" aria-hidden="true"></span> Clear Logs
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
                     <div class="nav-link">
                         <form method="get" action="LogoutPage">
                             <span class="oi oi-account-logout" aria-hidden="true"></span>
@@ -35,18 +44,18 @@
         </div>
     </Authorized>
     <NotAuthorized>
-       <p>Dupsko</p>
+        <p>Dupsko</p>
     </NotAuthorized>
 </AuthorizeView>
 
-    @code {
-        private bool collapseNavMenu = true;
+@code {
+    private bool collapseNavMenu = true;
 
-        private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-        private void ToggleNavMenu()
-        {
-            collapseNavMenu = !collapseNavMenu;
-        }
-       
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
     }
+
+}

@@ -2,8 +2,11 @@
 using GameChanger.Core.Extensions.Mongo;
 using GameChanger.Core.GameData;
 using GameChanger.Core.MediatR.Messages.Commands.Buildings;
+using GameChanger.Core.MongoDB.Builders;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Updaters;
 using MediatR;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,22 +26,11 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
 
         public async Task Handle(SetBuildingStatusCommand notification, CancellationToken cancellationToken)
         {
-            var sector = await _sectorDocuments.GetAsync(notification.SectorId);
-            if (sector == null)
-            {
-                return;
-            }
+            var findBuildingOfTypeFilter = SectorBuilderFactory.GetBuildingFromSectorByType(notification.SectorId,notification.BuildingType);
 
-            var building = sector.Buildings.SingleOrDefault(b => b.BuildingType == notification.BuildingType);
+            var updateStatusCodeBuilder = SectorUpdaterFactory.SetBuildingStatus(notification.BuildingStatus);
 
-            if (building == null)
-            {
-                return;
-            }
-
-            building.Status.Code = notification.BuildingStatus;
-            
-            await _sectorDocuments.UpdateAsync(sector);
+            await _sectorDocuments.Collection.UpdateOneAsync(findBuildingOfTypeFilter, updateStatusCodeBuilder);
         }
     }
 }

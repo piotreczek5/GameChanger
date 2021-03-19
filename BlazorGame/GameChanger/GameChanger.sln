@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameChanger.Core", "GameCha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameChanger.GameUser", "GameChanger.User\GameChanger.GameUser.csproj", "{DA6278CD-4E2F-4001-BBF3-0CCFCD1682A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameChanger.GameClock", "GameChanger.GameClock\GameChanger.GameClock.csproj", "{817AB7C5-F244-41D5-A4C6-D3DDE0DA234D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameChanger.GameClock", "GameChanger.GameClock\GameChanger.GameClock.csproj", "{817AB7C5-F244-41D5-A4C6-D3DDE0DA234D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

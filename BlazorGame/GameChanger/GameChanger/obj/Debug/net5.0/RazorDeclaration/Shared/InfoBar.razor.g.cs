@@ -206,7 +206,14 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
 #line default
 #line hidden
 #nullable disable
-    public partial class InfoBar : LayoutComponentBase
+#nullable restore
+#line 29 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using System.Threading.Channels;
+
+#line default
+#line hidden
+#nullable disable
+    public partial class InfoBar : LayoutComponentBase, IDisposable
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -214,9 +221,8 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 37 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\InfoBar.razor"
+#line 36 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\InfoBar.razor"
        
-
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
 
@@ -238,7 +244,6 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
         _playerGuid = playerGuid;
         CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
 
-
         _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 0, 3000);
 
         base.OnInitialized();
@@ -258,24 +263,30 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
 
     private async void RefreshSector(object state)
     {
-        _refreshSectorInfoTimer.Change(Timeout.Infinite, 0);
-
-        CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
-        var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
-        
-        foreach (var resource in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())
+        try
         {
-            ResourcesSupply[resource] = currentSectorResources?.CurrentResources?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
-            ResourceBalance[resource] = currentSectorResources?.CurrentResourceBalance?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+            _refreshSectorInfoTimer.Change(Timeout.Infinite, 0);
+
+            CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
+            var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
+
+            foreach (var resource in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())
+            {
+                ResourcesSupply[resource] = currentSectorResources?.CurrentResources?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+                ResourceBalance[resource] = currentSectorResources?.CurrentResourceBalance?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+            }
+
+            await Mediator.Publish(new RecalculateSectorBalanceCommand { SectorId = CurrentSector?.Id });
+
+            await InvokeAsync(StateHasChanged);
+
+            _refreshSectorInfoTimer.Change(500, 500);
+        }
+        catch(Exception e)
+        {
+            var a = e;
         }
 
-        await Mediator.Publish(new RecalculateSectorBalanceCommand { SectorId = CurrentSector?.Id });
-
-        //EventScheduler.ScheduleEvent(TimeSpan.FromSeconds(10), new IncreaseWoodSupplyCommand() { Amount = 3.4m, PlayerId = _playerGuid });
-
-        await InvokeAsync(StateHasChanged);
-
-        _refreshSectorInfoTimer.Change(500, 500);
     }
 
     protected string GetImagePathForType(ResourceType type)
@@ -283,6 +294,10 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
         return $"/images/{type.ToString().ToLower()}_main_bar.jpg";
     }
 
+    public void Dispose()
+    {
+        _refreshSectorInfoTimer.Dispose();
+    }
 
 #line default
 #line hidden
@@ -290,6 +305,7 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration MapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Channel<INotification> NotificationChannel { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMediator Mediator { get; set; }
     }
 }

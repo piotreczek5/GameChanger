@@ -8,6 +8,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace GameChanger.GameClock.Services
@@ -15,10 +16,12 @@ namespace GameChanger.GameClock.Services
     public class GameClockService : IGameClockService
     {        
         private readonly IMediator _mediator;
+        private Channel<INotification> _channel;
 
-        public GameClockService(ISectorService sectorService, IMediator mediator)
+        public GameClockService(IMediator mediator, Channel<INotification> channel)
         {
             _mediator = mediator;
+            _channel = channel;
         }
 
         public async Task RecalculateSectorsResources()
@@ -31,13 +34,8 @@ namespace GameChanger.GameClock.Services
                 
                 foreach(var building in buildings)
                 {
-                    Task.Factory.StartNew(() =>
-                    {
-                        _mediator.Publish(new PerformBuildingConsumptionCommand { SectorId = sector, BuildingType = building.BuildingType });
-                    }).ContinueWith((t) => 
-                    {
-                        _mediator.Publish(new PerformBuildingProductionCommand { SectorId = sector, BuildingType = building.BuildingType });
-                    });
+                    await _channel.Writer.WriteAsync(new PerformBuildingConsumptionCommand { SectorId = sector, BuildingType = building.BuildingType });
+                    await _channel.Writer.WriteAsync(new PerformBuildingProductionCommand { SectorId = sector, BuildingType = building.BuildingType });
                 }
             }                
         }

@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+@using GameChanger.Core.Debugging;
+@inject Log Log
+
+
+<div>
+    <h4>Debugger Window : </h4>
+   @foreach (var msg in Logs)
+        {
+            <p>@msg</p>
+        }
+</div>
+
+
+@code {
+    public List<string> Logs = new List<string>();
+
+    private Timer _refreshDebuggingTimer;
+    protected override void OnInitialized()
+    {
+        Logs = Log.Messages.ToList();
+        _refreshDebuggingTimer = new Timer(new TimerCallback(RefreshInfo), null, 2000, 1000);
+        base.OnInitialized();
+    }
+
+    private async void RefreshInfo(object state)
+    {
+        Logs = Log.Messages.ToList();
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+}

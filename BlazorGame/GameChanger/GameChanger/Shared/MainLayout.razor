@@ -4,11 +4,15 @@
 <div class="page">
     <AuthorizeView>
         <Authorized>
+            
+            <div  style="background-color:white;width:400px;overflow-y:scroll;">
+                <Debugger />
+            </div>
             <div class="sidebar">
                 <NavMenu />
             </div>
-            <div class="main">     
-                    <InfoBar />
+            <div class="main">
+                <InfoBar />
                 <div class="content px-4">
                     @Body
                 </div>

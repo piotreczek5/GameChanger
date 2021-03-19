@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
 {
-    public class DecreaseResourceSupplyCommand : INotification
+    public class ChangeResourceSupplyCommand : INotification
     {
         public Guid SectorResourcesId { get; set; }
-        
-        public List<ResourceAmount> Resources { get; set; }       
+
+        public List<ResourceAmount> Resources { get; set; }
+
+        public int IncreaseOrDecreaseMultiplier { get; set; } = 1;
         
     }
 }

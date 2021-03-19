@@ -1,5 +1,6 @@
 ﻿using Convey;
 using Convey.Persistence.MongoDB;
+using GameChanger.Core.Debugging;
 using GameChanger.Core.EventScheduler;
 using GameChanger.Core.MongoDB.Documents;
 using GameChanger.Core.Services.Sector;
@@ -18,6 +19,7 @@ namespace GameChanger.Core.Extensions
         {
             serviceCollection
                 .AddMediatR(typeof(CoreExtensions))
+                .AddSingleton<Log>()
                 .AddSingleton<IEventScheduler,EventScheduler.EventScheduler> ()
                 .AddTransient<ISectorService,SectorService>();
         }

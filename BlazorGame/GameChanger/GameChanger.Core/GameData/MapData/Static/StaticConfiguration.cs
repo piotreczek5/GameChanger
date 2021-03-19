@@ -469,8 +469,109 @@ namespace GameChanger.Core.GameData
                                 }
                             },
                             FailurePercentagePerDay = 0.8m
+                        },
+                        new Building
+                        {
+                            BuildingType = BuildingTypes.WELL,
+                            Name = "Well",
+                            Description = "You better not fall into that!",
+                            Lvl = 1,
+                            BaseResourceConsumption = new List<ResourceAmount>()
+                            {
+                               new ResourceAmount()
+                               {
+                                   Amount = 0.2m,
+                                   Resource = ResourceType.FOOD
+                               }
+                            },
+                            BaseResourceProduction = new List<ResourceAmount>()
+                            {
+                               new ResourceAmount()
+                               {
+                                   Amount = 5.0m,
+                                   Resource = ResourceType.WATER
+                               }
+                            },
+                            BuildCosts = new List<ResourceAmount>()
+                            {
+                                new ResourceAmount()
+                                {
+                                    Amount = 5,
+                                    Resource = ResourceType.WOOD
+                                },
+                                new ResourceAmount()
+                                {
+                                    Amount = 40,
+                                    Resource = ResourceType.STONE
+                                },
+                                new ResourceAmount()
+                                {
+                                    Amount = 20,
+                                    Resource = ResourceType.SAND
+                                },
+                                new ResourceAmount()
+                                {
+                                    Amount = 40,
+                                    Resource = ResourceType.FOOD
+                                }
+                            },
+                            FailurePercentagePerDay = 0.08m
+                        },
+                        #endregion
+#region LVL2
+                        new Building
+                        {
+                            BuildingType = BuildingTypes.FOOD_PLANTATION,
+                            Name = "Food plantation",
+                            Description = "Where else you're going to grow food than here?",
+                            Lvl = 2,
+                            BaseResourceConsumption = new List<ResourceAmount>()
+                            {
+                               new ResourceAmount()
+                               {
+                                   Amount = 0.6m,
+                                   Resource = ResourceType.FOOD
+                               },
+                               new ResourceAmount()
+                               {
+                                   Amount = 0.4m,
+                                   Resource = ResourceType.WATER
+                               }
+                            },
+                            BaseResourceProduction = new List<ResourceAmount>()
+                            {
+                               new ResourceAmount()
+                               {
+                                   Amount = 2.8m,
+                                   Resource = ResourceType.FOOD
+                               }
+                            },
+                            BuildCosts = new List<ResourceAmount>()
+                            {
+                                new ResourceAmount()
+                                {
+                                    Amount = 13,
+                                    Resource = ResourceType.WOOD
+                                },
+                                new ResourceAmount()
+                                {
+                                    Amount = 4,
+                                    Resource = ResourceType.STONE
+                                },
+                                new ResourceAmount()
+                                {
+                                    Amount = 15,
+                                    Resource = ResourceType.SAND
+                                },
+                                new ResourceAmount()
+                                {
+                                    Amount = 20,
+                                    Resource = ResourceType.FOOD
+                                }
+                            },
+                            FailurePercentagePerDay = 0.02m
                         }
-#endregion 
+#endregion
                     }
                 };}}
     }

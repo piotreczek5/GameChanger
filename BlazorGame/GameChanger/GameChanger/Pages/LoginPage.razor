@@ -101,7 +101,7 @@
 
         var loginInResult = JsonConvert.DeserializeObject<LoginResult>(responseBody);
 
-        return loginInResult.Succeeded;
+        return loginInResult?.Succeeded ?? false;
     }
 
     private async Task<bool> ValidateUser()

@@ -203,6 +203,13 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 29 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using System.Threading.Channels;
+
+#line default
+#line hidden
+#nullable disable
     public partial class LoginLayout : LayoutComponentBase
     {
         #pragma warning disable 1998
@@ -235,6 +242,7 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration MapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Channel<INotification> NotificationChannel { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMediator Mediator { get; set; }
     }
 }

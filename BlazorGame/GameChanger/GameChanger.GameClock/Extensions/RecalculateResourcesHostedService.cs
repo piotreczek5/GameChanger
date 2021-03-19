@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using GameChanger.Core.EventScheduler;
 using GameChanger.GameClock.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
@@ -21,7 +22,7 @@ namespace GameChanger.GameClock.Extensions
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(10), 
-                TimeSpan.FromSeconds(1));
+                TimeSpan.FromSeconds(5));
 
             return Task.CompletedTask;
         }
@@ -37,7 +38,7 @@ namespace GameChanger.GameClock.Extensions
         {
             _timer.Change(Timeout.Infinite, 0);
             await _gameClockService.RecalculateSectorsResources();
-            _timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+            _timer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(5));
         }
 
         public void Dispose()

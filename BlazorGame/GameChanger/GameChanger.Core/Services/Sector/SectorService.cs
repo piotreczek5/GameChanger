@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace GameChanger.Core.Services.Sector
@@ -14,10 +15,12 @@ namespace GameChanger.Core.Services.Sector
     {
         private BuildingConfiguration _buildingConfiguration;
         private readonly IMediator _mediator;
-        public SectorService(BuildingConfiguration buildingConfiguration, IMediator mediator)
+        private readonly Channel<INotification> _notificationChannel;
+        public SectorService(BuildingConfiguration buildingConfiguration, IMediator mediator, Channel<INotification> notificationChannel)
         {
             _buildingConfiguration = buildingConfiguration;
             _mediator = mediator;
+            _notificationChannel = notificationChannel;
         }
 
         public SectorResourcesDocument RecalculateSectorResourceBalances(SectorDocument sector, SectorResourcesDocument sectorResourcesDocument)
@@ -75,22 +78,20 @@ namespace GameChanger.Core.Services.Sector
 
                 if (currentResource.Amount - consumptionResource.Amount < 0)
                 {
-                    _mediator
-                        .Publish(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.IDLE })
-                        .ConfigureAwait(false);
+                    if (building.Status.Code != BuildingStatuses.IDLE)
+                    {
+                        _notificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.IDLE });                      
+                    }
+
                     return;
                 }
             }
 
-            _mediator
-                .Publish(new DecreaseResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceConsumption })
-                .ConfigureAwait(false);
+            _notificationChannel.Writer.WriteAsync(new ChangeResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceConsumption, IncreaseOrDecreaseMultiplier = -1 });
 
             if (building.Status.Code == BuildingStatuses.IDLE)
             {
-                _mediator
-                       .Publish(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.BUILT })
-                       .ConfigureAwait(false);
+                _notificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.BUILT });                
             }
         }
 
@@ -103,9 +104,7 @@ namespace GameChanger.Core.Services.Sector
                 return;
             }
 
-            _mediator
-                .Publish(new IncreaseResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceProduction })
-                .ConfigureAwait(false);
+            _notificationChannel.Writer.WriteAsync(new ChangeResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceProduction });            
         }
     }
 }

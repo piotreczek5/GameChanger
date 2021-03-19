@@ -11,21 +11,23 @@ namespace GameChanger.Core.EventScheduler
     {
         private Timer _timer;
         private Task _taskToExecute;
+        private bool _completed = false;
+        public bool IsCompleted => _completed;
         public TimedAction(TimeSpan timeToExecute, Task taskToExecute)
         {            
             _timer = new Timer(Execute,null, timeToExecute, Timeout.InfiniteTimeSpan);
             _taskToExecute = taskToExecute;
         }
 
-        private async void Execute(object state)
+        private void Execute(object state)
         {
-            //await _taskToExecute;
             _taskToExecute.Start();
+            _completed = true;
         }
 
         public void Dispose()
         {
-            _timer.Dispose();
+            _timer?.Dispose();
         }
     }
 }

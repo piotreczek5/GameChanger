@@ -1,8 +1,11 @@
 ﻿using Convey.Persistence.MongoDB;
 using GameChanger.Core.GameData;
 using GameChanger.Core.MediatR.Messages.Commands.Buildings;
+using GameChanger.Core.MongoDB.Builders;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Updaters;
 using MediatR;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,29 +28,25 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
             if (!notification.SectorId.HasValue)
                 return;
 
-            var sector = await  _sectorDocuments.GetAsync(notification.SectorId.Value);
+            var sector = await _sectorDocuments.GetAsync(notification.SectorId.Value);
             if (sector == null)
-            {
                 return;
-            }
 
-            var building = sector.Buildings.SingleOrDefault(b => b.BuildingType == notification.BuildingType);
-
-            if(building == null)
-            {
+            var building = sector.Buildings.SingleOrDefault(b => b.BuildingType == notification.BuildingType && b.Status.Code != BuildingStatuses.IDLE);
+            if (building == null)
                 return;
-            }
 
-            if(building.CurrentLvl == 1)
+            var findBuildingFilter = SectorBuilderFactory.GetBuildingFromSectorByType(notification.SectorId.Value, notification.BuildingType);
+            if (building.CurrentLvl == 1)
             {
-                sector.Buildings.Remove(building);
+                var removeBuilding = SectorUpdaterFactory.RemoveBuilding(notification.BuildingType);
+                await _sectorDocuments.Collection.UpdateOneAsync(findBuildingFilter, removeBuilding);
             }
             else
-            {
-                building.CurrentLvl--;
-            }
-            
-            await _sectorDocuments.UpdateAsync(sector);
+            {                
+                var decreseLvlUpdate = SectorUpdaterFactory.DecreaseBuildingLvl();
+                await _sectorDocuments.Collection.UpdateOneAsync(findBuildingFilter,decreseLvlUpdate);
+            }           
         }
     }
 }

@@ -27,7 +27,7 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
             if (sector == null)
                 return;
 
-            var building = sector.Buildings.SingleOrDefault(b => b.BuildingType == notification.BuildingType);
+            var building = sector.Buildings.SingleOrDefault(b => b.BuildingType == notification.BuildingType && b.Status.Code != BuildingStatuses.IDLE);
             if (building == null)
                 return;
 

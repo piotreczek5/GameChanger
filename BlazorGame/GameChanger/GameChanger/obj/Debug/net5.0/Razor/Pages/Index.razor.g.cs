@@ -203,6 +203,13 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 29 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using System.Threading.Channels;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.LayoutAttribute(typeof(MainLayout))]
     [Microsoft.AspNetCore.Components.RouteAttribute("/index")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
@@ -261,6 +268,7 @@ using GameChanger.Core.MediatR.Messages.Queries.Sector;
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IHttpContextAccessor httpContextAccessor { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Channel<INotification> NotificationChannel { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMediator Mediator { get; set; }
     }
 }

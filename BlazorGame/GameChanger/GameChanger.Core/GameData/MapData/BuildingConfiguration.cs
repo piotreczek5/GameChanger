@@ -15,7 +15,8 @@ namespace GameChanger.Core.GameData
         COAL_MINE,
         COPPER_MINE,
         SAWMILL,
-        FOOD_PLANTATION
+        FOOD_PLANTATION,
+        WELL
     }
 
     public class BuildingConfiguration

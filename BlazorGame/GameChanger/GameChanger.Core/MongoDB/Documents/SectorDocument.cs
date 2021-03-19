@@ -1,5 +1,7 @@
 ﻿using Convey.Types;
 using GameChanger.Core.GameData;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,7 @@ namespace GameChanger.Core.MongoDB.Documents
         public string Name { get; set; }
         public int CurrentLvl { get; set; }
         public BuildingTypes BuildingType { get; set; }
+        [BsonElement]
         public BuildingStatus Status { get; set; }
 
         public BuildingDocument(Building building)

@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+@implements IDisposable
 <AuthorizeView>
     <Authorized>
         <nav class="navbar sticky-top" style="background-color:white; box-shadow:0px 20px 20px 0px #7c57bbc2">
@@ -7,14 +7,14 @@
                 <div class="row">
                     @foreach (var resource in ResourcesSupply.Keys)
                     {
-                    <div class="col centered">
+                        <div class="col centered">
                         <div class="row">
                             <img src=@GetImagePathForType(resource) width="50px" height="50px" />
                         </div>
                         <div class="row">
                             @resource.ToString()
                         </div>
-                        <div class="row">+@ResourcesSupply[resource]</div>
+                        <div class="row">@ResourcesSupply[resource]</div>
                        
                         @if (ResourceBalance[resource] > 0)
                         {
@@ -33,9 +33,7 @@
     </Authorized>
 </AuthorizeView>
 
-
 @code {
-
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
 
@@ -57,7 +55,6 @@
         _playerGuid = playerGuid;
         CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
 
-
         _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 0, 3000);
 
         base.OnInitialized();
@@ -77,24 +74,30 @@
 
     private async void RefreshSector(object state)
     {
-        _refreshSectorInfoTimer.Change(Timeout.Infinite, 0);
-
-        CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
-        var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
-        
-        foreach (var resource in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())
+        try
         {
-            ResourcesSupply[resource] = currentSectorResources?.CurrentResources?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
-            ResourceBalance[resource] = currentSectorResources?.CurrentResourceBalance?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+            _refreshSectorInfoTimer.Change(Timeout.Infinite, 0);
+
+            CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
+            var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
+
+            foreach (var resource in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())
+            {
+                ResourcesSupply[resource] = currentSectorResources?.CurrentResources?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+                ResourceBalance[resource] = currentSectorResources?.CurrentResourceBalance?.SingleOrDefault(r => r.Resource == resource)?.Amount ?? 0;
+            }
+
+            await Mediator.Publish(new RecalculateSectorBalanceCommand { SectorId = CurrentSector?.Id });
+
+            await InvokeAsync(StateHasChanged);
+
+            _refreshSectorInfoTimer.Change(500, 500);
+        }
+        catch(Exception e)
+        {
+            var a = e;
         }
 
-        await Mediator.Publish(new RecalculateSectorBalanceCommand { SectorId = CurrentSector?.Id });
-
-        //EventScheduler.ScheduleEvent(TimeSpan.FromSeconds(10), new IncreaseWoodSupplyCommand() { Amount = 3.4m, PlayerId = _playerGuid });
-
-        await InvokeAsync(StateHasChanged);
-
-        _refreshSectorInfoTimer.Change(500, 500);
     }
 
     protected string GetImagePathForType(ResourceType type)
@@ -102,4 +105,8 @@
         return $"/images/{type.ToString().ToLower()}_main_bar.jpg";
     }
 
+    public void Dispose()
+    {
+        _refreshSectorInfoTimer.Dispose();
+    }
 }

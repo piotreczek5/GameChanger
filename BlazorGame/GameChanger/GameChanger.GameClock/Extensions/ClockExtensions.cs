@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using GameChanger.Core.EventScheduler;
 using GameChanger.Core.Extensions;
@@ -17,8 +18,10 @@ namespace GameChanger.GameClock.Extensions
     {
         public static void AddGameClock(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            serviceCollection                
-                .AddTransient<IGameClockService,GameClockService>()
+            serviceCollection
+                .AddTransient<IGameClockService, GameClockService>()
+                .AddSingleton(Channel.CreateUnbounded<INotification>())
+                .AddHostedService<ProcessGameMessages>()
                 .AddHostedService<RecalculateResourcesHostedService>();
         }
     }
