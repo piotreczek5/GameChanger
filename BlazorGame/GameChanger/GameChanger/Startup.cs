@@ -2,9 +2,11 @@ using Convey;
 using GameChanger.Core.Extensions;
 using GameChanger.GameClock.Extensions;
 using GameChanger.GameUser.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,12 +31,24 @@ namespace GameChanger
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddAuthentication(
+               CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie();
+            services.AddHttpContextAccessor();
+            services.AddScoped<HttpContextAccessor>();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddCoreModule(Configuration);
             services.AddMapModule(Configuration);
             services.AddGameClock(Configuration);
-
 
             services.AddConvey()
                 .AddCoreModule()
@@ -60,9 +74,9 @@ namespace GameChanger
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
-
             app.UseUserModule();
 
             app.UseEndpoints(endpoints =>

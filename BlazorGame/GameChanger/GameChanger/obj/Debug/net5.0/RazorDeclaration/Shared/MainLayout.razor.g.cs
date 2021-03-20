@@ -227,6 +227,18 @@ using GameChanger.Pages;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 28 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\MainLayout.razor"
+ 
+    protected bool HideDebugger = false;
+    public void ToggleDebugger()
+    {
+        HideDebugger = !HideDebugger;
+    }
+
+#line default
+#line hidden
+#nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration MapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GameChanger.GameUser.EntityFramework.Domain;
 using Microsoft.AspNetCore.Components.Server;
 using GameChanger.GameUser.DataTypes;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace GameChanger.GameUser.EntityFramework
 {
@@ -25,7 +26,7 @@ namespace GameChanger.GameUser.EntityFramework
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.IsPersistent, "true"),
                 new Claim("PlayerGuid",playerGuid.ToString())
-            }, "apiauth_type");
+            }, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var claimsPrincipal = new ClaimsPrincipal(identity);
 

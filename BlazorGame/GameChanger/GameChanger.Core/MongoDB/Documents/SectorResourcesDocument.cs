@@ -20,6 +20,9 @@ namespace GameChanger.Core.MongoDB.Documents
           .Select(rt => new ResourceAmount { Amount = 0.0m, Resource = rt })
           .ToList();
 
-
+        public bool HasResources(List<ResourceAmount> resources)
+        {
+            return resources.TrueForAll(r => CurrentResources.SingleOrDefault(cr => cr.Resource == r.Resource)?.Amount >= r.Amount);            
+        }
     }
 }

@@ -3,12 +3,12 @@
 
 <div class="page">
     <AuthorizeView>
-        <Authorized>
-            
-            <div  style="background-color:white;width:400px;overflow-y:scroll;">
-                <Debugger />
+        <Authorized>            
+            <div  style="background-color:white;width:600px;overflow-y:scroll;font:12px;" @hidden="@HideDebugger">
+                <Debugger  />
             </div>
             <div class="sidebar">
+                <button @onclick="() => ToggleDebugger()"> Hide debugger</button>
                 <NavMenu />
             </div>
             <div class="main">
@@ -23,3 +23,12 @@
         </NotAuthorized>
     </AuthorizeView>
 </div>
+
+@code
+{
+    protected bool HideDebugger = false;
+    public void ToggleDebugger()
+    {
+        HideDebugger = !HideDebugger;
+    }
+}

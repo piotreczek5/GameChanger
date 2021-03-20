@@ -1,33 +1,33 @@
 ﻿@inherits LayoutComponentBase
 @using GameChanger.Core.Debugging;
-@inject Log Log
+@inject VisualLog Logger
 
 
 <div>
     <h4>Debugger Window : </h4>
    @foreach (var msg in Logs)
         {
-            <p>@msg</p>
+            <p style="background-color:@msg.Value.messageColor;">[@msg.Key.ToString("dd-MM-yyyy HH:mm:ss.fff")][@msg.Value.message]</p>
         }
 </div>
 
 
 @code {
-    public List<string> Logs = new List<string>();
+    public IOrderedEnumerable<KeyValuePair< DateTime, (string messageColor, string message)>> Logs;
 
     private Timer _refreshDebuggingTimer;
     protected override void OnInitialized()
     {
-        Logs = Log.Messages.ToList();
-        _refreshDebuggingTimer = new Timer(new TimerCallback(RefreshInfo), null, 2000, 1000);
+        _refreshDebuggingTimer = new Timer(new TimerCallback(RefreshInfo), null, 0, 1000);
         base.OnInitialized();
     }
 
     private async void RefreshInfo(object state)
     {
-        Logs = Log.Messages.ToList();
+        Logs = (new Dictionary<DateTime, (string messageColor, string message)>(Logger.Messages)).OrderBy(el => el.Key);
         await InvokeAsync(StateHasChanged);
     }
+
 
 
 }

@@ -11,5 +11,9 @@ namespace GameChanger.Core.MediatR.Messages
     {
         public Guid PlayerId { get; set; }
         public string CityName  { get; set; }
+        public override string ToString()
+        {
+            return $"GENERATING SECTORS FOR PLAYER {PlayerId} IN CITY {CityName}";
+        }
     }
 }

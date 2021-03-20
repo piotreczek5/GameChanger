@@ -37,7 +37,7 @@
                                         <button class="btn btn-secondary" onclick="" disabled>  Fixing ... </button>
                                         break;
                                     case BuildingStatuses.BUILT:
-                                        <button class="btn btn-success" @onclick="() =>PerformBuildingAction(buildingType,BuildActions.UPGRADE)">  Upgrade building </button>
+                                        <button class="btn btn-success" @onclick="() => PerformBuildingAction(buildingType,BuildActions.UPGRADE)">  Upgrade building </button>
                                         <button class="btn btn-danger" @onclick="() => PerformBuildingAction(buildingType,BuildActions.DESTROY)"> Destroy </button>
                                         break;
                                     default:
@@ -47,46 +47,93 @@
                             </td>
                         </tr>
 
+                        
+
                         @if (GetBuildingInfoFromSector(buildingType) != null)
                         {
-                            <tr><p>Name : @GetBuildingInfoFromSector(buildingType).Name</p></tr>
-                            <tr><p>Description: @GetBuildingInfoFromConfiguration(buildingType).Description</p></tr>
-                            <tr><p>Lvl : @GetBuildingInfoFromSector(buildingType).CurrentLvl</p></tr>
-                            <tr><p>Status: @GetBuildingInfoFromSector(buildingType).Status.Code</p></tr>
-                            <tr><p>Type : @GetBuildingInfoFromSector(buildingType).BuildingType</p></tr>
+                            var building = GetBuildingInfoFromSector(buildingType);
+
+                            <tr><p>Name : @building.Name</p></tr>
+                            <tr><p>Description: @GetBuildingInfoFromConfiguration(buildingType, building.CurrentLvl).Description</p></tr>
+                            <tr><p>Lvl : @building.CurrentLvl</p></tr>
+                            <tr><p>Status: @building.Status.Code</p></tr>
+                            <tr><p>Type : @building.BuildingType</p></tr>
+
+                            <tr>
+                                <td>Current Consumption</td>
+                                @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType, building.CurrentLvl).BaseResourceConsumption)
+                                {
+                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                                }
+                            </tr>
+
+                            <tr>
+                                <td>Current Production</td>
+                                @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType, building.CurrentLvl)?.BaseResourceProduction)
+                                {
+                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                                }
+                            </tr>
+
+                            <tr>
+                                <td>Building Costs of next level (@(@building.CurrentLvl+1))</td>
+                                @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType, building.CurrentLvl + 1)?.BuildCosts)
+                                {
+                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                                }
+                            </tr>
+
+                            <tr>
+                                <td>Consumption of next lvl (@(building.CurrentLvl+1))</td>
+                                @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType, building.CurrentLvl + 1)?.BaseResourceConsumption)
+                                {
+                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                                }
+                            </tr>
+
+                            <tr>
+                                <td>Production of next lvl (@(building.CurrentLvl+1))</td>
+                                @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType, building.CurrentLvl +1)?.BaseResourceProduction)
+                                {
+                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                                }
+                            </tr>
                         }
                         else
                         {
-                            <tr><p>Name : @GetBuildingInfoFromConfiguration(buildingType).Name</p></tr>
-                            <tr><p>Description: @GetBuildingInfoFromConfiguration(buildingType).Description</p></tr>
-                            <tr><p>Lvl : 0</p></tr>
+                            <tr><p>Name : @GetBuildingInfoFromConfiguration(buildingType, 1).Name</p></tr>
+                            <tr><p>Description: @GetBuildingInfoFromConfiguration(buildingType, 1).Description</p></tr>
+                            <tr><p>Lvl : 1</p></tr>
                             <tr><p>Status: @BuildingStatuses.NOT_BUILT</p></tr>
-                            <tr><p>Type : @GetBuildingInfoFromConfiguration(buildingType).BuildingType</p></tr>
+                            <tr><p>Type : @GetBuildingInfoFromConfiguration(buildingType, 1).BuildingType</p></tr>
+
+                            <tr>
+                                <td>Building Costs of next level (1)</td>
+                                @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType, 1).BuildCosts)
+                                {
+                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                                }
+                            </tr>
+
+                            <tr>
+                                <td>Consumption Lvl (1)</td>
+                                @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType, 1).BaseResourceConsumption)
+                                {
+                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                                }
+                            </tr>
+
+                            <tr>
+                                <td>Production Lvl (1)</td>
+                                @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType, 1).BaseResourceProduction)
+                                {
+                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                                }
+                            </tr>
                         }
 
-                        <tr>
-                            <td>Building Costs</td>
-                            @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType).BuildCosts)
-                            {
-                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
-                            }
-                        </tr>
 
-                        <tr>
-                            <td>Consumption</td>
-                            @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType).BaseResourceConsumption)
-                            {
-                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
-                            }
-                        </tr>
 
-                        <tr>
-                            <td>Production</td>
-                            @foreach (var resourceAmount in GetBuildingInfoFromConfiguration(buildingType).BaseResourceProduction)
-                            {
-                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
-                            }
-                        </tr>
                     </div>
                 </tbody>
             </table>
@@ -119,11 +166,24 @@
                 return CurrentPlayerSector?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType);
             }
 
-            protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType)
+            protected async Task<bool> BuildingButtonStatusIsDisabled (BuildingTypes buildingType)
             {
-                int currentBuildingLvl = GetBuildingInfoFromSector(buildingType)?.CurrentLvl ?? 1;
+                await UpdatePageData();
 
-                return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType && b.Lvl == currentBuildingLvl);
+                var building = GetBuildingInfoFromConfiguration(buildingType,1);
+
+                var currentResources =  await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentPlayerSector?.Id });
+                var hasResourcesToBuild = currentResources?.HasResources(building.BuildCosts);
+
+                return hasResourcesToBuild.HasValue ?
+                    !hasResourcesToBuild.Value
+                    :
+                    false;
+            }
+
+            protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType ,int lvl)
+            {
+                return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType && b.Lvl == lvl) ?? new Building();
             }
 
             protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction)
@@ -131,24 +191,21 @@
                 switch (buildAction)
                 {
                     case BuildActions.BUILD:
-                        //await Mediator.Publish(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         await NotificationChannel.Writer.WriteAsync(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.DESTROY:
-                        //await Mediator.Publish(new DestroyBuildingCommand {  BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         await NotificationChannel.Writer.WriteAsync(new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.FIX:
-                        //await Mediator.Publish(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         await NotificationChannel.Writer.WriteAsync(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.UPGRADE:
-                        //await Mediator.Publish(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         await NotificationChannel.Writer.WriteAsync(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                 }
 
+                Thread.Sleep(1000);
                 await UpdatePageData();
-                this.StateHasChanged();
+                await InvokeAsync(StateHasChanged);
             }
 }

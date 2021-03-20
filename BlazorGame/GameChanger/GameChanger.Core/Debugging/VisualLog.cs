@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace GameChanger.Core.Debugging
 {
-    public class Log
+    public class VisualLog
     {
-        public ConcurrentBag<string> Messages = new ConcurrentBag<string>();
+        public ConcurrentDictionary<DateTime,(string messageColor, string message)> Messages = new ConcurrentDictionary<DateTime,(string, string)>();
     }
 }

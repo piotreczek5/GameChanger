@@ -222,7 +222,7 @@ using System.Threading.Channels;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 95 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
+#line 142 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
                
             // var building in CurrentPlayerSector.Buildings
             [CascadingParameter]
@@ -250,11 +250,24 @@ using System.Threading.Channels;
                 return CurrentPlayerSector?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType);
             }
 
-            protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType)
+            protected async Task<bool> BuildingButtonStatusIsDisabled (BuildingTypes buildingType)
             {
-                int currentBuildingLvl = GetBuildingInfoFromSector(buildingType)?.CurrentLvl ?? 1;
+                await UpdatePageData();
 
-                return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType && b.Lvl == currentBuildingLvl);
+                var building = GetBuildingInfoFromConfiguration(buildingType,1);
+
+                var currentResources =  await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentPlayerSector?.Id });
+                var hasResourcesToBuild = currentResources?.HasResources(building.BuildCosts);
+
+                return hasResourcesToBuild.HasValue ?
+                    !hasResourcesToBuild.Value
+                    :
+                    false;
+            }
+
+            protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType ,int lvl)
+            {
+                return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType && b.Lvl == lvl) ?? new Building();
             }
 
             protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction)
@@ -262,25 +275,22 @@ using System.Threading.Channels;
                 switch (buildAction)
                 {
                     case BuildActions.BUILD:
-                        //await Mediator.Publish(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         await NotificationChannel.Writer.WriteAsync(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.DESTROY:
-                        //await Mediator.Publish(new DestroyBuildingCommand {  BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         await NotificationChannel.Writer.WriteAsync(new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.FIX:
-                        //await Mediator.Publish(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         await NotificationChannel.Writer.WriteAsync(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                     case BuildActions.UPGRADE:
-                        //await Mediator.Publish(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         await NotificationChannel.Writer.WriteAsync(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
                 }
 
+                Thread.Sleep(1000);
                 await UpdatePageData();
-                this.StateHasChanged();
+                await InvokeAsync(StateHasChanged);
             }
 
 #line default

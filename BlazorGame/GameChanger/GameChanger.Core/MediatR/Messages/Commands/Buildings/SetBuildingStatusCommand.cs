@@ -14,5 +14,9 @@ namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
         public Guid SectorId { get; set; }
         public BuildingTypes BuildingType { get; set; }
         public BuildingStatuses BuildingStatus { get; set; }
+        public override string ToString()
+        {
+            return $"SETTING STATUS OF BULDING: {BuildingType} TO {BuildingStatus} ";
+        }
     }
 }

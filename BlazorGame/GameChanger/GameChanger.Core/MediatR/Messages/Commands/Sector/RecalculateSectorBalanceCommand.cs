@@ -10,5 +10,9 @@ namespace GameChanger.Core.MediatR.Messages.Commands.Sector
     public class RecalculateSectorBalanceCommand : INotification
     {
         public Guid? SectorId { get; set; }
+        public override string ToString()
+        {
+            return $"RECALCULATING BALANCE FOR SECTOR: {SectorId}";
+        }
     }
 }

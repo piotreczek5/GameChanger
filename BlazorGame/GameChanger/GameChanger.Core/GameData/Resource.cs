@@ -12,6 +12,7 @@ namespace GameChanger.Core.GameData
         WOOD,
         IRON_ORE,
         COPPER_ORE,
+        GOLD_ORE,
         STONE,
         IRON,
         COPPER,

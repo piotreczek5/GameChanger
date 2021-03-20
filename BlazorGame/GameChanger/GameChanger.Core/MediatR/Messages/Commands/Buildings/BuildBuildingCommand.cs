@@ -12,5 +12,10 @@ namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
     {
         public Guid? SectorId { get; set; }
         public BuildingTypes BuildingType { get; set; }
+
+        public override string ToString()
+        {
+            return "BUILDING " + BuildingType.ToString();
+        }
     }
 }

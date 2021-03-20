@@ -25,6 +25,15 @@ namespace GameChanger.Core.MongoDB.Updaters
             return Builders<SectorDocument>.Update.PullFilter(c => c.Buildings, Builders<BuildingDocument>.Filter.Eq(b => b.BuildingType,buildingType));
         }
 
+        public static UpdateDefinition<SectorDocument> AddBuilding(BuildingDocument building)
+        {
+            return Builders<SectorDocument>.Update.Push(c => c.Buildings, building);
+        }
+
+        public static UpdateDefinition<SectorDocument> SetBuildingLvlBuilding(int lvl)
+        {
+            return Builders<SectorDocument>.Update.Set(c => c.Buildings[-1].CurrentLvl, lvl);
+        }
 
         public static UpdateDefinition<SectorDocument> DecreaseBuildingLvl()
         {

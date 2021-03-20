@@ -9,13 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace GameChanger.Core.MediatR.Handlers.Sector
 {
     public class RecalculateSectorBalanceCommandHandler : BaseSectorHandler,INotificationHandler<RecalculateSectorBalanceCommand>
     {
-        public RecalculateSectorBalanceCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments)
+        public RecalculateSectorBalanceCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, Channel<INotification> channel, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, channel, buildingConfiguration)
         {
         }
 

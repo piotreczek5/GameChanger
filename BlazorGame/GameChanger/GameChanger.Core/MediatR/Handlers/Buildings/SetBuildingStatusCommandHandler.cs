@@ -26,7 +26,7 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
 
         public async Task Handle(SetBuildingStatusCommand notification, CancellationToken cancellationToken)
         {
-            var findBuildingOfTypeFilter = SectorBuilderFactory.GetBuildingFromSectorByType(notification.SectorId,notification.BuildingType);
+            var findBuildingOfTypeFilter = SectorFilterFactory.GetBuildingFromSectorByType(notification.SectorId,notification.BuildingType);
 
             var updateStatusCodeBuilder = SectorUpdaterFactory.SetBuildingStatus(notification.BuildingStatus);
 

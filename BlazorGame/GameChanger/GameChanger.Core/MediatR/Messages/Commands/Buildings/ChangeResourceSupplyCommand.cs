@@ -15,6 +15,15 @@ namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
         public List<ResourceAmount> Resources { get; set; }
 
         public int IncreaseOrDecreaseMultiplier { get; set; } = 1;
-        
+        public override string ToString()
+        {
+            return (IncreaseOrDecreaseMultiplier > 0 ? 
+                "INCREASING RESOURCES "
+                :
+                "DECREASING RESOURCES ") + 
+                 string.Join("|", Resources.Select(r => $"{r.Resource} : {r.Amount}").ToArray());
+        }
+
+        public bool IsAdding => IncreaseOrDecreaseMultiplier > 0;
     }
 }

@@ -246,7 +246,6 @@ using System.Threading.Channels;
             await _mediator.Publish(new GenerateSectorCommand { PlayerId = playerGuid,CityName = cities[randomCityIndex].Name});
         }
 
-
         await base.OnInitializedAsync();
     }
 

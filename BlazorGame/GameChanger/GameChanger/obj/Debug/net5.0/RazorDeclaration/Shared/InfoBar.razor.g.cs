@@ -265,7 +265,7 @@ using System.Threading.Channels;
     {
         try
         {
-            _refreshSectorInfoTimer.Change(Timeout.Infinite, 0);
+            _refreshSectorInfoTimer?.Change(Timeout.Infinite, 0);
 
             CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
             var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
@@ -280,7 +280,7 @@ using System.Threading.Channels;
 
             await InvokeAsync(StateHasChanged);
 
-            _refreshSectorInfoTimer.Change(500, 500);
+            _refreshSectorInfoTimer?.Change(500, 500);
         }
         catch(Exception e)
         {
@@ -296,7 +296,7 @@ using System.Threading.Channels;
 
     public void Dispose()
     {
-        _refreshSectorInfoTimer.Dispose();
+        _refreshSectorInfoTimer?.Dispose();
     }
 
 #line default

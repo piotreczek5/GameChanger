@@ -11,12 +11,18 @@ using System.Threading.Tasks;
 
 namespace GameChanger.Core.MongoDB.Builders
 {
-    public static class SectorBuilderFactory 
+    public static class SectorFilterFactory 
     {
         public static FilterDefinition<SectorDocument> GetBuildingFromSectorByType(Guid sectorId, BuildingTypes buildingType)
         {
-            return Builders<SectorDocument>.Filter.Eq(s => s.Id, sectorId) &
-                Builders<SectorDocument>.Filter.ElemMatch(s => s.Buildings, Builders<BuildingDocument>.Filter.Eq(b => b.BuildingType, buildingType));
+            return GetSectorById(sectorId) &
+                Builders<SectorDocument>.Filter.ElemMatch(s => s.Buildings, 
+                    Builders<BuildingDocument>.Filter.Eq(b => b.BuildingType, buildingType));
+        }
+
+        public static FilterDefinition<SectorDocument> GetSectorById(Guid sectorId)
+        {
+            return Builders<SectorDocument>.Filter.Eq(s => s.Id, sectorId);             
         }
     }
 }

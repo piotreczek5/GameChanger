@@ -1,5 +1,6 @@
 ﻿using Convey.Types;
 using GameChanger.Core.GameData;
+using GameChanger.Core.MongoDB.Documents.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GameChanger.Core.MongoDB.Documents
 {
-    public class SectorDocument : IIdentifiable<Guid>
+    public class SectorDocument : IIdentifiable<Guid>, IAuditedDocument
     {
         public Guid Id { get; set; }
         public Guid PlayerOwner { get; set; }
@@ -19,8 +20,11 @@ namespace GameChanger.Core.MongoDB.Documents
         public string Land { get; set; }
 
         public List<BuildingDocument> Buildings { get; set; } = new List<BuildingDocument>();
-       
         public Guid SectorResourcesId { get; set; }
+        public DateTime ModifyTimeStamp { get; set; }
+        public Guid ModifiedUserId { get; set ; }
+        public DateTime CreatedTimeStamp { get; set; }
+        public Guid CreatedUserId { get; set ; }
     }
 
     public class BuildingDocument

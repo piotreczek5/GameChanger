@@ -36,7 +36,7 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
             if (building == null)
                 return;
 
-            var findBuildingFilter = SectorBuilderFactory.GetBuildingFromSectorByType(notification.SectorId.Value, notification.BuildingType);
+            var findBuildingFilter = SectorFilterFactory.GetBuildingFromSectorByType(notification.SectorId.Value, notification.BuildingType);
             if (building.CurrentLvl == 1)
             {
                 var removeBuilding = SectorUpdaterFactory.RemoveBuilding(notification.BuildingType);

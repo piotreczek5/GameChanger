@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using GameChanger.Core.EventScheduler;
 using GameChanger.Core.Extensions;
 using GameChanger.Core.Services.Sector;
-using GameChanger.GameClock.Services;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +18,6 @@ namespace GameChanger.GameClock.Extensions
         public static void AddGameClock(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection
-                .AddTransient<IGameClockService, GameClockService>()
                 .AddSingleton(Channel.CreateUnbounded<INotification>())
                 .AddHostedService<ProcessGameMessages>()
                 .AddHostedService<RecalculateResourcesHostedService>();

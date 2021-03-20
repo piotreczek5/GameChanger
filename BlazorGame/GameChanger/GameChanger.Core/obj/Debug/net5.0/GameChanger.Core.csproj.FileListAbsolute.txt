@@ -12,3 +12,4 @@ C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\o
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\obj\Debug\net5.0\GameChanger.Core.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\obj\Debug\net5.0\ref\GameChanger.Core.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\obj\Debug\net5.0\GameChanger.Core.pdb
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger.Core\obj\Debug\net5.0\GameChanger.Core.csprojAssemblyReference.cache

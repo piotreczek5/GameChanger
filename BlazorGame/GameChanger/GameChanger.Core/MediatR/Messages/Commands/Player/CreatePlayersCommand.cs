@@ -10,5 +10,9 @@ namespace GameChanger.Core.MediatR.Messages
     public class CreatePlayersCommand : INotification
     {
         public List<string> Nicks { get; set; }
+        public override string ToString()
+        {
+            return "CREATING PLAYERS " + string.Join("|",Nicks);
+        }
     }
 }

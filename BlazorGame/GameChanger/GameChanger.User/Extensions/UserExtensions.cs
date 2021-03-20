@@ -27,7 +27,7 @@ namespace GameChanger.GameUser.Extensions
                 {
                     options.UseSqlServer(connectionString);
                 });
-
+           
             serviceCollection
                 .AddDefaultIdentity<GameChangerUser>()
                 .AddEntityFrameworkStores<ApplicationUserContext>();
