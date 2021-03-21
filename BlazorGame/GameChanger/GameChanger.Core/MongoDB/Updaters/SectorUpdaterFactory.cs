@@ -11,9 +11,9 @@ namespace GameChanger.Core.MongoDB.Updaters
 {
     public static class SectorUpdaterFactory
     {
-        public static UpdateDefinition<SectorDocument> SetBuildingStatus (BuildingStatuses buildingStatus)
+        public static UpdateDefinition<SectorDocument> SetBuildingStatus (BuildingStatus buildingStatus)
         {
-            return Builders<SectorDocument>.Update.Set(c => c.Buildings[-1].Status.Code, buildingStatus);
+            return Builders<SectorDocument>.Update.Set(c => c.Buildings[-1].Status, buildingStatus);
         }
 
         public static UpdateDefinition<SectorDocument> SetBuildingLvl(int lvl)
@@ -34,7 +34,7 @@ namespace GameChanger.Core.MongoDB.Updaters
         {
             return Builders<SectorDocument>.Update.Set(c => c.Buildings[-1].CurrentLvl, lvl);
         }
-
+       
         public static UpdateDefinition<SectorDocument> DecreaseBuildingLvl()
         {
             return Builders<SectorDocument>.Update.Inc(c => c.Buildings[-1].CurrentLvl, -1);

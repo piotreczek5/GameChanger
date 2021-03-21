@@ -39,6 +39,9 @@ namespace GameChanger.Core.GameData
         public decimal FailurePercentagePerDay { get; set; }
         public BuildingTypes BuildingType { get; set; }
 
+        public TimeSpan? BuildTime { get; set; }
+        public TimeSpan? DestroyTime { get; set; }
+
     }
 
 }

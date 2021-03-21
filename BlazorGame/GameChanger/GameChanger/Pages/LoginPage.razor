@@ -9,6 +9,7 @@
 @inject NavigationManager NavigationManager;
 @inject AuthenticationStateProvider AuthenticationStateProvider;
 @inject IUserService UserService;
+@inject IJSRuntime JSRuntime;
 
 <div class="container">
     <div class="col-12 row">
@@ -47,7 +48,7 @@
                 <br />
                 <div>
                     <span class="col-12"></span>
-                    <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
+                    <input id="loginButton" type="submit" class="form-control col-6 btn btn-primary" value="Login" />
                 </div>
                 <br />
                 <div hidden="@_hideResult">
@@ -106,6 +107,7 @@
 
     private async Task<bool> ValidateUser()
     {
+        await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"loginButton", true);
         var user = await UserManager.FindByNameAsync(Input.Email);
 
         if (user != null)
@@ -130,8 +132,9 @@
         }
 
         _hideResult = false;
-
+        
         return await Task.FromResult(true);
+
     }
 }
 

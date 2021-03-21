@@ -1,4 +1,3 @@
-C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win\native\libzstd.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\snappy32.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\snappy64.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\libzstd.dll
@@ -137,6 +136,7 @@ C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\De
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win\native\libzstd.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win\native\snappy32.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win\native\snappy64.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll

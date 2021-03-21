@@ -237,7 +237,7 @@ using GameChanger.GameUser.DataTypes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 65 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
+#line 66 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\LoginPage.razor"
       
     private bool _hideResult = true;
     private string _alertType = "info";
@@ -282,6 +282,7 @@ using GameChanger.GameUser.DataTypes;
 
     private async Task<bool> ValidateUser()
     {
+        await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"loginButton", true);
         var user = await UserManager.FindByNameAsync(Input.Email);
 
         if (user != null)
@@ -306,13 +307,15 @@ using GameChanger.GameUser.DataTypes;
         }
 
         _hideResult = false;
-
+        
         return await Task.FromResult(true);
+
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IUserService UserService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }

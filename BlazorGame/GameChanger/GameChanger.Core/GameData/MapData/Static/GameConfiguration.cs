@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameChanger.Core.GameData
 {
-    public static class StaticConfiguration
+    public static class GameConfiguration
     {
         public static MapConfiguration GetMapConfiguration
         {
@@ -138,6 +138,8 @@ namespace GameChanger.Core.GameData
 #region LVL1
                         new Building
                         {
+                            BuildTime = TimeSpan.FromSeconds(100),
+                            DestroyTime = TimeSpan.FromSeconds(100),
                             BuildingType = BuildingTypes.SAWMILL,
                             Name = "Sawmill",
                             Description = "The only place where people actually do somtething",
@@ -185,6 +187,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
+                            BuildTime = TimeSpan.FromSeconds(100),
+                            DestroyTime = TimeSpan.FromSeconds(100),
                             BuildingType = BuildingTypes.FOOD_PLANTATION,
                             Name = "Food plantation",
                             Description = "Where else you're going to grow food than here?",
@@ -237,6 +241,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
+                            BuildTime = TimeSpan.FromSeconds(100),
+                            DestroyTime = TimeSpan.FromSeconds(100),
                             BuildingType = BuildingTypes.STONE_MINE,
                             Name = "Stone Mine",
                             Description = "Hard work to get this stone in place!",
@@ -284,6 +290,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
+                            BuildTime = TimeSpan.FromSeconds(10),
+                            DestroyTime = TimeSpan.FromSeconds(10),
                             BuildingType = BuildingTypes.COPPER_MINE,
                             Name = "Copper Mine",
                             Description = "Not all that glitters",
@@ -331,6 +339,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
+                            BuildTime = TimeSpan.FromSeconds(10),
+                            DestroyTime = TimeSpan.FromSeconds(10),
                             BuildingType = BuildingTypes.COAL_MINE,
                             Name = "Coal Mine",
                             Description = "Black gold of the earth",
@@ -378,6 +388,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
+                            BuildTime = TimeSpan.FromSeconds(10),
+                            DestroyTime = TimeSpan.FromSeconds(10),
                             BuildingType = BuildingTypes.IRON_MINE,
                             Name = "Iron Mine",
                             Description = "Strong as steel, muscles of workers here are!",
@@ -425,6 +437,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
+                            BuildTime = TimeSpan.FromSeconds(10),
+                            DestroyTime = TimeSpan.FromSeconds(10),
                             BuildingType = BuildingTypes.SAND_MINE,
                             Name = "Sand Mine",
                             Description = "Is it better than a dessert?",
@@ -472,6 +486,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
+                            BuildTime = TimeSpan.FromSeconds(10),
+                            DestroyTime = TimeSpan.FromSeconds(10),
                             BuildingType = BuildingTypes.WELL,
                             Name = "Well",
                             Description = "You better not fall into that!",
@@ -521,6 +537,8 @@ namespace GameChanger.Core.GameData
 #region LVL2
                         new Building
                         {
+                            BuildTime = TimeSpan.FromSeconds(20),
+                            DestroyTime = TimeSpan.FromSeconds(20),
                             BuildingType = BuildingTypes.FOOD_PLANTATION,
                             Name = "Food plantation",
                             Description = "Where else you're going to grow food than here?",

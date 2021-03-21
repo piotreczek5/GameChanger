@@ -16,8 +16,8 @@ namespace GameChanger.Core.Extensions
     {
         public static void AddMapModule(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            var mapConfiguration = StaticConfiguration.GetMapConfiguration;
-            var buildingConfiguration = StaticConfiguration.GetBuildingConfiguration;
+            var mapConfiguration = GameConfiguration.GetMapConfiguration;
+            var buildingConfiguration = GameConfiguration.GetBuildingConfiguration;
 
             serviceCollection.AddSingleton(mapConfiguration);
             serviceCollection.AddSingleton(buildingConfiguration);

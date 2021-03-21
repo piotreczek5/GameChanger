@@ -11,12 +11,16 @@ namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
 {
     public class SetBuildingStatusCommand : INotification
     {
-        public Guid SectorId { get; set; }
+        public Guid? SectorId { get; set; }
         public BuildingTypes BuildingType { get; set; }
         public BuildingStatuses BuildingStatus { get; set; }
+        public DateTime? TimeToBuild { get; set; }
+        public DateTime? TimeToFix { get; set; }
+        public DateTime? TimeToDestroy { get; set; }
+
         public override string ToString()
         {
-            return $"SETTING STATUS OF BULDING: {BuildingType} TO {BuildingStatus} ";
+            return $"SETTING STATUS OF BULDING: {BuildingType} TO {BuildingStatus}";
         }
     }
 }

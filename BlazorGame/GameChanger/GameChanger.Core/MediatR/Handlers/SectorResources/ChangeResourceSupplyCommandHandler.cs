@@ -25,9 +25,13 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
 
         public async Task Handle(ChangeResourceSupplyCommand notification, CancellationToken cancellationToken)
         {
+            if(!notification.SectorResourcesId.HasValue)
+            {
+                return;
+            }
            // lock(ResourceLocker.Lock)
             {
-                var sectorResources = await _sectorResourcesDocuments.GetAsync(notification.SectorResourcesId);
+                var sectorResources = await _sectorResourcesDocuments.GetAsync(notification.SectorResourcesId.Value);
                 if (sectorResources == null)
                     return;
 

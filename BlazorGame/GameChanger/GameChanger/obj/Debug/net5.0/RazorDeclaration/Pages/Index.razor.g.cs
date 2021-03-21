@@ -243,7 +243,7 @@ using System.Threading.Channels;
             var cities = MapConfiguration.Lands.SelectMany(c => c.Cities).ToList();
             int randomCityIndex = new Random().Next(0, cities.Count);
 
-            await _mediator.Publish(new GenerateSectorCommand { PlayerId = playerGuid,CityName = cities[randomCityIndex].Name});
+            await NotificationChannel.Writer.WriteAsync(new GenerateSectorCommand { PlayerId = playerGuid, CityName = cities[randomCityIndex].Name });
         }
 
         await base.OnInitializedAsync();

@@ -40,7 +40,7 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
                 return;
             }
 
-            building.Status = new BuildingStatus() { Code = BuildingStatuses.BUILT};
+            building.Status = new BuildingStatus() { Code = BuildingStatuses.BUILT, TimeToFix = null};
             
             await _sectorDocuments.UpdateAsync(sector);
         }

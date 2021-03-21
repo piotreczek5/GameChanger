@@ -29,29 +29,48 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
                 return;
 
             var sector = await  _sectorDocuments.GetAsync(notification.SectorId.Value);
-            
-            if(sector!= null && !sector.Buildings.Any(b => b.BuildingType == notification.BuildingType))
+            var existingBuilding = sector.Buildings.SingleOrDefault(b => b.BuildingType == notification.BuildingType);
+            if (sector!= null)
             {
-                var sectorResources = await _sectorResourcesDocuments.GetAsync(sector.SectorResourcesId);
-                var buildingTemplate = _buildingConfiguration.GetBuildingByType(notification.BuildingType, 1);
-
-                if (buildingTemplate != null && !sectorResources.HasResources(buildingTemplate.BuildCosts))
+                if(existingBuilding != null )
                 {
-                    return;
+                    var sectorResources = await _sectorResourcesDocuments.GetAsync(sector.SectorResourcesId);
+                    var buildingTemplate = _buildingConfiguration.GetBuildingByType(notification.BuildingType, notification.BuildingLvl);
+
+                    if (buildingTemplate == null || !sectorResources.HasResources(buildingTemplate.BuildCosts))
+                    {
+                        return;
+                    }
+
+                    var buildingInSectorFilter = SectorFilterFactory.GetBuildingFromSectorByType(sector.Id, existingBuilding.BuildingType);
+                    var upgradeBuildingUpdater = SectorUpdaterFactory.SetBuildingLvlBuilding(notification.BuildingLvl);
+                    
+                    await _sectorDocuments.Collection.UpdateOneAsync(buildingInSectorFilter, upgradeBuildingUpdater);
+                    
+                }
+                else
+                {
+                    var sectorResources = await _sectorResourcesDocuments.GetAsync(sector.SectorResourcesId);
+                    var buildingTemplate = _buildingConfiguration.GetBuildingByType(notification.BuildingType, 1);
+
+                    if (buildingTemplate != null && !sectorResources.HasResources(buildingTemplate.BuildCosts))
+                    {
+                        return;
+                    }
+
+                    var addBuildingUpdater = SectorUpdaterFactory.AddBuilding(new BuildingDocument(buildingTemplate));
+                    var buildingInSectorFilter = SectorFilterFactory.GetSectorById(sector.Id);
+
+                    await _sectorDocuments.Collection.FindOneAndUpdateAsync<SectorDocument>(buildingInSectorFilter, addBuildingUpdater);                   
                 }
 
-                var addBuildingUpdater = SectorUpdaterFactory.AddBuilding(new BuildingDocument(buildingTemplate));
-                var buildingInSectorFilter = SectorFilterFactory.GetSectorById(sector.Id);
-                
-                await _sectorDocuments.Collection.FindOneAndUpdateAsync<SectorDocument>(buildingInSectorFilter, addBuildingUpdater);
-                await _channel.Writer.WriteAsync(new ChangeResourceSupplyCommand
+                await _channel.Writer.WriteAsync(new SetBuildingStatusCommand()
                 {
-                    SectorResourcesId = sectorResources.Id,
-                    IncreaseOrDecreaseMultiplier = -1,
-                    Resources = buildingTemplate.BuildCosts
+                    BuildingStatus = BuildingStatuses.BUILT,
+                    BuildingType = notification.BuildingType,
+                    SectorId = notification.SectorId                    
                 });
             }
-            
         }
     }
 }

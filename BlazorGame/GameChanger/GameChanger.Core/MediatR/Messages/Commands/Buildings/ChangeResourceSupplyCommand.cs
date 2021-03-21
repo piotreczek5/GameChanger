@@ -10,7 +10,7 @@ namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
 {
     public class ChangeResourceSupplyCommand : INotification
     {
-        public Guid SectorResourcesId { get; set; }
+        public Guid? SectorResourcesId { get; set; }
 
         public List<ResourceAmount> Resources { get; set; }
 

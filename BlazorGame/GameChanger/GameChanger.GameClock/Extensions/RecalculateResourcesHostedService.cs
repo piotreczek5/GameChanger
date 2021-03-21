@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using GameChanger.Core.EventScheduler;
 using GameChanger.Core.MediatR.Messages.Commands.Buildings;
 using GameChanger.Core.MediatR.Messages.Queries;
 using GameChanger.Core.MediatR.Messages.Queries.Sector;
+using GameChanger.Core.MongoDB.Documents;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Extensions.Hosting;
@@ -52,7 +54,9 @@ namespace GameChanger.GameClock.Extensions
 
             foreach (var sector in allSectorIds)
             {
-                var buildings = await _mediator.Send(new GetSectorBuildingsQuery { SectorId = sector });
+                var buildings = (await _mediator.Send(new GetSectorBuildingsQuery { SectorId = sector }))
+                    .ToList()
+                    .Where(b => b.Status.Code == BuildingStatuses.BUILT || b.Status.Code == BuildingStatuses.IDLE);
 
                 foreach (var building in buildings)
                 {

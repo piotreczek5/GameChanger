@@ -222,7 +222,7 @@ using System.Threading.Channels;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 142 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
+#line 152 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
                
             // var building in CurrentPlayerSector.Buildings
             [CascadingParameter]
@@ -234,7 +234,14 @@ using System.Threading.Channels;
             protected override async Task OnInitializedAsync()
             {
                 await UpdatePageData();
+
                 await base.OnInitializedAsync();
+            }
+
+            protected override async Task OnAfterRenderAsync(bool firstRender)
+            {
+                CurrentPlayerSector?.Buildings?.ForEach(async (b) => await SpawnTimer(b));
+                await base.OnAfterRenderAsync(firstRender);
             }
 
             protected async Task UpdatePageData()
@@ -245,12 +252,30 @@ using System.Threading.Channels;
                 CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = playerInfo.CurrentSector });
             }
 
+            private async Task SpawnTimer(BuildingDocument building)
+            {
+                var timerItemId = $"{building.BuildingType}_{building.Status.Code}";
+                switch (building.Status.Code)
+                {
+                    case BuildingStatuses.BUILDING:
+                        await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToBuild, timerItemId);
+                        break;
+                    case BuildingStatuses.FIXING:
+                        await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToFix, timerItemId);
+                        break;
+                    case BuildingStatuses.DESTROYING:
+                        await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToDestroy, timerItemId);
+                        break;
+                }
+
+            }
+
             protected BuildingDocument GetBuildingInfoFromSector(BuildingTypes buildingType)
             {
                 return CurrentPlayerSector?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType);
             }
 
-            protected async Task<bool> BuildingButtonStatusIsDisabled (BuildingTypes buildingType)
+            protected async Task<bool> CanPerformBuildOperation (BuildingTypes buildingType)
             {
                 await UpdatePageData();
 
@@ -260,42 +285,54 @@ using System.Threading.Channels;
                 var hasResourcesToBuild = currentResources?.HasResources(building.BuildCosts);
 
                 return hasResourcesToBuild.HasValue ?
-                    !hasResourcesToBuild.Value
-                    :
-                    false;
+                    hasResourcesToBuild.Value : false;
             }
 
-            protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType ,int lvl)
+            protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType , int lvl)
             {
-                return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType && b.Lvl == lvl) ?? new Building();
+                return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType && b.Lvl == lvl);
             }
 
-            protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction)
+            protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction, int buildingLvl)
             {
+                await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"{buildingType}_{buildAction}",true);
+
+                var buildindInfo = GetBuildingInfoFromConfiguration(buildingType, buildingLvl);
+                var sectorBuildingInfo = GetBuildingInfoFromSector(buildingType);
+
                 switch (buildAction)
                 {
                     case BuildActions.BUILD:
-                        await NotificationChannel.Writer.WriteAsync(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
+                        if(await CanPerformBuildOperation(buildingType) == true)
+                        {
+                            EventScheduler.ScheduleEvent(buildindInfo.BuildTime.Value, new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id, BuildingLvl = buildingLvl });
+                            await NotificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { BuildingType = buildingType, BuildingStatus = BuildingStatuses.BUILDING, SectorId = CurrentPlayerSector?.Id, TimeToBuild = DateTime.Now.Add(buildindInfo.BuildTime.Value) });
+                            await NotificationChannel.Writer.WriteAsync(new ChangeResourceSupplyCommand { SectorResourcesId = CurrentPlayerSector?.SectorResourcesId, IncreaseOrDecreaseMultiplier = -1, Resources = buildindInfo.BuildCosts });
+                            await SpawnTimer(sectorBuildingInfo);
+                        }
                         break;
                     case BuildActions.DESTROY:
-                        await NotificationChannel.Writer.WriteAsync(new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
+                        EventScheduler.ScheduleEvent(buildindInfo.DestroyTime.Value, new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id  });
+                        await NotificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { BuildingType = buildingType, BuildingStatus = BuildingStatuses.DESTROYING, SectorId = CurrentPlayerSector?.Id, TimeToDestroy = DateTime.Now.Add(buildindInfo.DestroyTime.Value) });
+                        await SpawnTimer(sectorBuildingInfo);
                         break;
                     case BuildActions.FIX:
                         await NotificationChannel.Writer.WriteAsync(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
                         break;
-                    case BuildActions.UPGRADE:
-                        await NotificationChannel.Writer.WriteAsync(new UpgradeBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
-                        break;
                 }
 
                 Thread.Sleep(1000);
+                await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"{buildingType}_{buildAction}", false);
                 await UpdatePageData();
                 await InvokeAsync(StateHasChanged);
             }
 
+        
+
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration MapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }

@@ -13,7 +13,6 @@ namespace GameChanger.Core.MongoDB.Documents
     {
         public Guid Id { get; set; }
 
-        [BsonElement("TimeStamp",Order = 1)]
         [BsonDateTimeOptions(DateOnly =false,Kind =DateTimeKind.Utc)]
         public DateTime TimeStamp { get; set; }
         public string Message { get; set; }

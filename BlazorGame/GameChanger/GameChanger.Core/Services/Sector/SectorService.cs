@@ -78,7 +78,7 @@ namespace GameChanger.Core.Services.Sector
 
                 if (currentResource.Amount - consumptionResource.Amount < 0)
                 {
-                    if (building.Status.Code != BuildingStatuses.IDLE)
+                    if (building.Status.Code == BuildingStatuses.BUILT)
                     {
                         _notificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.IDLE });                      
                     }

@@ -1,5 +1,6 @@
 ﻿using Convey.Types;
 using GameChanger.Core.GameData;
+using GameChanger.Core.MediatR.Messages.Commands.Buildings;
 using GameChanger.Core.MongoDB.Documents.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -40,7 +41,7 @@ namespace GameChanger.Core.MongoDB.Documents
             Name = building.Name;
             CurrentLvl = 1;
             BuildingType = building.BuildingType;
-            Status = new BuildingStatus() { Code = BuildingStatuses.BUILT };
+            Status = new BuildingStatus() { Code = BuildingStatuses.BUILT };            
         }
     }
 
@@ -51,12 +52,35 @@ namespace GameChanger.Core.MongoDB.Documents
         FIXING,
         BUILT,
         NOT_BUILT,
+        DESTROYING,
         IDLE
     }
 
     public class BuildingStatus
-    { 
+    {
+        public BuildingStatus()
+        {
+        }
+
+        public BuildingStatus(SetBuildingStatusCommand command)
+        {
+            Code = command.BuildingStatus;
+            TimeToBuild = command.TimeToBuild;
+            TimeToFix = command.TimeToFix;
+            TimeToDestroy = command.TimeToDestroy;
+        }
+
         public BuildingStatuses Code { get; set; }
+
+        [BsonDateTimeOptions(DateOnly =false,Kind =DateTimeKind.Utc)]
+        public DateTime? TimeToBuild { get; set; }
+        
+        [BsonDateTimeOptions(DateOnly = false, Kind = DateTimeKind.Utc)]
+        public DateTime? TimeToFix { get; set; }
+
+        [BsonDateTimeOptions(DateOnly = false, Kind = DateTimeKind.Utc)]
+        public DateTime? TimeToDestroy { get; set; }
+
     }
 
     public enum BuildActions
