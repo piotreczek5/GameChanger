@@ -1,5 +1,9 @@
-﻿function setElementDisabledStatus(elementId,boolV) {
-    document.getElementById(elementId).disabled = boolV;    
+﻿function setElementDisabledStatus(elementId,boolValue) {
+    document.getElementById(elementId).disabled = boolValue;    
+}
+
+function setElementHidden(elementId, boolValue) {
+    document.getElementById(elementId).hidden = boolValue;
 }
 
 function setElementText(elementId, text) {
@@ -25,6 +29,10 @@ function startTimer(countDownDate, elementId) {
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+        if (document.getElementById(elementId) == null) {
+            clearInterval(x);
+            return;
+        }
         // Display the result in the element with id="demo"
         document.getElementById(elementId).innerHTML =
             (days != 0 ? days + "d ":"") +

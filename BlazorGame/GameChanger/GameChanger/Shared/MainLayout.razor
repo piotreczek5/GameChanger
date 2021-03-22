@@ -1,14 +1,15 @@
 ﻿@inherits LayoutComponentBase
 @using GameChanger.Pages;
+@inject IJSRuntime JSRuntime
 
 <div class="page">
     <AuthorizeView>
         <Authorized>            
-            <div  style="background-color:white;width:600px;overflow-y:scroll;font:12px;" @hidden="@HideDebugger">
+            <div  id="@debuggerWindowId" style="background-color:white;width:600px;overflow-y:scroll;font:12px;" >
                 <Debugger  />
             </div>
             <div class="sidebar">
-                <button @onclick="() => ToggleDebugger()"> Hide debugger</button>
+                <button @onclick="async () => await ToggleDebugger()"> Hide debugger</button>
                 <NavMenu />
             </div>
             <div class="main">
@@ -26,9 +27,11 @@
 
 @code
 {
-    protected bool HideDebugger = false;
-    public void ToggleDebugger()
+    protected const string debuggerWindowId = "debuggerWindow";
+    protected bool hidden = false;
+    public async Task ToggleDebugger()
     {
-        HideDebugger = !HideDebugger;
+        hidden = !hidden;
+        await JSRuntime.InvokeVoidAsync("setElementHidden", debuggerWindowId, hidden);
     }
 }

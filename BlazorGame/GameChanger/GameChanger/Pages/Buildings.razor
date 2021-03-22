@@ -177,9 +177,10 @@
             private async Task SpawnTimer(BuildingDocument building)
             {
                 var timerItemId = $"{building.BuildingType}_{building.Status.Code}";
+                
                 switch (building.Status.Code)
                 {
-                    case BuildingStatuses.BUILDING:
+                    case BuildingStatuses.BUILDING:                        
                         await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToBuild, timerItemId);
                         break;
                     case BuildingStatuses.FIXING:
@@ -189,7 +190,6 @@
                         await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToDestroy, timerItemId);
                         break;
                 }
-
             }
 
             protected BuildingDocument GetBuildingInfoFromSector(BuildingTypes buildingType)

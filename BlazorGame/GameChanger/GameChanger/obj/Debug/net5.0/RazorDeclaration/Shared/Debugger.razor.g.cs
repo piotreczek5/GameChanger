@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace GameChanger.Pages
+namespace GameChanger.Shared
 {
     #line hidden
     using System.Collections.Generic;
@@ -213,8 +213,14 @@ using System.Threading.Channels;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/buildings")]
-    public partial class Buildings : LayoutComponentBase
+#nullable restore
+#line 2 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\Debugger.razor"
+using GameChanger.Core.Debugging;
+
+#line default
+#line hidden
+#nullable disable
+    public partial class Debugger : LayoutComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -222,127 +228,30 @@ using System.Threading.Channels;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 148 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
-               
-            // var building in CurrentPlayerSector.Buildings
-            [CascadingParameter]
-            public Task<AuthenticationState> AuthState { get; set; }
+#line 15 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\Debugger.razor"
+       
+    public IOrderedEnumerable<KeyValuePair< DateTime, (string messageColor, string message)>> Logs;
 
-            protected List<BuildingDocument> PlayerBuildings { get; set; }
-            protected SectorDocument CurrentPlayerSector { get; set; }
+    private Timer _refreshDebuggingTimer;
+    protected override void OnInitialized()
+    {
+        _refreshDebuggingTimer = new Timer(new TimerCallback(RefreshInfo), null, 0, 1000);
+        base.OnInitialized();
+    }
 
-            protected override async Task OnInitializedAsync()
-            {
-                await UpdatePageData();
+    private async void RefreshInfo(object state)
+    {
+        Logs = (new Dictionary<DateTime, (string messageColor, string message)>(Logger.Messages)).OrderBy(el => el.Key);
+        await InvokeAsync(StateHasChanged);
+    }
 
-                await base.OnInitializedAsync();
-            }
 
-            protected override async Task OnAfterRenderAsync(bool firstRender)
-            {
-                CurrentPlayerSector?.Buildings?.ForEach(async (b) => await SpawnTimer(b));
-                await base.OnAfterRenderAsync(firstRender);
-            }
 
-            protected async Task UpdatePageData()
-            {
-                var authState = await AuthState;
-                var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
-                var playerInfo = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
-                CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = playerInfo.CurrentSector });
-            }
-
-            private async Task SpawnTimer(BuildingDocument building)
-            {
-                var timerItemId = $"{building.BuildingType}_{building.Status.Code}";
-
-                switch (building.Status.Code)
-                {
-                    case BuildingStatuses.BUILDING:
-                        if(building.Status.TimeToBuild >= DateTime.UtcNow)
-                        {
-                            await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToBuild, timerItemId);
-                        }
-                        break;
-                    case BuildingStatuses.FIXING:
-                        if (building.Status.TimeToBuild >= DateTime.UtcNow)
-                        {
-                            await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToFix, timerItemId);
-                        }
-                        break;
-                    case BuildingStatuses.DESTROYING:
-                        if (building.Status.TimeToDestroy >= DateTime.UtcNow)
-                        {
-                            await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToDestroy, timerItemId);
-                        }
-                        break;
-                }
-
-            }
-
-            protected BuildingDocument GetBuildingInfoFromSector(BuildingTypes buildingType)
-            {
-                return CurrentPlayerSector?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType);
-            }
-
-            protected async Task<bool> CanPerformBuildOperation (BuildingTypes buildingType)
-            {
-                await UpdatePageData();
-
-                var building = GetBuildingInfoFromConfiguration(buildingType,1);
-
-                var currentResources =  await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentPlayerSector?.Id });
-                var hasResourcesToBuild = currentResources?.HasResources(building.BuildCosts);
-
-                return hasResourcesToBuild.HasValue ?
-                    hasResourcesToBuild.Value : false;
-            }
-
-            protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType , int lvl)
-            {
-                return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType && b.Lvl == lvl);
-            }
-
-            protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction, int buildingLvl)
-            {
-                await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"{buildingType}_{buildAction}",true);
-
-                var buildindInfo = GetBuildingInfoFromConfiguration(buildingType, buildingLvl);
-                var sectorBuildingInfo = GetBuildingInfoFromSector(buildingType);
-
-                switch (buildAction)
-                {
-                    case BuildActions.BUILD:
-                        if(await CanPerformBuildOperation(buildingType) == true)
-                        {
-                            EventScheduler.ScheduleEvent(buildindInfo.BuildTime.Value, new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id, BuildingLvl = buildingLvl });
-                            await NotificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { BuildingType = buildingType, BuildingStatus = BuildingStatuses.BUILDING, SectorId = CurrentPlayerSector?.Id, TimeToBuild = DateTime.Now.Add(buildindInfo.BuildTime.Value) });
-                            await NotificationChannel.Writer.WriteAsync(new ChangeResourceSupplyCommand { SectorResourcesId = CurrentPlayerSector?.SectorResourcesId, IncreaseOrDecreaseMultiplier = -1, Resources = buildindInfo.BuildCosts });
-                            await SpawnTimer(sectorBuildingInfo);
-                        }
-                        break;
-                    case BuildActions.DESTROY:
-                        EventScheduler.ScheduleEvent(buildindInfo.DestroyTime.Value, new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id  });
-                        await NotificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { BuildingType = buildingType, BuildingStatus = BuildingStatuses.DESTROYING, SectorId = CurrentPlayerSector?.Id, TimeToDestroy = DateTime.Now.Add(buildindInfo.DestroyTime.Value) });
-                        await SpawnTimer(sectorBuildingInfo);
-                        break;
-                    case BuildActions.FIX:
-                        await NotificationChannel.Writer.WriteAsync(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
-                        break;
-                }
-
-                Thread.Sleep(1000);
-                await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"{buildingType}_{buildAction}", false);
-                await UpdatePageData();
-                await InvokeAsync(StateHasChanged);
-            }
-
-        
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private VisualLog Logger { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration MapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }
