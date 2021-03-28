@@ -10,6 +10,6 @@ namespace GameChanger.Core.MediatR.Messages.Queries
 {
     public class GetSectorInfoQuery : IRequest<SectorDocument>
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
     }
 }

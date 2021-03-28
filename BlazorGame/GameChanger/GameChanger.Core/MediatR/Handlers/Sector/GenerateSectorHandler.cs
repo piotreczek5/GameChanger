@@ -20,7 +20,7 @@ namespace GameChanger.Core.MediatR.Handlers.Player
         private readonly IMongoRepository<PlayerDocument, Guid> _playerDocuments;
         private readonly MapConfiguration _mapConfiguration;
 
-        public GenerateSectorHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, Channel<INotification> channel, BuildingConfiguration buildingConfiguration, IMongoRepository<PlayerDocument, Guid> playerDocuments, MapConfiguration mapConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, channel, buildingConfiguration)
+        public GenerateSectorHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration, IMongoRepository<PlayerDocument, Guid> playerDocuments, MapConfiguration mapConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
         {
             _playerDocuments = playerDocuments;
             _mapConfiguration = mapConfiguration;
@@ -30,43 +30,31 @@ namespace GameChanger.Core.MediatR.Handlers.Player
         {
             var player = await  _playerDocuments.GetAsync(notification.PlayerId);
             
-            if(!player.WasInitialized && !player.Sectors.Any())
+            var landOfCity = _mapConfiguration.Lands.Where(l => l.Cities.Any(c => c.Name == notification.CityCode)).SingleOrDefault();
+            var sectorResources = new SectorResourcesDocument();
+
+            sectorResources.CurrentResources.ForEach(r => r.Amount += 100);
+
+            await _sectorResourcesDocuments.AddAsync(sectorResources);
+
+            var sectorDocument = new SectorDocument
+            {                    
+                CityCode = notification.CityCode,
+                PlayerOwner = player.Id,
+                LandCode = landOfCity?.Code,
+                SectorResourcesId = sectorResources.Id                
+            };
+
+            await _sectorDocuments.AddAsync(sectorDocument);
+            player.Sectors.Add(sectorDocument.Id);
+            sectorResources.SectorId = sectorDocument.Id;
+            await _sectorResourcesDocuments.UpdateAsync(sectorResources);
+
+            if (player.Sectors.Count == 1)
             {
-                var landOfCity = _mapConfiguration.Lands.Where(l => l.Cities.Any(c => c.Name == notification.CityName)).SingleOrDefault();
-                var sectorResources = new SectorResourcesDocument();
-
-                sectorResources.CurrentResources.ForEach(r => r.Amount += 100);
-
-                await _sectorResourcesDocuments.AddAsync(sectorResources);
-
-                var zeroLvlBuildings = _buildingConfiguration
-                    .Buildings
-                    .Where(b => b.Lvl == 1)
-                    .Select(b => new BuildingDocument(b))
-                    .ToList();
-
-                zeroLvlBuildings.ForEach(b => {
-                    b.CurrentLvl = 0;
-                    b.Status = new BuildingStatus() { Code = BuildingStatuses.NOT_BUILT };
-                    });
-
-                var sectorDocument = new SectorDocument
-                {
-                    City = notification.CityName,
-                    PlayerOwner = player.Id,
-                    Land = landOfCity?.Name,
-                    SectorResourcesId = sectorResources.Id,
-                    Buildings = zeroLvlBuildings
-                };
-
-                await _sectorDocuments.AddAsync(sectorDocument);
-                player.Sectors.Add(sectorDocument.Id);
-                sectorResources.SectorId = sectorDocument.Id;
-                await _sectorResourcesDocuments.UpdateAsync(sectorResources);
                 player.CurrentSector = sectorDocument.Id;
             }
 
-            player.WasInitialized = true;
             await _playerDocuments.UpdateAsync(player);
         }
     }

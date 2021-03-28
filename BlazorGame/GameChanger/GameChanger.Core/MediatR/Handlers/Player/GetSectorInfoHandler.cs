@@ -22,7 +22,12 @@ namespace GameChanger.Core.MediatR.Handlers
 
         public Task<SectorDocument> Handle(GetSectorInfoQuery notification, CancellationToken cancellationToken)
         {
-            return _sectorDocuments.GetAsync(notification.Id);
+            if(!notification.Id.HasValue)
+            {
+                return null;
+            }
+
+            return _sectorDocuments.GetAsync(notification.Id.Value);
         }
     }
 }

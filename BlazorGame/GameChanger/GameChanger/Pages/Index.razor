@@ -2,9 +2,29 @@
 @layout MainLayout
 @inject IHttpContextAccessor httpContextAccessor
 @inject IMediator _mediator;
-@inject MapConfiguration MapConfiguration; 
+@inject MapConfiguration MapConfiguration;
 
-<h1>UserLogged : @CurrentlyLoggedPlayer?.Nick </h1>
+<h1>Player Data</h1>
+<br />
+<p>UserLogged : @CurrentlyLoggedPlayer?.Nick </p>
+<p>CurrentSector : @CurrentlyLoggedPlayer?.CurrentSector </p>
+
+<button class="btn btn-primary" @onclick="async () => await GenerateSectorForPlayer()">Generate Sector</button>
+<br /><br /><br />
+<h1>All Player sectors:</h1>
+<br />
+@if (CurrentlyLoggedPlayer != null)
+{
+    @foreach (var sector in CurrentlyLoggedPlayer?.Sectors)
+    {
+        <p>No @CurrentlyLoggedPlayer?.Sectors.IndexOf(sector);</p>        
+        <p>
+            Sector id: @sector
+            <button class="btn btn-primary" @onclick="async () => await MoveToSector(sector)"> Move To Sector</button>
+            <button class="btn btn-danger" @onclick="async () => await RemoveSector(sector)"> Remove Sector</button>
+        </p>
+    }
+}
 
 @code {
     protected PlayerDocument CurrentlyLoggedPlayer;
@@ -14,21 +34,39 @@
 
     protected async override Task OnInitializedAsync()
     {
+        await RefreshGamedata();
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task RefreshGamedata()
+    {
         var authState = await AuthState;
         var currentUserMail = authState.User.Identity.Name;
 
         var playerGuid = await _mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
 
         CurrentlyLoggedPlayer = await _mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
-        if(!CurrentlyLoggedPlayer.WasInitialized)
-        {
-            var cities = MapConfiguration.Lands.SelectMany(c => c.Cities).ToList();
-            int randomCityIndex = new Random().Next(0, cities.Count);
+    }
 
-            await NotificationChannel.Writer.WriteAsync(new GenerateSectorCommand { PlayerId = playerGuid, CityName = cities[randomCityIndex].Name });
-        }
+    protected async Task GenerateSectorForPlayer()
+    {
+        var cities = MapConfiguration.Lands.SelectMany(c => c.Cities).ToList();
+        int randomCityIndex = new Random().Next(0, cities.Count);
 
-        await base.OnInitializedAsync();
+        await GameNotificationProcessor.ProcessAsync(new GenerateSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, CityCode = cities[randomCityIndex].Code });
+        await RefreshGamedata();
+    }
+
+    protected async Task RemoveSector(Guid? sectorId)
+    {
+        await GameNotificationProcessor.ProcessAsync(new RemoveSectorCommand { SectorId = sectorId });
+        await RefreshGamedata();
+    }
+
+    protected async Task MoveToSector(Guid? sectorId)
+    {
+        await GameNotificationProcessor.ProcessAsync(new ChangeSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, SectorId = sectorId });
+        await RefreshGamedata();
     }
 
 }

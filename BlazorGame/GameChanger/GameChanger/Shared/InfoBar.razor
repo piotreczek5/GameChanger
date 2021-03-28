@@ -48,16 +48,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthState;
-        var currentUserMail = authState.User.Identity.Name;
+        await GetUserData();
         InitializeResources();
-        var playerGuid = await Mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
-        _playerGuid = playerGuid;
-        CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
 
         _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 0, 3000);
 
         base.OnInitialized();
+    }
+
+    private async Task GetUserData()
+    {
+        var authState = await AuthState;
+        var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
+        CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
+        CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer?.CurrentSector });
     }
 
     private void InitializeResources()
@@ -76,8 +80,8 @@
     {
         try
         {
-            _refreshSectorInfoTimer?.Change(Timeout.Infinite, 0);
-
+            //_refreshSectorInfoTimer?.Change(Timeout.Infinite, 0);
+            await GetUserData();
             CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
             var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
 
@@ -91,7 +95,7 @@
 
             await InvokeAsync(StateHasChanged);
 
-            _refreshSectorInfoTimer?.Change(500, 500);
+            //_refreshSectorInfoTimer?.Change(500, 500);
         }
         catch(Exception e)
         {

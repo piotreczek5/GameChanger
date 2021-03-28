@@ -14,7 +14,6 @@ namespace GameChanger.Core.MediatR.Handlers.Sector
 {
     public class BaseSectorHandler
     {
-        protected Channel<INotification> _channel;
         protected readonly IMongoRepository<SectorDocument, Guid> _sectorDocuments;
         protected readonly IMongoRepository<SectorResourcesDocument, Guid> _sectorResourcesDocuments;
         protected readonly IMediator _mediator;
@@ -26,13 +25,12 @@ namespace GameChanger.Core.MediatR.Handlers.Sector
         public ISectorService SectorService { get; }
         public IMongoRepository<SectorResourcesDocument, Guid> SectorResourcesDocuments { get; }
 
-        public BaseSectorHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, Channel<INotification> channel, BuildingConfiguration buildingConfiguration)
+        public BaseSectorHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration)
         {
             _sectorDocuments = sectorDocuments;
             _mediator = mediator;
             _sectorService = sectorService;
             _sectorResourcesDocuments = sectorResourcesDocuments;
-            _channel = channel;
             _buildingConfiguration = buildingConfiguration;
         }
     }

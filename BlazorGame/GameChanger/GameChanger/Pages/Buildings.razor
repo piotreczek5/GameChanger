@@ -2,251 +2,323 @@
 @inject IJSRuntime JSRuntime
 @inherits LayoutComponentBase
 
-    <nav class="navbar sticky-top" style="background-color:white; box-shadow:0px 20px 20px 0px #7c57bbc2; top:140px;text-align:center;justify-content:space-evenly;">
-        <div>
-            Buildings
-        </div>
-        <div>
-            <div>City</div>
-            <div>@CurrentPlayerSector?.City</div>
-        </div>
-        <div>
-            <div>Land</div>
-            <div>@CurrentPlayerSector?.Land</div>
-        </div>
-    </nav>
-        @foreach (BuildingTypes buildingType in Enum.GetValues(typeof(BuildingTypes)))
-        {
-            var sectorBuilding = GetBuildingInfoFromSector(buildingType);
+<nav class="navbar sticky-top" style="background-color:white; box-shadow:0px 20px 20px 0px #7c57bbc2; top:140px;text-align:center;justify-content:space-evenly;">
+    <div>
+        Buildings
+    </div>
+    <div>
+        <div>City</div>
+        <div>@CurrentCity?.Name</div>
+    </div>
+    <div>
+        <div>Land</div>
+        <div>@CurrentLand?.Name</div>
+    </div>
 
-            if(sectorBuilding != null)
-            {
+</nav>
+
+@foreach (BuildingTypes buildingType in Enum.GetValues(typeof(BuildingTypes)))
+{
+    var sectorBuilding = GetBuildingInfoFromSector(buildingType);
+
+    if (sectorBuilding != null)
+    {
+        <table class="table table-striped" style="margin-top:20px;margin-bottom:20px; border:groove 1px;">
+            <tbody>
+                <tr>
+                    <td><h3>Building Type: @buildingType.ToString()</h3></td>
+                    <td>
+                        @{
+                            var currentBuildingLvl = sectorBuilding?.CurrentLvl;
+                            var currentBuildingStatus = sectorBuilding?.Status?.Code;
+                            var currentLvlBuildingFromConfiguration = GetBuildingInfoFromConfiguration(buildingType, sectorBuilding.CurrentLvl);
+                            var nextLvlBuildingFromConfiguration = GetBuildingInfoFromConfiguration(buildingType, sectorBuilding.CurrentLvl + 1);
+
+                            switch (currentBuildingStatus)
+                            { 
+                                    case BuildingStatuses.BROKEN:
+                                                    <button id="@($"{buildingType}_{BuildActions.FIX}")" class="btn btn-warning" @onclick="() => PerformBuildingAction(buildingType, BuildActions.FIX, currentBuildingLvl.Value)">  Fix building </button>
+                                                    break;
+                                    case BuildingStatuses.BUILDING:
+                                                    <button class="btn btn-secondary" onclick="" disabled>  Building Now... </button>
+                                                    <p>Time remaining : <span id="@($"{buildingType}_{BuildActions.FIX}")"></span></p>
+                                                        break;
+                                    case BuildingStatuses.IDLE:
+                                                        <button class="btn btn-secondary" onclick="" disabled>  Idle... </button>
+                                                        break;
+                                    case BuildingStatuses.FIXING:
+                                                    <button class="btn btn-secondary" onclick="" disabled>  Fixing ... </button>
+                                                    <p>Time remaining : <span id="@($"{buildingType}_{currentBuildingStatus}")"></span></p>
+                                    break;
+                                    case BuildingStatuses.DESTROYING:
+                                                <button class="btn btn-secondary" onclick="" disabled>  Demolishing ... </button>
+                                                <p>Time remaining : <span id="@($"{buildingType}_{currentBuildingStatus}")"></span></p>
+                                        break;
+                                    case BuildingStatuses.BUILT:
+                                        if (nextLvlBuildingFromConfiguration != null)
+                                        {
+                                            <button id="@($"{buildingType}_{BuildActions.BUILD}")" class="btn btn-success" @onclick="() => PerformBuildingAction(buildingType, BuildActions.BUILD, currentBuildingLvl.Value + 1)">  Upgrade building </button>
+                                        }
+                                        <button id="@($"{buildingType}_{BuildActions.DESTROY}")" class="btn btn-danger" @onclick="() => PerformBuildingAction(buildingType, BuildActions.DESTROY, currentBuildingLvl.Value)"> Destroy </button>
+                                    break;
+                                    default:
+                                    <button id="@($"{buildingType}_{BuildActions.BUILD}")" class="btn btn-success" @onclick="() => PerformBuildingAction(buildingType, BuildActions.BUILD, 1)"> Build </button>
+                                    break;
+                            }
+                        }
+                    </td>
+                </tr>
+
+                @{
+
+
+                    <tr><p>Name : @sectorBuilding.Name</p></tr>
+
+                    if (currentLvlBuildingFromConfiguration != null)
+                    {
+                        <tr><p>Description: @currentLvlBuildingFromConfiguration?.Description</p></tr>
+                    }
+
+                    <tr><p>Current Lvl : @sectorBuilding.CurrentLvl</p></tr>
+                    <tr><p>Status: @sectorBuilding.Status.Code</p></tr>
+
+                    if (currentLvlBuildingFromConfiguration != null)
+                    {
+                        <tr><p>Time to destroy : @($"{currentLvlBuildingFromConfiguration?.DestroyTime?.TotalSeconds}s") </p></tr>
+                        <tr>
+                            <td>Current Consumption</td>
+                            @foreach (var resourceAmount in currentLvlBuildingFromConfiguration?.BaseResourceConsumption)
+                            {
+                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td>Current Production</td>
+                            @foreach (var resourceAmount in currentLvlBuildingFromConfiguration?.BaseResourceProduction)
+                            {
+                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                            }
+                        </tr>
+                    }
+
+                    if (nextLvlBuildingFromConfiguration != null)
+                    {
+                        <tr>
+                            NEXT LEVEL (@(nextLvlBuildingFromConfiguration.Lvl))
+
+                            <p>Time to build :@($"{nextLvlBuildingFromConfiguration?.BuildTime?.TotalSeconds}s")</p>
+                            <p>Description: @nextLvlBuildingFromConfiguration?.Description</p>
+
+                        </tr>
+                        <tr>
+                            <td>Building Costs</td>
+                            @foreach (var resourceAmount in nextLvlBuildingFromConfiguration?.BuildCosts)
+                            {
+                                <td>
+                                    <p>
+                                        @resourceAmount.Resource : @resourceAmount.Amount
+                                    </p>
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            <td>Consumption</td>
+                            @foreach (var resourceAmount in nextLvlBuildingFromConfiguration?.BaseResourceConsumption)
+                            {
+                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td>Production</td>
+                            @foreach (var resourceAmount in nextLvlBuildingFromConfiguration?.BaseResourceProduction)
+                            {
+                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                            }
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            The highest possible building LVL have been achieved.
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+else
+    {
+        var nextLvlBuildingFromConfiguration = GetBuildingInfoFromConfiguration(buildingType, 1);
+        if (nextLvlBuildingFromConfiguration != null)
+        {
             <table class="table table-striped" style="margin-top:20px;margin-bottom:20px; border:groove 1px;">
                 <tbody>
                     <tr>
                         <td><h3>Building Type: @buildingType.ToString()</h3></td>
                         <td>
                             @{
-                                var currentBuildingLvl = sectorBuilding?.CurrentLvl;
-                                var currentBuildingStatus = sectorBuilding?.Status?.Code;
-                                var currentLvlBuildingFromConfiguration = GetBuildingInfoFromConfiguration(buildingType, sectorBuilding.CurrentLvl);
-                                var nextLvlBuildingFromConfiguration = GetBuildingInfoFromConfiguration(buildingType, sectorBuilding.CurrentLvl + 1);
 
-                                switch (currentBuildingStatus)
-                                {
-                                    case BuildingStatuses.BROKEN:
-                                        <button id="@($"{buildingType}_{BuildActions.FIX}")" class="btn btn-warning" @onclick="() => PerformBuildingAction(buildingType,BuildActions.FIX,currentBuildingLvl.Value)">  Fix building </button>
-                                        break;
-                                    case BuildingStatuses.BUILDING:
-                                        <button class="btn btn-secondary" onclick="" disabled>  Building Now... </button>
-                                        <p>Time remaining : <span id="@($"{buildingType}_{currentBuildingStatus}")"></span></p>
-                                        break;
-                                    case BuildingStatuses.IDLE:
-                                        <button class="btn btn-secondary" onclick="" disabled>  Idle... </button>
-                                        break;
-                                    case BuildingStatuses.FIXING:
-                                        <button class="btn btn-secondary" onclick="" disabled>  Fixing ... </button>
-                                        <p>Time remaining : <span id="@($"{buildingType}_{currentBuildingStatus}")"></span></p>
-                                        break;
-                                    case BuildingStatuses.DESTROYING:
-                                        <button class="btn btn-secondary" onclick="" disabled>  Demolishing ... </button>
-                                        <p>Time remaining : <span id="@($"{buildingType}_{currentBuildingStatus}")"></span></p>
-                                        break;
-                                    case BuildingStatuses.BUILT:
-                                        if (nextLvlBuildingFromConfiguration != null )
-                                        {
-                                            <button id="@($"{buildingType}_{BuildActions.BUILD}")" class="btn btn-success" @onclick="() => PerformBuildingAction(buildingType,BuildActions.BUILD,currentBuildingLvl.Value+1)">  Upgrade building </button>
-                                        }
-                                        <button id="@($"{buildingType}_{BuildActions.DESTROY}")" class="btn btn-danger" @onclick="() => PerformBuildingAction(buildingType,BuildActions.DESTROY,currentBuildingLvl.Value)"> Destroy </button>
-                                        break;
-                                    default:
-                                        <button id="@($"{buildingType}_{BuildActions.BUILD}")" class="btn btn-success" @onclick="() => PerformBuildingAction(buildingType,BuildActions.BUILD, 1)"> Build </button>
-                                        break;
-                                }
+                                <button id="@($"{buildingType}_{BuildActions.BUILD}")" class="btn btn-success" @onclick="() => PerformBuildingAction(buildingType, BuildActions.BUILD, 1)"> Build </button>
                             }
                         </td>
                     </tr>
 
                     @{
-                       
 
-                        <tr><p>Name : @sectorBuilding.Name</p></tr>
+                        <tr><p>Name : @nextLvlBuildingFromConfiguration.Name</p></tr>
+                        <tr><p>Description: @nextLvlBuildingFromConfiguration?.Description</p></tr>
+                        <tr><p>Current Lvl : 0</p></tr>
+                        <tr><p>Status: NOT BUILT</p></tr>
 
-                        if (currentLvlBuildingFromConfiguration != null)
-                        {
-                            <tr><p>Description: @currentLvlBuildingFromConfiguration?.Description</p></tr>
-                        }
+                        <tr>
+                            NEXT LEVEL (@(nextLvlBuildingFromConfiguration.Lvl))
 
-                        <tr><p>Current Lvl : @sectorBuilding.CurrentLvl</p></tr>
-                        <tr><p>Status: @sectorBuilding.Status.Code</p></tr>
+                            <p>Time to build :@($"{nextLvlBuildingFromConfiguration?.BuildTime?.TotalSeconds}s")</p>
+                            <p>Description: @nextLvlBuildingFromConfiguration?.Description</p>
 
-                        if (currentLvlBuildingFromConfiguration != null)
-                        {
-                            <tr><p>Time to destroy : @($"{currentLvlBuildingFromConfiguration?.DestroyTime?.TotalSeconds}s") </p></tr>
-                            <tr>
-                                <td>Current Consumption</td>
-                                @foreach (var resourceAmount in currentLvlBuildingFromConfiguration?.BaseResourceConsumption)
-                                {
-                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
-                                }
-                            </tr>
-
-                            <tr>
-                                <td>Current Production</td>
-                                @foreach (var resourceAmount in currentLvlBuildingFromConfiguration?.BaseResourceProduction)
-                                {
-                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
-                                }
-                            </tr>
-                        }
-
-                        if (nextLvlBuildingFromConfiguration != null)
-                        {
-                            <tr>NEXT LEVEL (@(nextLvlBuildingFromConfiguration.Lvl))
-                    
-                                <p>Time to build :@($"{nextLvlBuildingFromConfiguration?.BuildTime?.TotalSeconds}s")</p>
-                                <p>Description: @nextLvlBuildingFromConfiguration?.Description</p>
-                            
-                            </tr>
-                            <tr>
-                                <td>Building Costs</td>
-                                @foreach (var resourceAmount in nextLvlBuildingFromConfiguration?.BuildCosts)
-                                {
-                                    <td><p>
+                        </tr>
+                        <tr>
+                            <td>Building Costs</td>
+                            @foreach (var resourceAmount in nextLvlBuildingFromConfiguration?.BuildCosts)
+                            {
+                                <td>
+                                    <p>
                                         @resourceAmount.Resource : @resourceAmount.Amount
-                                        </p></td>
-                                }
-                            </tr>
-                            <tr>
-                                <td>Consumption</td>
-                                @foreach (var resourceAmount in nextLvlBuildingFromConfiguration?.BaseResourceConsumption)
-                                {
-                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
-                                }
-                            </tr>
+                                    </p>
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            <td>Consumption</td>
+                            @foreach (var resourceAmount in nextLvlBuildingFromConfiguration?.BaseResourceConsumption)
+                            {
+                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                            }
+                        </tr>
 
-                            <tr>
-                                <td>Production</td>
-                                @foreach (var resourceAmount in nextLvlBuildingFromConfiguration?.BaseResourceProduction)
-                                {
-                                    <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
-                                }
-                            </tr>
-                        }
-                        else
-                        {
-                            <tr>
-                                The highest possible building LVL have been achieved.
-                            </tr>
-                        }
+                        <tr>
+                            <td>Production</td>
+                            @foreach (var resourceAmount in nextLvlBuildingFromConfiguration?.BaseResourceProduction)
+                            {
+                                <td><p>@resourceAmount.Resource : @resourceAmount.Amount</p></td>
+                            }
+                        </tr>
+
                     }
                 </tbody>
             </table>
-             }
         }
 
-        @code {
-            // var building in CurrentPlayerSector.Buildings
-            [CascadingParameter]
-            public Task<AuthenticationState> AuthState { get; set; }
+    }
 
-            protected List<BuildingDocument> PlayerBuildings { get; set; }
-            protected SectorDocument CurrentPlayerSector { get; set; }
+}
 
-            protected override async Task OnInitializedAsync()
+@code {
+    // var building in CurrentPlayerSector.Buildings
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    protected List<BuildingDocument> PlayerBuildings { get; set; }
+    protected SectorDocument CurrentPlayerSector { get; set; }
+    protected City CurrentCity { get; set; }
+    protected Land CurrentLand { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdatePageData();
+
+        await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        CurrentPlayerSector?.Buildings?
+            .Where(b => b.Status.Code == BuildingStatuses.DESTROYING || b.Status.Code == BuildingStatuses.FIXING || b.Status.Code == BuildingStatuses.BUILDING)
+            .ToList()
+            .ForEach(async (b) =>
+        await SpawnTimer(b.BuildingType, b.Status.Code,
+            b.Status.Code switch
             {
-                await UpdatePageData();
-
-                await base.OnInitializedAsync();
+                BuildingStatuses.BUILDING => b.Status.TimeToBuild,
+                BuildingStatuses.DESTROYING => b.Status.TimeToDestroy,
+                BuildingStatuses.FIXING => b.Status.TimeToFix
             }
+            ));
 
-            protected override async Task OnAfterRenderAsync(bool firstRender)
-            {
-                CurrentPlayerSector?.Buildings?.ForEach(async (b) => await SpawnTimer(b));
-                await base.OnAfterRenderAsync(firstRender);
-            }
+        await base.OnAfterRenderAsync(firstRender);
+    }
 
-            protected async Task UpdatePageData()
-            {
-                var authState = await AuthState;
-                var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
-                var playerInfo = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
-                CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = playerInfo.CurrentSector });
-            }
+    protected async Task UpdatePageData()
+    {
+        var authState = await AuthState;
+        var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
+        var playerInfo = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
+        CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = playerInfo.CurrentSector });
 
-            private async Task SpawnTimer(BuildingDocument building)
-            {
-                var timerItemId = $"{building.BuildingType}_{building.Status.Code}";
-                
-                switch (building.Status.Code)
+        CurrentCity = MapConfiguration.GetCityByCode(CurrentPlayerSector?.CityCode);
+        CurrentLand = MapConfiguration.GetLandByCode(CurrentPlayerSector?.LandCode);
+    }
+
+    private async Task SpawnTimer(BuildingTypes buildingType, BuildingStatuses buildingStatus, DateTime? dateTimeToFinish)
+    {
+        var timerItemId = $"{buildingType}_{buildingStatus}";
+        await JSRuntime.InvokeVoidAsync("startTimer", dateTimeToFinish, timerItemId);
+    }
+
+    protected BuildingDocument GetBuildingInfoFromSector(BuildingTypes buildingType)
+    {
+        return CurrentPlayerSector?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType);
+    }
+
+    protected async Task<bool> CanPerformBuildOperation(BuildingTypes buildingType)
+    {
+        await UpdatePageData();
+
+        var building = GetBuildingInfoFromConfiguration(buildingType, 1);
+
+        var currentResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentPlayerSector?.Id });
+        var hasResourcesToBuild = currentResources?.HasResources(building.BuildCosts);
+
+        return hasResourcesToBuild.HasValue ?
+            hasResourcesToBuild.Value : false;
+    }
+
+    protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType, int lvl)
+    {
+        return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType && b.Lvl == lvl);
+    }
+
+    protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction, int buildingLvl)
+    {
+        await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"{buildingType}_{buildAction}", true);
+
+        var buildindInfo = GetBuildingInfoFromConfiguration(buildingType, buildingLvl);
+        var sectorBuildingInfo = GetBuildingInfoFromSector(buildingType);
+
+        switch (buildAction)
+        {
+            case BuildActions.BUILD:
+                if (await CanPerformBuildOperation(buildingType) == true)
                 {
-                    case BuildingStatuses.BUILDING:                        
-                        await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToBuild, timerItemId);
-                        break;
-                    case BuildingStatuses.FIXING:
-                        await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToFix, timerItemId);
-                        break;
-                    case BuildingStatuses.DESTROYING:
-                        await JSRuntime.InvokeVoidAsync("startTimer", building.Status.TimeToDestroy, timerItemId);
-                        break;
+                    await GameNotificationProcessor.ProcessAsync(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id, BuildingLvl = buildingLvl });
                 }
-            }
-
-            protected BuildingDocument GetBuildingInfoFromSector(BuildingTypes buildingType)
-            {
-                return CurrentPlayerSector?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType);
-            }
-
-            protected async Task<bool> CanPerformBuildOperation (BuildingTypes buildingType)
-            {
-                await UpdatePageData();
-
-                var building = GetBuildingInfoFromConfiguration(buildingType,1);
-
-                var currentResources =  await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentPlayerSector?.Id });
-                var hasResourcesToBuild = currentResources?.HasResources(building.BuildCosts);
-
-                return hasResourcesToBuild.HasValue ?
-                    hasResourcesToBuild.Value : false;
-            }
-
-            protected Building GetBuildingInfoFromConfiguration(BuildingTypes buildingType , int lvl)
-            {
-                return BuildingConfiguration?.Buildings?.SingleOrDefault(b => b.BuildingType == buildingType && b.Lvl == lvl);
-            }
-
-            protected async Task PerformBuildingAction(BuildingTypes buildingType, BuildActions buildAction, int buildingLvl)
-            {
-                await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"{buildingType}_{buildAction}",true);
-
-                var buildindInfo = GetBuildingInfoFromConfiguration(buildingType, buildingLvl);
-                var sectorBuildingInfo = GetBuildingInfoFromSector(buildingType);
-
-                switch (buildAction)
-                {
-                    case BuildActions.BUILD:
-                        if(await CanPerformBuildOperation(buildingType) == true)
-                        {
-                            EventScheduler.ScheduleEvent(buildindInfo.BuildTime.Value, new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id, BuildingLvl = buildingLvl });
-                            await NotificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { BuildingType = buildingType, BuildingStatus = BuildingStatuses.BUILDING, SectorId = CurrentPlayerSector?.Id, TimeToBuild = DateTime.Now.Add(buildindInfo.BuildTime.Value) });
-                            await NotificationChannel.Writer.WriteAsync(new ChangeResourceSupplyCommand { SectorResourcesId = CurrentPlayerSector?.SectorResourcesId, IncreaseOrDecreaseMultiplier = -1, Resources = buildindInfo.BuildCosts });
-                            await SpawnTimer(sectorBuildingInfo);
-                        }
-                        break;
-                    case BuildActions.DESTROY:
-                        EventScheduler.ScheduleEvent(buildindInfo.DestroyTime.Value, new DestroyBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id  });
-                        await NotificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { BuildingType = buildingType, BuildingStatus = BuildingStatuses.DESTROYING, SectorId = CurrentPlayerSector?.Id, TimeToDestroy = DateTime.Now.Add(buildindInfo.DestroyTime.Value) });
-                        await SpawnTimer(sectorBuildingInfo);
-                        break;
-                    case BuildActions.FIX:
-                        await NotificationChannel.Writer.WriteAsync(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
-                        break;
-                }
-
-                Thread.Sleep(1000);
-                await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"{buildingType}_{buildAction}", false);
-                await UpdatePageData();
-                await InvokeAsync(StateHasChanged);
-            }
-
+                break;
+            case BuildActions.DESTROY:
+                await GameNotificationProcessor.ProcessAsync(new DemolishBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
+                break;
+            case BuildActions.FIX:
+                await GameNotificationProcessor.ProcessAsync(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
+                break;
         }
+
+        Thread.Sleep(400);
+        await UpdatePageData();
+
+        await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"{buildingType}_{buildAction}", false);
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

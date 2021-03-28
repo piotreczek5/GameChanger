@@ -16,7 +16,7 @@ namespace GameChanger.Core.MediatR.Handlers.Sector
 {
     public class RecalculateSectorBalanceCommandHandler : BaseSectorHandler,INotificationHandler<RecalculateSectorBalanceCommand>
     {
-        public RecalculateSectorBalanceCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, Channel<INotification> channel, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, channel, buildingConfiguration)
+        public RecalculateSectorBalanceCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
         {
         }
 
@@ -28,11 +28,13 @@ namespace GameChanger.Core.MediatR.Handlers.Sector
             var sector = await _sectorDocuments.GetAsync(notification.SectorId.Value);
             if (sector == null)
                 return;
+
             var sectorResources = await _sectorResourcesDocuments.GetAsync(sector.SectorResourcesId);
             if (sector == null)
                 return;
 
-            sectorResources = _sectorService.RecalculateSectorResourceBalances(sector, sectorResources);            
+            sectorResources = _sectorService.RecalculateSectorResourceBalances(sector, sectorResources);   
+            
             await _sectorResourcesDocuments.UpdateAsync(sectorResources);
         }
     }

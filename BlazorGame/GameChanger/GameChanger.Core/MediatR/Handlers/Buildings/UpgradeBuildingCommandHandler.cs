@@ -5,6 +5,7 @@ using GameChanger.Core.MediatR.Messages.Commands.Buildings;
 using GameChanger.Core.MongoDB.Builders;
 using GameChanger.Core.MongoDB.Documents;
 using GameChanger.Core.MongoDB.Updaters;
+using GameChanger.Core.Services;
 using GameChanger.Core.Services.Sector;
 using MediatR;
 using MongoDB.Bson;
@@ -22,8 +23,10 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
 {
     public class UpgradeBuildingCommandHandler : BaseSectorHandler,INotificationHandler<UpgradeBuildingCommand>
     {
-        public UpgradeBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, Channel<INotification> channel, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, channel, buildingConfiguration)
+        private IGameNotificationProcessor _gameNotificationProcessor;
+        public UpgradeBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration, IGameNotificationProcessor gameNotificationProcessor) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
         {
+            _gameNotificationProcessor = gameNotificationProcessor;
         }
 
         public async Task Handle(UpgradeBuildingCommand notification, CancellationToken cancellationToken)
@@ -50,11 +53,12 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
                 var upgradeBuildingUpdater = SectorUpdaterFactory.SetBuildingLvlBuilding(newLvl);
                 
                 await _sectorDocuments.Collection.UpdateOneAsync(buildingInSectorFilter, upgradeBuildingUpdater);
-                await _channel.Writer.WriteAsync(new ChangeResourceSupplyCommand { 
-                    SectorResourcesId = sectorResources .Id,
-                    IncreaseOrDecreaseMultiplier = -1,
-                    Resources = buildingTemplate.BuildCosts
-                });
+                
+                //await _gameNotificationProcessor.ProcessAsync(new ChangeResourceSupplyCommand { 
+                //    SectorResourcesId = sectorResources .Id,
+                //    IncreaseOrDecreaseMultiplier = -1,
+                //    Resources = buildingTemplate.BuildCosts
+                //});
             }
         }
     }

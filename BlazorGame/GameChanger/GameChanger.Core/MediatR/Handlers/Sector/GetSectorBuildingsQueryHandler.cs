@@ -16,7 +16,7 @@ namespace GameChanger.Core.MediatR.Handlers.Sector
 {
     public class GetSectorBuildingsQueryHandler : BaseSectorHandler, IRequestHandler<GetSectorBuildingsQuery, IEnumerable<BuildingDocument>> 
     {
-        public GetSectorBuildingsQueryHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, Channel<INotification> channel, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, channel, buildingConfiguration)
+        public GetSectorBuildingsQueryHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
         {
         }
 

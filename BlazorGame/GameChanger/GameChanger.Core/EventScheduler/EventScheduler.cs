@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using GameChanger.Core.Services;
+using MediatR;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -12,18 +13,19 @@ namespace GameChanger.Core.EventScheduler
 {
     public class EventScheduler : IEventScheduler
     {
-        private readonly Channel<INotification> _channel;
+        private readonly IGameNotificationProcessor notificationProcessor;
+
         protected ConcurrentDictionary<Guid,TimedAction> TasksRegistry { get; set; }
-        public EventScheduler(Channel<INotification> channel)
+        public EventScheduler(IGameNotificationProcessor notificationProcessor)
         {
             TasksRegistry = new ConcurrentDictionary<Guid,TimedAction>();
-            _channel = channel;
+            this.notificationProcessor = notificationProcessor;
         }
 
         public void ScheduleEvent(TimeSpan timeToLaunch, INotification eventToRun)
         {
-            var task = new Task(() =>
-                _channel.Writer.WriteAsync(eventToRun)
+            var task = new Task(async () =>
+                await notificationProcessor.ProcessAsync(eventToRun)
             );
 
             TasksRegistry.TryAdd(Guid.NewGuid(),new TimedAction(timeToLaunch, task));            

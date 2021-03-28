@@ -17,8 +17,8 @@ namespace GameChanger.Core.MongoDB.Documents
         public Guid Id { get; set; }
         public Guid PlayerOwner { get; set; }
 
-        public string City { get; set; }
-        public string Land { get; set; }
+        public string CityCode { get; set; }
+        public string LandCode { get; set; }
 
         public List<BuildingDocument> Buildings { get; set; } = new List<BuildingDocument>();
         public Guid SectorResourcesId { get; set; }

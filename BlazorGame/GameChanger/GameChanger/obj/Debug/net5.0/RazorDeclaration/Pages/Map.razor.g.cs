@@ -207,6 +207,20 @@ using System.Threading.Channels;
 #line hidden
 #nullable disable
 #nullable restore
+#line 30 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.Services;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 31 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.Extensions;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 2 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Map.razor"
 using GameChanger.Core.GameData;
 
@@ -221,11 +235,46 @@ using GameChanger.Core.GameData;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 74 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Map.razor"
+ 
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    protected PlayerDocument CurrentPlayerInformation { get; set; }
+    protected List<SectorDocument> PlayerSectorsInformation { get; set; } = new List<SectorDocument>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdatePageData();
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task UpdatePageData()
+    {
+        var authState = await AuthState;
+        var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
+        CurrentPlayerInformation = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
+        foreach(var sectorId in CurrentPlayerInformation.Sectors)
+        {
+            var sector = await GetSectorDetails(sectorId);
+            PlayerSectorsInformation.Add(sector);
+        }
+    }
+
+    protected Task<SectorDocument> GetSectorDetails(Guid? sectorId )
+    {
+        return  Mediator.Send(new GetSectorInfoQuery { Id = sectorId.Value });
+    }
+
+#line default
+#line hidden
+#nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration _mapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration MapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Channel<INotification> NotificationChannel { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IGameNotificationProcessor GameNotificationProcessor { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMediator Mediator { get; set; }
     }
 }

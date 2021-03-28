@@ -213,6 +213,20 @@ using System.Threading.Channels;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 30 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.Services;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 31 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.Extensions;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.LayoutAttribute(typeof(MainLayout))]
     [Microsoft.AspNetCore.Components.RouteAttribute("/index")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
@@ -223,7 +237,7 @@ using System.Threading.Channels;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 9 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Index.razor"
+#line 29 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Index.razor"
        
     protected PlayerDocument CurrentlyLoggedPlayer;
 
@@ -232,21 +246,39 @@ using System.Threading.Channels;
 
     protected async override Task OnInitializedAsync()
     {
+        await RefreshGamedata();
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task RefreshGamedata()
+    {
         var authState = await AuthState;
         var currentUserMail = authState.User.Identity.Name;
 
         var playerGuid = await _mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
 
         CurrentlyLoggedPlayer = await _mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
-        if(!CurrentlyLoggedPlayer.WasInitialized)
-        {
-            var cities = MapConfiguration.Lands.SelectMany(c => c.Cities).ToList();
-            int randomCityIndex = new Random().Next(0, cities.Count);
+    }
 
-            await NotificationChannel.Writer.WriteAsync(new GenerateSectorCommand { PlayerId = playerGuid, CityName = cities[randomCityIndex].Name });
-        }
+    protected async Task GenerateSectorForPlayer()
+    {
+        var cities = MapConfiguration.Lands.SelectMany(c => c.Cities).ToList();
+        int randomCityIndex = new Random().Next(0, cities.Count);
 
-        await base.OnInitializedAsync();
+        await GameNotificationProcessor.ProcessAsync(new GenerateSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, CityCode = cities[randomCityIndex].Code });
+        await RefreshGamedata();
+    }
+
+    protected async Task RemoveSector(Guid? sectorId)
+    {
+        await GameNotificationProcessor.ProcessAsync(new RemoveSectorCommand { SectorId = sectorId });
+        await RefreshGamedata();
+    }
+
+    protected async Task MoveToSector(Guid? sectorId)
+    {
+        await GameNotificationProcessor.ProcessAsync(new ChangeSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, SectorId = sectorId });
+        await RefreshGamedata();
     }
 
 
@@ -258,7 +290,7 @@ using System.Threading.Channels;
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IHttpContextAccessor httpContextAccessor { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Channel<INotification> NotificationChannel { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IGameNotificationProcessor GameNotificationProcessor { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMediator Mediator { get; set; }
     }
 }

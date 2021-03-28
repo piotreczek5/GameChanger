@@ -15,11 +15,9 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
     public class FixBuildingCommandHandler : INotificationHandler<FixBuildingCommand>
     {
         private readonly IMongoRepository<SectorDocument, Guid> _sectorDocuments;
-        private readonly BuildingConfiguration _buildingConfiguration;
-        public FixBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, BuildingConfiguration buildingConfiguration)
+        public FixBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments)
         {
             _sectorDocuments = sectorDocuments;
-            _buildingConfiguration = buildingConfiguration;
         }
 
         public async Task Handle(FixBuildingCommand notification, CancellationToken cancellationToken)

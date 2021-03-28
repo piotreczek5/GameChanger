@@ -19,6 +19,7 @@ namespace GameChanger.Core.GameData
                 {
                     new Land()
                     {
+                        Code = "POLSZ",
                         Name = "POLSZANDIA",
                         AreaSurface = 305123,
                         FarmLandsPercentCoverage = 52,
@@ -28,12 +29,14 @@ namespace GameChanger.Core.GameData
                         {
                             new City()
                             {
+                                Code = "POLS_PORA",
                                 Name = "Poraj",
                                 XCoordinate = 50.6765865m,
                                 YCoordinate = 19.1972253m
                             },
                             new City()
                             {
+                                Code = "POLS_DUPI",
                                 Name = "Dupiakowo",
                                 XCoordinate = 50.2344422m,
                                 YCoordinate = 19.2342253m
@@ -70,6 +73,7 @@ namespace GameChanger.Core.GameData
                     },
                     new Land()
                     {
+                        Code = "SZWAB",
                         Name = "SZWABLANDIA",
                         AreaSurface = 305123,
                         FarmLandsPercentCoverage = 60,
@@ -79,18 +83,21 @@ namespace GameChanger.Core.GameData
                         {
                             new City()
                             {
+                                Code = "SZWA_HANG",
                                 Name = "Hangower",
                                 XCoordinate = 52.3797505m,
                                 YCoordinate = 9.6914322m
                             },
                             new City()
                             {
+                                Code = "SZWA_FYRE",
                                 Name = "Fyrerlandia",
                                 XCoordinate = 52.2397505m,
                                 YCoordinate = 9.6211322m
                             },
                             new City()
                             {
+                                Code = "SZWA_FART",
                                 Name = "Fartfurt",
                                 XCoordinate = 52.2111505m,
                                 YCoordinate = 9.6234222m
@@ -138,8 +145,8 @@ namespace GameChanger.Core.GameData
 #region LVL1
                         new Building
                         {
-                            BuildTime = TimeSpan.FromSeconds(100),
-                            DestroyTime = TimeSpan.FromSeconds(100),
+                            BuildTime = TimeSpan.FromSeconds(5),
+                            DestroyTime = TimeSpan.FromSeconds(5),
                             BuildingType = BuildingTypes.SAWMILL,
                             Name = "Sawmill",
                             Description = "The only place where people actually do somtething",
@@ -187,8 +194,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
-                            BuildTime = TimeSpan.FromSeconds(100),
-                            DestroyTime = TimeSpan.FromSeconds(100),
+                            BuildTime = TimeSpan.FromSeconds(5),
+                            DestroyTime = TimeSpan.FromSeconds(5),
                             BuildingType = BuildingTypes.FOOD_PLANTATION,
                             Name = "Food plantation",
                             Description = "Where else you're going to grow food than here?",
@@ -241,8 +248,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
-                            BuildTime = TimeSpan.FromSeconds(100),
-                            DestroyTime = TimeSpan.FromSeconds(100),
+                            BuildTime = TimeSpan.FromSeconds(5),
+                            DestroyTime = TimeSpan.FromSeconds(5),
                             BuildingType = BuildingTypes.STONE_MINE,
                             Name = "Stone Mine",
                             Description = "Hard work to get this stone in place!",
@@ -290,8 +297,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
-                            BuildTime = TimeSpan.FromSeconds(10),
-                            DestroyTime = TimeSpan.FromSeconds(10),
+                            BuildTime = TimeSpan.FromSeconds(5),
+                            DestroyTime = TimeSpan.FromSeconds(5),
                             BuildingType = BuildingTypes.COPPER_MINE,
                             Name = "Copper Mine",
                             Description = "Not all that glitters",
@@ -339,8 +346,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
-                            BuildTime = TimeSpan.FromSeconds(10),
-                            DestroyTime = TimeSpan.FromSeconds(10),
+                            BuildTime = TimeSpan.FromSeconds(5),
+                            DestroyTime = TimeSpan.FromSeconds(5),
                             BuildingType = BuildingTypes.COAL_MINE,
                             Name = "Coal Mine",
                             Description = "Black gold of the earth",
@@ -388,8 +395,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
-                            BuildTime = TimeSpan.FromSeconds(10),
-                            DestroyTime = TimeSpan.FromSeconds(10),
+                            BuildTime = TimeSpan.FromSeconds(5),
+                            DestroyTime = TimeSpan.FromSeconds(5),
                             BuildingType = BuildingTypes.IRON_MINE,
                             Name = "Iron Mine",
                             Description = "Strong as steel, muscles of workers here are!",
@@ -437,8 +444,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
-                            BuildTime = TimeSpan.FromSeconds(10),
-                            DestroyTime = TimeSpan.FromSeconds(10),
+                            BuildTime = TimeSpan.FromSeconds(5),
+                            DestroyTime = TimeSpan.FromSeconds(5),
                             BuildingType = BuildingTypes.SAND_MINE,
                             Name = "Sand Mine",
                             Description = "Is it better than a dessert?",
@@ -486,8 +493,8 @@ namespace GameChanger.Core.GameData
                         },
                         new Building
                         {
-                            BuildTime = TimeSpan.FromSeconds(10),
-                            DestroyTime = TimeSpan.FromSeconds(10),
+                            BuildTime = TimeSpan.FromSeconds(5),
+                            DestroyTime = TimeSpan.FromSeconds(5),
                             BuildingType = BuildingTypes.WELL,
                             Name = "Well",
                             Description = "You better not fall into that!",

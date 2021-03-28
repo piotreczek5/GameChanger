@@ -19,7 +19,7 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
 {
     public class ChangeResourceSupplyCommandHandler : BaseSectorHandler,INotificationHandler<ChangeResourceSupplyCommand>
     {
-        public ChangeResourceSupplyCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, Channel<INotification> channel, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, channel, buildingConfiguration)
+        public ChangeResourceSupplyCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
         {
         }
 

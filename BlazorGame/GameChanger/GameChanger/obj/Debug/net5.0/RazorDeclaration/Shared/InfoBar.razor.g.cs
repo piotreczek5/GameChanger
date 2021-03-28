@@ -213,6 +213,20 @@ using System.Threading.Channels;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 30 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.Services;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 31 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.Extensions;
+
+#line default
+#line hidden
+#nullable disable
     public partial class InfoBar : LayoutComponentBase, IDisposable
     {
         #pragma warning disable 1998
@@ -237,16 +251,20 @@ using System.Threading.Channels;
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthState;
-        var currentUserMail = authState.User.Identity.Name;
+        await GetUserData();
         InitializeResources();
-        var playerGuid = await Mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
-        _playerGuid = playerGuid;
-        CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
 
         _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 0, 3000);
 
         base.OnInitialized();
+    }
+
+    private async Task GetUserData()
+    {
+        var authState = await AuthState;
+        var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
+        CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
+        CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer?.CurrentSector });
     }
 
     private void InitializeResources()
@@ -265,8 +283,8 @@ using System.Threading.Channels;
     {
         try
         {
-            _refreshSectorInfoTimer?.Change(Timeout.Infinite, 0);
-
+            //_refreshSectorInfoTimer?.Change(Timeout.Infinite, 0);
+            await GetUserData();
             CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
             var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
 
@@ -280,7 +298,7 @@ using System.Threading.Channels;
 
             await InvokeAsync(StateHasChanged);
 
-            _refreshSectorInfoTimer?.Change(500, 500);
+            //_refreshSectorInfoTimer?.Change(500, 500);
         }
         catch(Exception e)
         {
@@ -305,7 +323,7 @@ using System.Threading.Channels;
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration MapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Channel<INotification> NotificationChannel { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IGameNotificationProcessor GameNotificationProcessor { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMediator Mediator { get; set; }
     }
 }

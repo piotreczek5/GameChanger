@@ -18,25 +18,39 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
 {
     public class PerformBuildingProductionCommandHandler : BaseSectorHandler, INotificationHandler<PerformBuildingProductionCommand> 
     {
-        public PerformBuildingProductionCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, Channel<INotification> channel, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, channel, buildingConfiguration)
+        static SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1,1);
+        public PerformBuildingProductionCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
         {
         }
 
         public async Task Handle(PerformBuildingProductionCommand notification, CancellationToken cancellationToken)
         {
-            var sector = await _sectorDocuments.GetAsync(notification.SectorId);
-            if (sector == null)
-                return;
+            await _semaphoreSlim.WaitAsync();
+            try
+            {
+                var sector = await _sectorDocuments.GetAsync(notification.SectorId);
+                if (sector == null)
+                    return;
 
-            var building = sector.Buildings.SingleOrDefault(b => b.BuildingType == notification.BuildingType && b.Status.Code != BuildingStatuses.IDLE);
-            if (building == null)
-                return;
+                var building = sector.Buildings.SingleOrDefault(b => b.BuildingType == notification.BuildingType && b.Status.Code != BuildingStatuses.IDLE);
+                if (building == null)
+                    return;
 
-            var sectorResources = await _sectorResourcesDocuments.GetAsync(sector.SectorResourcesId);
-            if (sectorResources == null)
-                return;
+                var sectorResources = await _sectorResourcesDocuments.GetAsync(sector.SectorResourcesId);
+                if (sectorResources == null)
+                    return;
 
-            _sectorService.PerformBuildingProduction(sectorResources, building);
+                var consumptionSucceeded = await _sectorService.PerformBuildingConsumption(sectorResources, building);
+                if (consumptionSucceeded)
+                {
+                    await _sectorService.PerformBuildingProduction(sectorResources, building);
+                }
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+          
         }
     }
 }

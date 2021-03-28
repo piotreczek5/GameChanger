@@ -1,11 +1,12 @@
 ﻿using GameChanger.Core.MongoDB.Documents;
+using System.Threading.Tasks;
 
 namespace GameChanger.Core.Services.Sector
 {
     public interface ISectorService
     {
         SectorResourcesDocument RecalculateSectorResourceBalances(SectorDocument sector, SectorResourcesDocument sectorResources);
-        void PerformBuildingProduction(SectorResourcesDocument sectorResources, BuildingDocument building);
-        void PerformBuildingConsumption(SectorResourcesDocument sectorResources, BuildingDocument building);
+        Task PerformBuildingProduction(SectorResourcesDocument sectorResources, BuildingDocument building);
+        Task<bool> PerformBuildingConsumption(SectorResourcesDocument sectorResources, BuildingDocument building);
     }
 }

@@ -14,25 +14,23 @@ namespace GameChanger.Core.Services.Sector
     public class SectorService : ISectorService
     {
         private BuildingConfiguration _buildingConfiguration;
-        private readonly IMediator _mediator;
-        private readonly Channel<INotification> _notificationChannel;
-        public SectorService(BuildingConfiguration buildingConfiguration, IMediator mediator, Channel<INotification> notificationChannel)
+        private IGameNotificationProcessor _gameNotificationProcessor;
+        public SectorService(BuildingConfiguration buildingConfiguration, IGameNotificationProcessor gameNotificationProcessor)
         {
             _buildingConfiguration = buildingConfiguration;
-            _mediator = mediator;
-            _notificationChannel = notificationChannel;
+            _gameNotificationProcessor = gameNotificationProcessor;
         }
 
         public SectorResourcesDocument RecalculateSectorResourceBalances(SectorDocument sector, SectorResourcesDocument sectorResourcesDocument)
         {
-            var allNonIdleBuildings =
+            var allBalanceInfluencingBuildings =
                 sector
                 .Buildings
-                .Where(b => b.Status.Code != BuildingStatuses.IDLE)
+                .Where(b => b.Status.Code == BuildingStatuses.BUILT)
                 .Select(b => _buildingConfiguration
                     .GetBuildingByType(b.BuildingType, b.CurrentLvl));
 
-            var allBuldingsProduction = allNonIdleBuildings
+            var allBuldingsProduction = allBalanceInfluencingBuildings
                 .SelectMany(b => 
                     
                     b?.BaseResourceProduction
@@ -41,7 +39,7 @@ namespace GameChanger.Core.Services.Sector
                 .Select(group => new ResourceAmount { Resource = group.Key, Amount = group.Sum(r => r.Amount) })
                 .ToList();
 
-            var allBuldingsConsumption = allNonIdleBuildings
+            var allBuldingsConsumption = allBalanceInfluencingBuildings
                 .SelectMany(b =>                     
                     b?.BaseResourceConsumption ?? new List<ResourceAmount>())
                 .GroupBy(key => key.Resource)
@@ -64,7 +62,7 @@ namespace GameChanger.Core.Services.Sector
             return sectorResourcesDocument;
         }
 
-        public void PerformBuildingConsumption(SectorResourcesDocument sectorResources, BuildingDocument building)
+        public async Task<bool> PerformBuildingConsumption(SectorResourcesDocument sectorResources, BuildingDocument building)
         {
             var buildingTemplate = _buildingConfiguration.GetBuildingByType(building.BuildingType, building.CurrentLvl);
 
@@ -80,31 +78,33 @@ namespace GameChanger.Core.Services.Sector
                 {
                     if (building.Status.Code == BuildingStatuses.BUILT)
                     {
-                        _notificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.IDLE });                      
+                        await _gameNotificationProcessor.ProcessAsync(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.IDLE });                      
                     }
 
-                    return;
+                    return false;
                 }
             }
 
-            _notificationChannel.Writer.WriteAsync(new ChangeResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceConsumption, IncreaseOrDecreaseMultiplier = -1 });
+            await _gameNotificationProcessor.ProcessAsync(new ChangeResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceConsumption, IncreaseOrDecreaseMultiplier = -1 });
 
             if (building.Status.Code == BuildingStatuses.IDLE)
             {
-                _notificationChannel.Writer.WriteAsync(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.BUILT });                
+                await _gameNotificationProcessor.ProcessAsync(new SetBuildingStatusCommand { SectorId = sectorResources.SectorId, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.BUILT });                
             }
+
+            return true;
         }
 
-        public void PerformBuildingProduction(SectorResourcesDocument sectorResources, BuildingDocument building)
+        public Task PerformBuildingProduction(SectorResourcesDocument sectorResources, BuildingDocument building)
         {
             var buildingTemplate = _buildingConfiguration.GetBuildingByType(building.BuildingType, building.CurrentLvl);
 
             if (building.Status.Code != BuildingStatuses.BUILT)
             {
-                return;
+                return Task.CompletedTask;
             }
 
-            _notificationChannel.Writer.WriteAsync(new ChangeResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceProduction });            
+            return _gameNotificationProcessor.ProcessAsync(new ChangeResourceSupplyCommand { SectorResourcesId = sectorResources.Id, Resources = buildingTemplate.BaseResourceProduction });            
         }
     }
 }

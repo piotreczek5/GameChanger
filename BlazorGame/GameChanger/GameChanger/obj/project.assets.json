@@ -3060,22 +3060,6 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "GameChanger.GameClock/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v5.0",
-        "dependencies": {
-          "GameChanger.Core": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/GameChanger.GameClock.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/GameChanger.GameClock.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
       "GameChanger.GameUser/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
@@ -9756,11 +9740,6 @@
       "path": "../GameChanger.Core/GameChanger.Core.csproj",
       "msbuildProject": "../GameChanger.Core/GameChanger.Core.csproj"
     },
-    "GameChanger.GameClock/1.0.0": {
-      "type": "project",
-      "path": "../GameChanger.GameClock/GameChanger.GameClock.csproj",
-      "msbuildProject": "../GameChanger.GameClock/GameChanger.GameClock.csproj"
-    },
     "GameChanger.GameUser/1.0.0": {
       "type": "project",
       "path": "../GameChanger.User/GameChanger.GameUser.csproj",
@@ -9770,7 +9749,6 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "GameChanger.Core >= 1.0.0",
-      "GameChanger.GameClock >= 1.0.0",
       "GameChanger.GameUser >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 3.1.12",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.3",
@@ -9810,9 +9788,6 @@
           "projectReferences": {
             "C:\\Users\\Piotrek\\Documents\\GameChanger\\BlazorGame\\GameChanger\\GameChanger.Core\\GameChanger.Core.csproj": {
               "projectPath": "C:\\Users\\Piotrek\\Documents\\GameChanger\\BlazorGame\\GameChanger\\GameChanger.Core\\GameChanger.Core.csproj"
-            },
-            "C:\\Users\\Piotrek\\Documents\\GameChanger\\BlazorGame\\GameChanger\\GameChanger.GameClock\\GameChanger.GameClock.csproj": {
-              "projectPath": "C:\\Users\\Piotrek\\Documents\\GameChanger\\BlazorGame\\GameChanger\\GameChanger.GameClock\\GameChanger.GameClock.csproj"
             },
             "C:\\Users\\Piotrek\\Documents\\GameChanger\\BlazorGame\\GameChanger\\GameChanger.User\\GameChanger.GameUser.csproj": {
               "projectPath": "C:\\Users\\Piotrek\\Documents\\GameChanger\\BlazorGame\\GameChanger\\GameChanger.User\\GameChanger.GameUser.csproj"

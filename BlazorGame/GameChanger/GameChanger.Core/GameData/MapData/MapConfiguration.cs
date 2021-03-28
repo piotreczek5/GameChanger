@@ -6,16 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameChanger.Core.GameData
-{
+{    
+
     public class MapConfiguration
     {
-        public List<Land> Lands { get; set; }
+        public List<Land> Lands { get; set; }       
     }
 
     public class Land
     {
         public List<ResourceAmount> BaseResourceProduction {get;set;}
         public string Name { get; set; }
+        public string Code { get; set; }
         public List<City> Cities { get; set; }
         public int AreaSurface { get; set; }        
         public decimal ForestPercentCoverage { get; set; }
@@ -25,6 +27,7 @@ namespace GameChanger.Core.GameData
 
     public class City
     {
+        public string Code { get; set; }
         public string Name { get; set; }
         public decimal XCoordinate { get; set; }
         public decimal YCoordinate { get; set; }

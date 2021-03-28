@@ -27,9 +27,11 @@
 @using GameChanger.Core.MediatR.Messages.Commands.Sector;
 @using GameChanger.Core.MediatR.Messages.Queries.Sector;
 @using System.Threading.Channels;
+@using GameChanger.Core.Services;
+@using GameChanger.Core.Extensions;
 
 @inject IMediator Mediator;
-@inject Channel<INotification> NotificationChannel;
+@inject IGameNotificationProcessor GameNotificationProcessor;
 @inject IEventScheduler EventScheduler;
 @inject MapConfiguration MapConfiguration;
 @inject BuildingConfiguration BuildingConfiguration;

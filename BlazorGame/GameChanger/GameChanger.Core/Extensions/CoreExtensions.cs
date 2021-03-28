@@ -3,6 +3,7 @@ using Convey.Persistence.MongoDB;
 using GameChanger.Core.Debugging;
 using GameChanger.Core.EventScheduler;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.Services;
 using GameChanger.Core.Services.Logging;
 using GameChanger.Core.Services.Sector;
 using MediatR;
@@ -19,11 +20,13 @@ namespace GameChanger.Core.Extensions
         public static void AddCoreModule(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection
-                .AddMediatR(typeof(CoreExtensions))                
+                .AddMediatR(typeof(CoreExtensions))
+                .AddSingleton<IGameNotificationProcessor, GameNotificationProcessor>()
                 .AddSingleton<VisualLog>()
-                .AddTransient<IGameLogger,GameLogger>()
-                .AddSingleton<IEventScheduler,EventScheduler.EventScheduler> ()
-                .AddTransient<ISectorService,SectorService>();
+                .AddTransient<IGameLogger, GameLogger>()
+                .AddSingleton<IEventScheduler, EventScheduler.EventScheduler>()
+                .AddTransient<ISectorService, SectorService>();
+                
         }
 
         public static IConveyBuilder AddCoreModule(this IConveyBuilder builder)

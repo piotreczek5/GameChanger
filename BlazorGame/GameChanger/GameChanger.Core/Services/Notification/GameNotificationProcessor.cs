@@ -12,56 +12,48 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace GameChanger.GameClock.Extensions
+namespace GameChanger.Core.Services
 {
-    public class ProcessGameMessages : BackgroundService
+    public class GameNotificationProcessor : IGameNotificationProcessor
     {        
         private IMediator _mediator;
-        private Channel<INotification> _channel;
         private readonly IGameLogger _logger;
         private readonly VisualLog _log;
 
-        public ProcessGameMessages(
+        public GameNotificationProcessor(
             IMediator mediator, 
-            Channel<INotification> channel,
             IGameLogger gameLogger,
             VisualLog log)
         {
             _mediator = mediator;
-            _channel = channel;
             _logger = gameLogger;
             _log = log;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public async Task ProcessAsync(INotification notification)
         {
-            while(true)
+            if (notification != null)
             {
-                var msg = await _channel.Reader.ReadAsync();
-                if(msg != null)
-                {
-                    string detailedMessage = $"[{msg.GetType().Name}] [{JsonConvert.SerializeObject(msg)}]";
-                     _logger.Log(msg.ToString(), detailedMessage, LogLevel.Information);
+                string detailedMessage = $"[{notification.GetType().Name}] [{JsonConvert.SerializeObject(notification)}]";
+                _logger.Log(notification.ToString(), detailedMessage, LogLevel.Information);
 
-                    string getColor = GetMessageColor(msg);
-                    _log.Messages.TryAdd(DateTime.Now, (getColor, msg.ToString()));
+                string getColor = GetMessageColor(notification);
+                _log.Messages.TryAdd(DateTime.Now, (getColor, notification.ToString()));
 
-                    await _mediator.Publish(msg);
-                }                
+                await _mediator.Publish(notification);
             }
         }
-
         private string GetMessageColor(INotification msg)
         {
-            switch(msg)
+            switch (msg)
             {
                 case FixBuildingCommand:
                     return "#ffbf00";
                 case ChangeResourceSupplyCommand:
-                    return  ((ChangeResourceSupplyCommand)msg).IsAdding ? "#bfff00" : "#ff4000";
+                    return ((ChangeResourceSupplyCommand)msg).IsAdding ? "#bfff00" : "#ff4000";
                 case BuildBuildingCommand:
                     return "#00ffbf";
-                case DestroyBuildingCommand:
+                case DemolishBuildingCommand:
                     return "#8000ff";
                 case PerformBuildingProductionCommand:
                     return "#b0ffc4";
@@ -75,5 +67,6 @@ namespace GameChanger.GameClock.Extensions
                     return "#ffffff";
             }
         }
+
     }
 }

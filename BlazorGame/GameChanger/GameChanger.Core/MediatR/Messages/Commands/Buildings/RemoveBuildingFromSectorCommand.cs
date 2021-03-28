@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 
 namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
 {
-    public class DestroyBuildingCommand : INotification
+    public class RemoveBuildingFromSectorCommand : INotification
     {
         public Guid? SectorId { get; set; }
         public BuildingTypes BuildingType { get; set; }
+
         public override string ToString()
         {
-            return "DESTROYING " + BuildingType.ToString();
+            return $"Removing building ({BuildingType}) from sector ({SectorId}).";
         }
+
     }
 }

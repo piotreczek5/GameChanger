@@ -2,7 +2,29 @@
 @using GameChanger.Core.GameData
 @inject MapConfiguration _mapConfiguration
 
-    <table class="table">
+
+
+    <table title="Player sectors">
+        <thead>
+            <tr>
+                <th scope="col">SectorId</th>
+                <th scope="col">Sector Land</th>
+                <th scope="col">Sector City</th>            
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sector in PlayerSectorsInformation)
+            {
+                <tr>
+                    <td> @sector.Id</td>
+                    <td> @sector.LandCode</td>
+                    <td> @sector.CityCode</td>            
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <table class="table" title="All Lands and cities.">
         <thead>
             <tr>
                 <th scope="col">@nameof(Land.Name)</th>
@@ -47,3 +69,35 @@
             }
         </tbody>
     </table>
+
+@code
+{
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    protected PlayerDocument CurrentPlayerInformation { get; set; }
+    protected List<SectorDocument> PlayerSectorsInformation { get; set; } = new List<SectorDocument>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdatePageData();
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task UpdatePageData()
+    {
+        var authState = await AuthState;
+        var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
+        CurrentPlayerInformation = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
+        foreach(var sectorId in CurrentPlayerInformation.Sectors)
+        {
+            var sector = await GetSectorDetails(sectorId);
+            PlayerSectorsInformation.Add(sector);
+        }
+    }
+
+    protected Task<SectorDocument> GetSectorDetails(Guid? sectorId )
+    {
+        return  Mediator.Send(new GetSectorInfoQuery { Id = sectorId.Value });
+    }
+}
