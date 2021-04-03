@@ -1,4 +1,0 @@
-﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/" Path="C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\scopedcss\bundle\" />
-  <ContentRoot BasePath="/Identity" Path="C:\Users\Piotrek\.nuget\packages\microsoft.aspnetcore.identity.ui\3.1.12\staticwebassets\V4\" />
-</StaticWebAssets>
