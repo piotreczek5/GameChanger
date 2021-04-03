@@ -30,7 +30,7 @@ namespace GameChanger.Core.MediatR.Handlers.Player
         {
             var player = await  _playerDocuments.GetAsync(notification.PlayerId);
             
-            var landOfCity = _mapConfiguration.Lands.Where(l => l.Cities.Any(c => c.Name == notification.CityCode)).SingleOrDefault();
+            var landOfCity = _mapConfiguration.Lands.Where(l => l.Cities.Any(c => c.Code == notification.CityCode)).SingleOrDefault();
             var sectorResources = new SectorResourcesDocument();
 
             sectorResources.CurrentResources.ForEach(r => r.Amount += 100);
@@ -52,7 +52,7 @@ namespace GameChanger.Core.MediatR.Handlers.Player
 
             if (player.Sectors.Count == 1)
             {
-                player.CurrentSector = sectorDocument.Id;
+                player.CurrentSector = new CurrentSectorDetails() { CurrentSectorId = sectorDocument.Id };
             }
 
             await _playerDocuments.UpdateAsync(player);

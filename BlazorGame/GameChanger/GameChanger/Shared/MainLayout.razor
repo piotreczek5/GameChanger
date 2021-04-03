@@ -5,7 +5,7 @@
 <div class="page">
     <AuthorizeView>
         <Authorized>            
-            <div  id="@debuggerWindowId" style="background-color:white;width:600px;overflow-y:scroll;font:12px;" >
+            <div  id="@debuggerWindowId" style="background-color:white;width:600px;overflow-y:scroll;font:12px;"  hidden >
                 <Debugger  />
             </div>
             <div class="sidebar">
@@ -28,7 +28,7 @@
 @code
 {
     protected const string debuggerWindowId = "debuggerWindow";
-    protected bool hidden = false;
+    protected bool hidden = true;
     public async Task ToggleDebugger()
     {
         hidden = !hidden;

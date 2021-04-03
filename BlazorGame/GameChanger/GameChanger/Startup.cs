@@ -1,5 +1,6 @@
 using Convey;
 using GameChanger.Core.Extensions;
+using GameChanger.Core.SignalR;
 using GameChanger.GameUser.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -53,6 +54,7 @@ namespace GameChanger
                 .AddMapModule();
 
             services.AddUserModule(Configuration);
+            services.AddSignalR();
 
         }
 
@@ -82,6 +84,7 @@ namespace GameChanger
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapHub<BuildingsHub>("/buildingsHub");
             });
         }
     }

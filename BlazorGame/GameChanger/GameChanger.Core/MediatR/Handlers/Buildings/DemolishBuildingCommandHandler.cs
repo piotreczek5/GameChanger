@@ -5,6 +5,8 @@ using GameChanger.Core.MediatR.Handlers.Sector;
 using GameChanger.Core.MediatR.Messages.Commands.Buildings;
 using GameChanger.Core.MongoDB.Builders;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
+using GameChanger.Core.MongoDB.Factories;
 using GameChanger.Core.MongoDB.Updaters;
 using GameChanger.Core.Services;
 using GameChanger.Core.Services.Sector;
@@ -18,17 +20,20 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
+
 namespace GameChanger.Core.MediatR.Handlers.Buildings
 {
     public class DemolishBuildingCommandHandler : BaseSectorHandler,INotificationHandler<DemolishBuildingCommand>
     {
         private IGameNotificationProcessor _gameNotificationProcessor;
         private IEventScheduler _eventScheduler;
+        private readonly IBuildingStatusFactory _buildingStatusFactory;
 
-        public DemolishBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration, IGameNotificationProcessor gameNotificationProcessor, IEventScheduler eventScheduler) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
+        public DemolishBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration, IGameNotificationProcessor gameNotificationProcessor, IEventScheduler eventScheduler, IBuildingStatusFactory buildingStatusFactory) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
         {
             _gameNotificationProcessor = gameNotificationProcessor;
             _eventScheduler = eventScheduler;
+            _buildingStatusFactory = buildingStatusFactory;
         }
 
         public async Task Handle(DemolishBuildingCommand notification, CancellationToken cancellationToken)
@@ -75,8 +80,8 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
                 });
             }
 
-            var destroyingBuildingStatus = new BuildingStatus() { Code = BuildingStatuses.DESTROYING, TimeToDestroy = DateTime.UtcNow.Add(destroyDelay) };
-
+            var destroyingBuildingStatus = _buildingStatusFactory.CreateBuildingStatus(BuildingStatuses.DESTROYING, DateTime.UtcNow.Add(destroyDelay));
+                
             var setStatusDestroying = SectorUpdaterFactory.SetBuildingStatus(destroyingBuildingStatus);
             await _sectorDocuments.Collection.UpdateOneAsync(findBuildingFilter, setStatusDestroying);
         }

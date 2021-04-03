@@ -2,6 +2,7 @@
 using GameChanger.Core.GameData;
 using GameChanger.Core.MediatR.Messages.Queries.Sector;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
 using GameChanger.Core.Services.Sector;
 using MediatR;
 using System;
@@ -24,7 +25,7 @@ namespace GameChanger.Core.MediatR.Handlers.Sector
         {
             var sector = await _sectorDocuments.GetAsync(request.SectorId);
 
-            return sector.Buildings;
+            return sector?.Buildings;
         }
     }
 }

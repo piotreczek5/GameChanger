@@ -228,6 +228,13 @@ using GameChanger.Core.Extensions;
 #line hidden
 #nullable disable
 #nullable restore
+#line 32 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MongoDB.Documents.Buildings;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 2 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\MainLayout.razor"
 using GameChanger.Pages;
 
@@ -245,7 +252,7 @@ using GameChanger.Pages;
 #line 29 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\MainLayout.razor"
  
     protected const string debuggerWindowId = "debuggerWindow";
-    protected bool hidden = false;
+    protected bool hidden = true;
     public async Task ToggleDebugger()
     {
         hidden = !hidden;

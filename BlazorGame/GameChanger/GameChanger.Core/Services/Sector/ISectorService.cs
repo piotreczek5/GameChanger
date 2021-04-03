@@ -1,4 +1,5 @@
 ﻿using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
 using System.Threading.Tasks;
 
 namespace GameChanger.Core.Services.Sector

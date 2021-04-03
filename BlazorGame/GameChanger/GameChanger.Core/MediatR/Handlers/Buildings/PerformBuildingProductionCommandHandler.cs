@@ -4,6 +4,7 @@ using GameChanger.Core.GameData;
 using GameChanger.Core.MediatR.Handlers.Sector;
 using GameChanger.Core.MediatR.Messages.Commands.Buildings;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
 using GameChanger.Core.Services.Sector;
 using MediatR;
 using System;
@@ -14,13 +15,14 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
+
 namespace GameChanger.Core.MediatR.Handlers.Buildings
 {
     public class PerformBuildingProductionCommandHandler : BaseSectorHandler, INotificationHandler<PerformBuildingProductionCommand> 
     {
         static SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1,1);
         public PerformBuildingProductionCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
-        {
+        {            
         }
 
         public async Task Handle(PerformBuildingProductionCommand notification, CancellationToken cancellationToken)

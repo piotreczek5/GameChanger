@@ -2,6 +2,8 @@
 using GameChanger.Core.GameData;
 using GameChanger.Core.MediatR.Messages.Commands.Buildings;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
+using GameChanger.Core.MongoDB.Factories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,14 +12,17 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace GameChanger.Core.MediatR.Handlers.Buildings
 {
     public class FixBuildingCommandHandler : INotificationHandler<FixBuildingCommand>
     {
         private readonly IMongoRepository<SectorDocument, Guid> _sectorDocuments;
-        public FixBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments)
+        private readonly IBuildingStatusFactory _buildingStatusFactory;
+        public FixBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IBuildingStatusFactory buildingStatusFactory)
         {
             _sectorDocuments = sectorDocuments;
+            _buildingStatusFactory = buildingStatusFactory;
         }
 
         public async Task Handle(FixBuildingCommand notification, CancellationToken cancellationToken)
@@ -38,7 +43,7 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
                 return;
             }
 
-            building.Status = new BuildingStatus() { Code = BuildingStatuses.BUILT, TimeToFix = null};
+            building.Status = _buildingStatusFactory.CreateBuildingStatus(BuildingStatuses.BUILT);
             
             await _sectorDocuments.UpdateAsync(sector);
         }

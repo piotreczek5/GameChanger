@@ -3,31 +3,45 @@
 <AuthorizeView>
     <Authorized>
         <nav class="navbar sticky-top" style="background-color:white; box-shadow:0px 20px 20px 0px #7c57bbc2">
-            <div class="container" style="max-width:inherit;display:block;">
+            <div class="container" style="max-width:inherit;display:block;font-size:10px">
                 <div class="row">
                     @foreach (var resource in ResourcesSupply.Keys)
                     {
                         <div class="col centered">
-                        <div class="row">
-                            <img src=@GetImagePathForType(resource) width="50px" height="50px" />
-                        </div>
-                        <div class="row">
-                            @resource.ToString()
-                        </div>
-                        <div class="row">@ResourcesSupply[resource]</div>
-                       
-                        @if (ResourceBalance[resource] > 0)
-                        {
-                            <div class="row">+@ResourceBalance[resource]</div>
-                        }
-                        else
-                        {
-                            <div class="row">@ResourceBalance[resource]</div>
-                        }
+                            <div class="row">
+                                <img src=@GetImagePathForType(resource) width="30px" height="30px" />
+                            </div>
+                            <div class="row">
+                                @resource.ToString()
+                            </div>
+                            <div class="row">@ResourcesSupply[resource]</div>
 
+                            @if (ResourceBalance[resource] > 0)
+                            {
+                                <div class="row">+@ResourceBalance[resource]/s</div>
+                            }
+                            else
+                            {
+                                <div class="row">@ResourceBalance[resource]/s</div>
+                            }
+
+                        </div>
+                    }
+                </div>
+                <div class="row" style="text-align: center; justify-content: space-evenly;font-size:14px; margin-top:20px;">
+                    <div class="col">
+                        <div class="row" style="justify-content:center">Current Land</div>
+                        <div class="row" style="justify-content: center">@CurrentSector?.LandCode</div>
                     </div>
-                     }
+                    <div class="col">
+                        <div class="row" style="justify-content:center">Current city</div>
+                        <div class="row" style="justify-content: center">@CurrentSector?.CityCode</div>
                     </div>
+                    <div class="col">
+                        <div class="row" style="justify-content:center">Player Status</div>
+                        <div class="row" style="justify-content: center">@CurrentlyLoggedPlayer?.Status?.Code</div>
+                    </div>
+                </div>
             </div>
         </nav>
     </Authorized>
@@ -51,7 +65,7 @@
         await GetUserData();
         InitializeResources();
 
-        _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 0, 3000);
+        _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, TimeSpan.FromSeconds(0),TimeSpan.FromSeconds(1));
 
         base.OnInitialized();
     }
@@ -61,7 +75,7 @@
         var authState = await AuthState;
         var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
         CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
-        CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer?.CurrentSector });
+        CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer?.CurrentSector?.CurrentSectorId });
     }
 
     private void InitializeResources()
@@ -82,7 +96,7 @@
         {
             //_refreshSectorInfoTimer?.Change(Timeout.Infinite, 0);
             await GetUserData();
-            CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
+            CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer?.CurrentSector?.CurrentSectorId });
             var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
 
             foreach (var resource in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())

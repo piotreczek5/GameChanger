@@ -7,12 +7,13 @@
 <h1>Player Data</h1>
 <br />
 <p>UserLogged : @CurrentlyLoggedPlayer?.Nick </p>
-<p>CurrentSector : @CurrentlyLoggedPlayer?.CurrentSector </p>
+<p>CurrentSector : @CurrentlyLoggedPlayer?.CurrentSector.CurrentSectorId </p>
 
 <button class="btn btn-primary" @onclick="async () => await GenerateSectorForPlayer()">Generate Sector</button>
 <br /><br /><br />
 <h1>All Player sectors:</h1>
 <br />
+
 @if (CurrentlyLoggedPlayer != null)
 {
     @foreach (var sector in CurrentlyLoggedPlayer?.Sectors)
@@ -20,7 +21,7 @@
         <p>No @CurrentlyLoggedPlayer?.Sectors.IndexOf(sector);</p>        
         <p>
             Sector id: @sector
-            <button class="btn btn-primary" @onclick="async () => await MoveToSector(sector)"> Move To Sector</button>
+            <button class="btn btn-primary" @onclick="async () => await TravelToSector(sector)"> Move To Sector</button>
             <button class="btn btn-danger" @onclick="async () => await RemoveSector(sector)"> Remove Sector</button>
         </p>
     }
@@ -63,10 +64,9 @@
         await RefreshGamedata();
     }
 
-    protected async Task MoveToSector(Guid? sectorId)
+    protected async Task TravelToSector(Guid? sectorId)
     {
-        await GameNotificationProcessor.ProcessAsync(new ChangeSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, SectorId = sectorId });
+        await GameNotificationProcessor.ProcessAsync(new TravelSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, SectorId = sectorId });
         await RefreshGamedata();
     }
-
 }

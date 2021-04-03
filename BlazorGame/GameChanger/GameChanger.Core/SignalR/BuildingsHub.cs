@@ -1,0 +1,21 @@
+﻿using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GameChanger.Core.SignalR
+{
+    public class BuildingsHub : Hub
+    {
+        public BuildingsHub()
+        {
+        }
+
+        public async Task Send(string buildingCode, string buildingStatus)
+        {
+            await Clients.All.SendAsync("BuildingStatusChanged", buildingCode, buildingStatus);
+        }
+    }
+}

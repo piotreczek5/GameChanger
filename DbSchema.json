@@ -10,7 +10,7 @@ PlayerDocument
 	},
 	"SectorsOwnership":
 	[
-		{
+		{Binary('E9hav/n+MEOEiux//yIdKg==', 3)
 			"SectorId" : ObjectId (sectorId),
 			"DateAquired" : DateTime
 		}

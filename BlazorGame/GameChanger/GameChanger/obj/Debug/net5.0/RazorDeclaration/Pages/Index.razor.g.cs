@@ -227,6 +227,13 @@ using GameChanger.Core.Extensions;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 32 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MongoDB.Documents.Buildings;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.LayoutAttribute(typeof(MainLayout))]
     [Microsoft.AspNetCore.Components.RouteAttribute("/index")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
@@ -237,7 +244,7 @@ using GameChanger.Core.Extensions;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 29 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Index.razor"
+#line 30 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Index.razor"
        
     protected PlayerDocument CurrentlyLoggedPlayer;
 
@@ -275,12 +282,11 @@ using GameChanger.Core.Extensions;
         await RefreshGamedata();
     }
 
-    protected async Task MoveToSector(Guid? sectorId)
+    protected async Task TravelToSector(Guid? sectorId)
     {
-        await GameNotificationProcessor.ProcessAsync(new ChangeSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, SectorId = sectorId });
+        await GameNotificationProcessor.ProcessAsync(new TravelSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, SectorId = sectorId });
         await RefreshGamedata();
     }
-
 
 #line default
 #line hidden

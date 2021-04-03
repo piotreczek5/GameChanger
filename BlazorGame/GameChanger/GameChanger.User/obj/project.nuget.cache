@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "YsD3ezuyj2Kbu1b9nGCdG/qA0/DmvV4vcBMG2hzCuKoFzhgbkrymFMz41QeTrl2CXCG0LaUreWa5hAU5dBoVQg==",
+  "dgSpecHash": "aq9RObVUardaIZ3Oy0MQBNweYuXKf6xHp55M7iCUEM3QqAjXbuUmH9ZTPH2rkR1634Zn8mld+GJrMnzqMPD3pA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Piotrek\\Documents\\GameChanger\\BlazorGame\\GameChanger\\GameChanger.User\\GameChanger.GameUser.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "C:\\Users\\Piotrek\\.nuget\\packages\\figgle\\0.4.0\\figgle.0.4.0.nupkg.sha512",
     "C:\\Users\\Piotrek\\.nuget\\packages\\mediatr\\9.0.0\\mediatr.9.0.0.nupkg.sha512",
     "C:\\Users\\Piotrek\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\9.0.0\\mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
+    "C:\\Users\\Piotrek\\.nuget\\packages\\microsoft.aspnet.signalr.client\\2.4.1\\microsoft.aspnet.signalr.client.2.4.1.nupkg.sha512",
     "C:\\Users\\Piotrek\\.nuget\\packages\\microsoft.aspnetcore.authorization\\3.1.12\\microsoft.aspnetcore.authorization.3.1.12.nupkg.sha512",
     "C:\\Users\\Piotrek\\.nuget\\packages\\microsoft.aspnetcore.components\\3.1.12\\microsoft.aspnetcore.components.3.1.12.nupkg.sha512",
     "C:\\Users\\Piotrek\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\3.1.12\\microsoft.aspnetcore.components.analyzers.3.1.12.nupkg.sha512",

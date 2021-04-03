@@ -1,5 +1,6 @@
 ﻿using GameChanger.Core.GameData;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;

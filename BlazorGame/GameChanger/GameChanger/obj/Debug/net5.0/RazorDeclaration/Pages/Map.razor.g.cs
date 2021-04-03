@@ -221,8 +221,22 @@ using GameChanger.Core.Extensions;
 #line hidden
 #nullable disable
 #nullable restore
+#line 32 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MongoDB.Documents.Buildings;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 2 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Map.razor"
 using GameChanger.Core.GameData;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Map.razor"
+using System.Collections.Concurrent;
 
 #line default
 #line hidden
@@ -236,18 +250,27 @@ using GameChanger.Core.GameData;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 74 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Map.razor"
+#line 89 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Map.razor"
  
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
 
     protected PlayerDocument CurrentPlayerInformation { get; set; }
-    protected List<SectorDocument> PlayerSectorsInformation { get; set; } = new List<SectorDocument>();
+    
+    protected List<(SectorDocument sector, SectorResourcesDocument sectorResources)> PlayerSectorsInformation { get; set; } = new List<(SectorDocument, SectorResourcesDocument)>();
+
+    private Timer _refreshTimer;
 
     protected override async Task OnInitializedAsync()
     {
+        _refreshTimer = new Timer(RefreshPageData, null, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(5));
         await UpdatePageData();
         await base.OnInitializedAsync();
+    }
+
+    private void RefreshPageData(object state)
+    {
+        UpdatePageData().ConfigureAwait(false);
     }
 
     protected async Task UpdatePageData()
@@ -255,17 +278,27 @@ using GameChanger.Core.GameData;
         var authState = await AuthState;
         var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
         CurrentPlayerInformation = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
+
+        if(PlayerSectorsInformation.Any())
+        {
+            PlayerSectorsInformation = new List<(SectorDocument sector, SectorResourcesDocument sectorResources)>();
+        }
+
         foreach(var sectorId in CurrentPlayerInformation.Sectors)
         {
             var sector = await GetSectorDetails(sectorId);
-            PlayerSectorsInformation.Add(sector);
+            var sectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = sectorId });
+            PlayerSectorsInformation.Add((sector, sectorResources));
         }
+
+        InvokeAsync(StateHasChanged);
     }
 
     protected Task<SectorDocument> GetSectorDetails(Guid? sectorId )
     {
         return  Mediator.Send(new GetSectorInfoQuery { Id = sectorId.Value });
     }
+
 
 #line default
 #line hidden

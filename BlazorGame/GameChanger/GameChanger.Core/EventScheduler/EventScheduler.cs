@@ -14,7 +14,6 @@ namespace GameChanger.Core.EventScheduler
     public class EventScheduler : IEventScheduler
     {
         private readonly IGameNotificationProcessor notificationProcessor;
-
         protected ConcurrentDictionary<Guid,TimedAction> TasksRegistry { get; set; }
         public EventScheduler(IGameNotificationProcessor notificationProcessor)
         {
@@ -28,7 +27,7 @@ namespace GameChanger.Core.EventScheduler
                 await notificationProcessor.ProcessAsync(eventToRun)
             );
 
-            TasksRegistry.TryAdd(Guid.NewGuid(),new TimedAction(timeToLaunch, task));            
+            TasksRegistry.TryAdd(Guid.NewGuid(),new TimedAction(timeToLaunch, task, null));            
         }
 
         public void ClearQueue()
@@ -41,6 +40,14 @@ namespace GameChanger.Core.EventScheduler
             {
                 TasksRegistry.TryRemove(toBeRemoved.Key, out _);
             }
+        }
+
+        public void ScheduleEvent(TimeSpan timeToLaunch, INotification eventToRun, INotification subsequentEvent)
+        {
+            var task = new Task(async () => await notificationProcessor.ProcessAsync(eventToRun));
+            var subsequentTask = new Task(async () => await notificationProcessor.ProcessAsync(subsequentEvent));
+            
+            TasksRegistry.TryAdd(Guid.NewGuid(), new TimedAction(timeToLaunch, task , subsequentTask));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Convey.Persistence.MongoDB;
 using GameChanger.Core.GameData;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -227,6 +227,27 @@ using GameChanger.Core.Extensions;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 32 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MongoDB.Documents.Buildings;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
+using Microsoft.AspNetCore.SignalR.Client;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
+using GameChanger.Core.SignalR;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/buildings")]
     public partial class Buildings : LayoutComponentBase
     {
@@ -236,7 +257,7 @@ using GameChanger.Core.Extensions;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 218 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
+#line 219 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Pages\Buildings.razor"
        
     // var building in CurrentPlayerSector.Buildings
     [CascadingParameter]
@@ -244,13 +265,32 @@ using GameChanger.Core.Extensions;
 
     protected List<BuildingDocument> PlayerBuildings { get; set; }
     protected SectorDocument CurrentPlayerSector { get; set; }
+    protected PlayerDocument CurrentlyLoggedPlayer { get; set; }
     protected City CurrentCity { get; set; }
     protected Land CurrentLand { get; set; }
 
+    protected HubConnection hubConnection;
+    List<NotificationMessage> _notifications = new List<NotificationMessage>();
+
     protected override async Task OnInitializedAsync()
     {
-        await UpdatePageData();
+        hubConnection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/buildingsHub")).Build();
 
+        hubConnection.On<string,string>("BuildingStatusChanged", (buildingCode, buildingStatus) =>
+        {
+            _notifications.Add(new NotificationMessage
+            {
+                BuildingName = buildingCode,
+                BuildingStatus = buildingStatus,
+                MsgId = _notifications.Count() + 1
+            });
+
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+
+        await UpdatePageData();
         await base.OnInitializedAsync();
     }
 
@@ -260,14 +300,7 @@ using GameChanger.Core.Extensions;
             .Where(b => b.Status.Code == BuildingStatuses.DESTROYING || b.Status.Code == BuildingStatuses.FIXING || b.Status.Code == BuildingStatuses.BUILDING)
             .ToList()
             .ForEach(async (b) =>
-        await SpawnTimer(b.BuildingType, b.Status.Code,
-            b.Status.Code switch
-            {
-                BuildingStatuses.BUILDING => b.Status.TimeToBuild,
-                BuildingStatuses.DESTROYING => b.Status.TimeToDestroy,
-                BuildingStatuses.FIXING => b.Status.TimeToFix
-            }
-            ));
+        await SpawnTimer(b.BuildingType, b.Status.Code, (b.Status as IContinousBuildingStatus).TimeToComplete));
 
         await base.OnAfterRenderAsync(firstRender);
     }
@@ -276,8 +309,8 @@ using GameChanger.Core.Extensions;
     {
         var authState = await AuthState;
         var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
-        var playerInfo = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
-        CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = playerInfo.CurrentSector });
+        CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
+        CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector.CurrentSectorId });
 
         CurrentCity = MapConfiguration.GetCityByCode(CurrentPlayerSector?.CityCode);
         CurrentLand = MapConfiguration.GetLandByCode(CurrentPlayerSector?.LandCode);
@@ -324,18 +357,17 @@ using GameChanger.Core.Extensions;
             case BuildActions.BUILD:
                 if (await CanPerformBuildOperation(buildingType) == true)
                 {
-                    await GameNotificationProcessor.ProcessAsync(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id, BuildingLvl = buildingLvl });
+                    await GameNotificationProcessor.ProcessAsync(new BuildBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id, BuildingLvl = buildingLvl, PlayerId = CurrentlyLoggedPlayer?.Id });
                 }
                 break;
             case BuildActions.DESTROY:
-                await GameNotificationProcessor.ProcessAsync(new DemolishBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
+                await GameNotificationProcessor.ProcessAsync(new DemolishBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id, PlayerId = CurrentlyLoggedPlayer?.Id });
                 break;
             case BuildActions.FIX:
-                await GameNotificationProcessor.ProcessAsync(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id });
+                await GameNotificationProcessor.ProcessAsync(new FixBuildingCommand { BuildingType = buildingType, SectorId = CurrentPlayerSector?.Id, PlayerId = CurrentlyLoggedPlayer?.Id });
                 break;
         }
 
-        Thread.Sleep(400);
         await UpdatePageData();
 
         await JSRuntime.InvokeVoidAsync("setElementDisabledStatus", $"{buildingType}_{buildAction}", false);
@@ -348,6 +380,7 @@ using GameChanger.Core.Extensions;
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BuildingConfiguration BuildingConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private MapConfiguration MapConfiguration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IEventScheduler EventScheduler { get; set; }

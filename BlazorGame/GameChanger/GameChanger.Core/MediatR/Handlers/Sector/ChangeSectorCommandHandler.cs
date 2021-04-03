@@ -3,6 +3,7 @@ using GameChanger.Core.GameData;
 using GameChanger.Core.MediatR.Messages.Commands.Sector;
 using GameChanger.Core.MongoDB.Builders;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Player;
 using GameChanger.Core.MongoDB.Updaters;
 using GameChanger.Core.Services.Sector;
 using MediatR;
@@ -26,21 +27,22 @@ namespace GameChanger.Core.MediatR.Handlers.Sector
         public async Task Handle(ChangeSectorCommand notification, CancellationToken cancellationToken)
         {
             if(!notification.PlayerId.HasValue || !notification.SectorId.HasValue)
-            {
                 return;
-            }
-
             var sector = await _sectorDocuments.GetAsync(notification.SectorId.Value);
             
             if(sector == null)
-            {
                 return;
-            }
+            
+            var currentSectorUpdater = PlayerUpdaterFactory.SetCurrentSector(new CurrentSectorDetails() {
+                CurrentSectorId =  notification.SectorId.Value,
+                ArrivedAt = DateTime.UtcNow
+            });
 
+            var playerUpdateStatusFactory = PlayerUpdaterFactory.SetPlayerStatus(new IdlePlayerStatus());
             var playerFilter = PlayerFilterFactory.GetPlayerById(notification.PlayerId.Value);
-            var currentSectorUpdater = PlayerUpdaterFactory.SetCurrentSector(notification.SectorId.Value);
 
             await _playerDocuments.Collection.UpdateOneAsync(playerFilter, currentSectorUpdater);
+            await _playerDocuments.Collection.UpdateOneAsync(playerFilter, playerUpdateStatusFactory);
         }
     }
 }

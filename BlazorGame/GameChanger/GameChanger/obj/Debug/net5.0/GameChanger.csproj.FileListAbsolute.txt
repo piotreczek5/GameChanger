@@ -203,3 +203,13 @@ C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\De
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\ref\GameChanger.dll
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.pdb
 C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\obj\Debug\net5.0\GameChanger.genruntimeconfig.cache
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNet.SignalR.Client.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Common.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\bin\Debug\net5.0\System.IO.Pipelines.dll

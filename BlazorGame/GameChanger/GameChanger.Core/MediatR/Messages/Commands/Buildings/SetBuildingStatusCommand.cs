@@ -1,11 +1,13 @@
 ﻿using GameChanger.Core.GameData;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
 {
@@ -14,9 +16,7 @@ namespace GameChanger.Core.MediatR.Messages.Commands.Buildings
         public Guid? SectorId { get; set; }
         public BuildingTypes BuildingType { get; set; }
         public BuildingStatuses BuildingStatus { get; set; }
-        public DateTime? TimeToBuild { get; set; }
-        public DateTime? TimeToFix { get; set; }
-        public DateTime? TimeToDestroy { get; set; }
+        public DateTime? TimeToComplete { get; set; }
 
         public override string ToString()
         {

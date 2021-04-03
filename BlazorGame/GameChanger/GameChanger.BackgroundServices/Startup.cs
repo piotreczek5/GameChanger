@@ -1,5 +1,6 @@
 using Convey;
 using GameChanger.Core.Extensions;
+using GameChanger.Core.SignalR;
 using GameChanger.GameClock.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,7 @@ namespace GameChanger.BackgroundServices
             
             services.AddHostedService<RecalculateResourcesHostedService>();
 
+            services.AddSignalR();
             services.AddControllers();
         }
 
@@ -57,6 +59,7 @@ namespace GameChanger.BackgroundServices
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<BuildingsHub>("/buildingsHub");
             });
         }
     }

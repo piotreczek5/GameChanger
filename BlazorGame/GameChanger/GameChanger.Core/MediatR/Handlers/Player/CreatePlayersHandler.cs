@@ -1,6 +1,7 @@
 ﻿using Convey.Persistence.MongoDB;
 using GameChanger.Core.MediatR.Messages;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Player;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,13 @@ namespace GameChanger.Core.MediatR.Handlers
 
         public Task Handle(CreatePlayersCommand notification, CancellationToken cancellationToken)
         {
-            var players = notification.Nicks.Select(nick => new PlayerDocument { Id = Guid.NewGuid(), Nick = nick });
+            var players = notification.Nicks.Select(nick => 
+                new PlayerDocument {                     
+                    Id = Guid.NewGuid(), 
+                    Nick = nick,
+                    Status = new IdlePlayerStatus(),
+                    CreatedTimeStamp = DateTime.UtcNow                    
+                });
             
             return _playerDocuments.Collection.InsertManyAsync(players);
         }

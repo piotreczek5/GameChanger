@@ -8,6 +8,7 @@ using GameChanger.Core.MediatR.Messages.Commands.Buildings;
 using GameChanger.Core.MediatR.Messages.Queries;
 using GameChanger.Core.MediatR.Messages.Queries.Sector;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
 using GameChanger.Core.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
@@ -21,6 +22,7 @@ namespace GameChanger.GameClock.Extensions
         private readonly IGameNotificationProcessor _gameNotificationProcessor;
         private readonly IMediator _mediator;
         private  TimeSpan REFRESH_TIMESPAN = TimeSpan.FromSeconds(1);
+        private bool _buildingsFixed = false;
 
         public RecalculateResourcesHostedService(
             IGameNotificationProcessor gameNotificationProcessor, IMediator mediator)
@@ -48,6 +50,10 @@ namespace GameChanger.GameClock.Extensions
         {
             _timer.Change(Timeout.Infinite, 0);
             await RecalculateSectorsResources();
+            if (_buildingsFixed != true)
+            {
+                await FixStuckBuildings();
+            }
             _timer.Change(REFRESH_TIMESPAN, TimeSpan.FromSeconds(0));
         }
 
@@ -57,7 +63,14 @@ namespace GameChanger.GameClock.Extensions
 
             foreach (var sector in allSectorIds)
             {
-                var buildings = (await _mediator.Send(new GetSectorBuildingsQuery { SectorId = sector }))
+                var sectorBuildings = await _mediator.Send(new GetSectorBuildingsQuery { SectorId = sector });
+                if(sectorBuildings == null)
+                {
+                    return;
+                }
+                
+                var buildings =
+                    sectorBuildings
                     .ToList()
                     .Where(b => b.Status.Code == BuildingStatuses.BUILT || b.Status.Code == BuildingStatuses.IDLE);
 
@@ -66,6 +79,46 @@ namespace GameChanger.GameClock.Extensions
                     await _gameNotificationProcessor.ProcessAsync(new PerformBuildingProductionCommand { SectorId = sector, BuildingType = building.BuildingType });
                 }
             }
+        }
+
+        public async Task FixStuckBuildings()
+        {
+            var allSectorIds = await _mediator.Send(new GetAllSectorIdsQuery());
+
+            foreach (var sector in allSectorIds)
+            {
+                var sectorBuildings = await _mediator.Send(new GetSectorBuildingsQuery { SectorId = sector });
+                if (sectorBuildings == null)
+                {
+                    return;
+                }
+
+                var currentDateTimeUtc = DateTime.UtcNow;
+                var b = sectorBuildings.ToList();
+                var brokenBuildings =
+                    sectorBuildings
+                    .Where(b => 
+                            (b.Status.Code == BuildingStatuses.BUILDING || b.Status.Code == BuildingStatuses.FIXING || b.Status.Code == BuildingStatuses.DESTROYING)
+                            && (!(b.Status as IContinousBuildingStatus).TimeToComplete.HasValue || (b.Status as IContinousBuildingStatus).TimeToComplete.Value < currentDateTimeUtc))                                              
+                    .ToList();
+
+                foreach (var building in brokenBuildings)
+                {
+                    switch(building.Status.Code)
+                    {
+                        case BuildingStatuses.BUILDING:
+                            await _gameNotificationProcessor.ProcessAsync(new SetBuildingStatusCommand { SectorId = sector, BuildingType = building.BuildingType ,BuildingStatus = BuildingStatuses.BUILT});
+                            break;
+                        case BuildingStatuses.DESTROYING:
+                            await _gameNotificationProcessor.ProcessAsync(new RemoveBuildingFromSectorCommand { SectorId = sector, BuildingType = building.BuildingType });
+                            break;
+                        case BuildingStatuses.FIXING:
+                            await _gameNotificationProcessor.ProcessAsync(new SetBuildingStatusCommand { SectorId = sector, BuildingType = building.BuildingType, BuildingStatus = BuildingStatuses.BUILT });
+                            break;
+                    }                    
+                }                
+            }
+            _buildingsFixed = true;
         }
 
         public void Dispose()

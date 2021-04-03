@@ -227,6 +227,13 @@ using GameChanger.Core.Extensions;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 32 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\_Imports.razor"
+using GameChanger.Core.MongoDB.Documents.Buildings;
+
+#line default
+#line hidden
+#nullable disable
     public partial class InfoBar : LayoutComponentBase, IDisposable
     {
         #pragma warning disable 1998
@@ -235,7 +242,7 @@ using GameChanger.Core.Extensions;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 36 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\InfoBar.razor"
+#line 50 "C:\Users\Piotrek\Documents\GameChanger\BlazorGame\GameChanger\GameChanger\Shared\InfoBar.razor"
        
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
@@ -254,7 +261,7 @@ using GameChanger.Core.Extensions;
         await GetUserData();
         InitializeResources();
 
-        _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, 0, 3000);
+        _refreshSectorInfoTimer = new Timer(new TimerCallback(RefreshSector), null, TimeSpan.FromSeconds(0),TimeSpan.FromSeconds(1));
 
         base.OnInitialized();
     }
@@ -264,7 +271,7 @@ using GameChanger.Core.Extensions;
         var authState = await AuthState;
         var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
         CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
-        CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer?.CurrentSector });
+        CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer?.CurrentSector?.CurrentSectorId });
     }
 
     private void InitializeResources()
@@ -285,7 +292,7 @@ using GameChanger.Core.Extensions;
         {
             //_refreshSectorInfoTimer?.Change(Timeout.Infinite, 0);
             await GetUserData();
-            CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector });
+            CurrentSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer?.CurrentSector?.CurrentSectorId });
             var currentSectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = CurrentSector?.Id });
 
             foreach (var resource in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())

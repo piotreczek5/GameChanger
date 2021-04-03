@@ -12,6 +12,7 @@ function setElementText(elementId, text) {
 
 function startTimer(countDownDate, elementId) {
 
+   
     if (document.getElementById(elementId) == null) {
         return;
     }

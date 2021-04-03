@@ -3,8 +3,12 @@ using GameChanger.Core.EventScheduler;
 using GameChanger.Core.GameData;
 using GameChanger.Core.MediatR.Handlers.Sector;
 using GameChanger.Core.MediatR.Messages.Commands.Buildings;
+using GameChanger.Core.MediatR.Messages.Commands.Player;
 using GameChanger.Core.MongoDB.Builders;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Buildings;
+using GameChanger.Core.MongoDB.Documents.Player;
+using GameChanger.Core.MongoDB.Factories;
 using GameChanger.Core.MongoDB.Updaters;
 using GameChanger.Core.Services;
 using GameChanger.Core.Services.Sector;
@@ -17,22 +21,27 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
+
 namespace GameChanger.Core.MediatR.Handlers.Buildings
 {
     public class BuildBuildingCommandHandler : BaseSectorHandler, INotificationHandler<BuildBuildingCommand>
     {
         private IGameNotificationProcessor _gameNotificationProcessor;
         private IEventScheduler _eventScheduler;
+        private IMongoRepository<PlayerDocument, Guid> _playerDocuments;
+        private readonly IBuildingStatusFactory _buildingStatusFactory;
 
-        public BuildBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration, IGameNotificationProcessor gameNotificationProcessor, IEventScheduler eventScheduler) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
+        public BuildBuildingCommandHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration, IGameNotificationProcessor gameNotificationProcessor, IEventScheduler eventScheduler, IMongoRepository<PlayerDocument, Guid> playerDocuments, IBuildingStatusFactory buildingStatusFactory) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
         {
             _gameNotificationProcessor = gameNotificationProcessor;
             _eventScheduler = eventScheduler;
+            _playerDocuments = playerDocuments;
+            _buildingStatusFactory = buildingStatusFactory;
         }
 
         public async Task Handle(BuildBuildingCommand notification, CancellationToken cancellationToken)
         {
-            if (!notification.SectorId.HasValue)
+            if (!notification.SectorId.HasValue || !notification.PlayerId.HasValue)
                 return;
 
             var sector = await  _sectorDocuments.GetAsync(notification.SectorId.Value);
@@ -55,11 +64,8 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
                     var upgradeBuildingUpdater = SectorUpdaterFactory.SetBuildingLvlBuilding(notification.BuildingLvl);
 
                     var buildingStatusSetter = SectorUpdaterFactory.SetBuildingStatus(
-                       new BuildingStatus()
-                       {
-                           Code = BuildingStatuses.BUILDING,
-                           TimeToBuild = DateTime.UtcNow.Add(buildingTemplate.BuildTime.Value)
-                       });
+                       _buildingStatusFactory
+                        .CreateBuildingStatus(BuildingStatuses.BUILDING, DateTime.UtcNow.Add(buildingTemplate.BuildTime.Value)));
                     
                     setBuiltStatusDelay = buildingTemplate.BuildTime.Value;
 
@@ -76,11 +82,9 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
                     }
 
                     var newlyCreatedBuilding = new BuildingDocument(buildingTemplate);
-                    newlyCreatedBuilding.Status = new BuildingStatus()
-                    {
-                        Code = BuildingStatuses.BUILDING,
-                        TimeToBuild = DateTime.UtcNow.Add(buildingTemplate.BuildTime.Value)
-                    };
+                    newlyCreatedBuilding.Status = _buildingStatusFactory
+                        .CreateBuildingStatus(BuildingStatuses.BUILDING, DateTime.UtcNow.Add(buildingTemplate.BuildTime.Value));
+
                     setBuiltStatusDelay = buildingTemplate.BuildTime.Value;
 
                     var addBuildingUpdater = SectorUpdaterFactory.AddBuilding(newlyCreatedBuilding);
@@ -88,13 +92,19 @@ namespace GameChanger.Core.MediatR.Handlers.Buildings
 
                     await _sectorDocuments.Collection.FindOneAndUpdateAsync<SectorDocument>(buildingInSectorFilter, addBuildingUpdater);                              
                 }
-
+                
+                var playerFilterById = PlayerFilterFactory.GetPlayerById(notification.PlayerId.Value);
+                var playerStatusUpdater  = PlayerUpdaterFactory.SetPlayerStatus(new BuildingPlayerStatus());
+                
+                await _playerDocuments.Collection.UpdateOneAsync(playerFilterById, playerStatusUpdater);
+                
                 _eventScheduler.ScheduleEvent(setBuiltStatusDelay, new SetBuildingStatusCommand()
                 {
                     BuildingStatus = BuildingStatuses.BUILT,
                     BuildingType = notification.BuildingType,
                     SectorId = notification.SectorId
-                });
+                },
+                new ChangePlayerStatusCommand() { PlayerId = notification.PlayerId,Status = new IdlePlayerStatus() });
 
             }
         }

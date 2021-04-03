@@ -19,12 +19,14 @@ x64/
 [Bb]uild[Ll]og.*
 
 *_i.c
+*.dll
 *_p.c
 *_i.h
 *.ilk
 *.meta
 *.obj
 *.pch
+*.cache
 *.pdb
 *.pgc
 *.pgd

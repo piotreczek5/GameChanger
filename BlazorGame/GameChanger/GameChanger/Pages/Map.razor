@@ -1,8 +1,8 @@
 ﻿@page "/map"
 @using GameChanger.Core.GameData
+@using System.Collections.Concurrent;
+
 @inject MapConfiguration _mapConfiguration
-
-
 
     <table title="Player sectors">
         <thead>
@@ -15,11 +15,26 @@
         <tbody>
             @foreach (var sector in PlayerSectorsInformation)
             {
-                <tr>
-                    <td> @sector.Id</td>
-                    <td> @sector.LandCode</td>
-                    <td> @sector.CityCode</td>            
-                </tr>
+            <tr>
+                <td> @sector.sector.Id</td>
+                <td> @sector.sector.LandCode</td>
+                <td> @sector.sector.CityCode</td>
+                
+                <td>
+                    <tr>
+                        @foreach (var res in sector.sectorResources.CurrentResources)
+                        {
+                            <td style="font-size:10px;text-align:center;">@res.Resource<br />@res.Amount</td>
+                        }
+                    </tr>
+                    <tr>
+                        @foreach (var res in sector.sectorResources.CurrentResourceBalance)
+                        {
+                            <td style="font-size: 10px;text-align:center;">@res.Amount</td>
+                        }
+                    </tr>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -76,12 +91,21 @@
     public Task<AuthenticationState> AuthState { get; set; }
 
     protected PlayerDocument CurrentPlayerInformation { get; set; }
-    protected List<SectorDocument> PlayerSectorsInformation { get; set; } = new List<SectorDocument>();
+    
+    protected List<(SectorDocument sector, SectorResourcesDocument sectorResources)> PlayerSectorsInformation { get; set; } = new List<(SectorDocument, SectorResourcesDocument)>();
+
+    private Timer _refreshTimer;
 
     protected override async Task OnInitializedAsync()
     {
+        _refreshTimer = new Timer(RefreshPageData, null, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(5));
         await UpdatePageData();
         await base.OnInitializedAsync();
+    }
+
+    private void RefreshPageData(object state)
+    {
+        UpdatePageData().ConfigureAwait(false);
     }
 
     protected async Task UpdatePageData()
@@ -89,15 +113,25 @@
         var authState = await AuthState;
         var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
         CurrentPlayerInformation = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
+
+        if(PlayerSectorsInformation.Any())
+        {
+            PlayerSectorsInformation = new List<(SectorDocument sector, SectorResourcesDocument sectorResources)>();
+        }
+
         foreach(var sectorId in CurrentPlayerInformation.Sectors)
         {
             var sector = await GetSectorDetails(sectorId);
-            PlayerSectorsInformation.Add(sector);
+            var sectorResources = await Mediator.Send(new GetSectorResourcesQuery { SectorId = sectorId });
+            PlayerSectorsInformation.Add((sector, sectorResources));
         }
+
+        InvokeAsync(StateHasChanged);
     }
 
     protected Task<SectorDocument> GetSectorDetails(Guid? sectorId )
     {
         return  Mediator.Send(new GetSectorInfoQuery { Id = sectorId.Value });
     }
+
 }

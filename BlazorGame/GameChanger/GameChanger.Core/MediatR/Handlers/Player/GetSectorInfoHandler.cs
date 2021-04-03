@@ -24,7 +24,7 @@ namespace GameChanger.Core.MediatR.Handlers
         {
             if(!notification.Id.HasValue)
             {
-                return null;
+                return Task.FromResult(new SectorDocument());
             }
 
             return _sectorDocuments.GetAsync(notification.Id.Value);
