@@ -12,6 +12,8 @@ using GameChanger.Core.MediatR.Messages;
 using GameChanger.Core.MediatR.Handlers.Sector;
 using GameChanger.Core.Services.Sector;
 using System.Threading.Channels;
+using GameChanger.Core.Services;
+using GameChanger.Core.MediatR.Messages.Commands.Sector;
 
 namespace GameChanger.Core.MediatR.Handlers.Player
 {
@@ -19,18 +21,32 @@ namespace GameChanger.Core.MediatR.Handlers.Player
     {
         private readonly IMongoRepository<PlayerDocument, Guid> _playerDocuments;
         private readonly MapConfiguration _mapConfiguration;
+        private readonly IGameNotificationProcessor _gameNotificationProcessor;
 
-        public GenerateSectorHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration, IMongoRepository<PlayerDocument, Guid> playerDocuments, MapConfiguration mapConfiguration) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
+        public GenerateSectorHandler(IMongoRepository<SectorDocument, Guid> sectorDocuments, IMediator mediator, ISectorService sectorService, IMongoRepository<SectorResourcesDocument, Guid> sectorResourcesDocuments, BuildingConfiguration buildingConfiguration, IMongoRepository<PlayerDocument, Guid> playerDocuments, MapConfiguration mapConfiguration, IGameNotificationProcessor gameNotificationProcessor) : base(sectorDocuments, mediator, sectorService, sectorResourcesDocuments, buildingConfiguration)
         {
             _playerDocuments = playerDocuments;
             _mapConfiguration = mapConfiguration;
+            _gameNotificationProcessor = gameNotificationProcessor;
         }
 
         public async Task Handle(GenerateSectorCommand notification, CancellationToken cancellationToken)
         {
-            var player = await  _playerDocuments.GetAsync(notification.PlayerId);
-            
+            if (!notification.PlayerId.HasValue)
+                return;
+
+            var player = await  _playerDocuments.GetAsync(notification.PlayerId.Value);
+
+            if (player == null)
+                return;
+
+            var allPlayerCities = (await _sectorDocuments.FindAsync(s => player.Sectors.Contains(s.Id))).Select(s => s.CityCode).ToList();
+            if (allPlayerCities.Contains(notification.CityCode.Value))
+            {
+                return;
+            }
             var landOfCity = _mapConfiguration.Lands.Where(l => l.Cities.Any(c => c.Code == notification.CityCode)).SingleOrDefault();
+
             var sectorResources = new SectorResourcesDocument();
 
             sectorResources.CurrentResources.ForEach(r => r.Amount += 100);
@@ -39,7 +55,7 @@ namespace GameChanger.Core.MediatR.Handlers.Player
 
             var sectorDocument = new SectorDocument
             {                    
-                CityCode = notification.CityCode,
+                CityCode = notification.CityCode.Value,
                 PlayerOwner = player.Id,
                 LandCode = landOfCity?.Code,
                 SectorResourcesId = sectorResources.Id                
@@ -47,15 +63,17 @@ namespace GameChanger.Core.MediatR.Handlers.Player
 
             await _sectorDocuments.AddAsync(sectorDocument);
             player.Sectors.Add(sectorDocument.Id);
+
             sectorResources.SectorId = sectorDocument.Id;
             await _sectorResourcesDocuments.UpdateAsync(sectorResources);
 
+            await _playerDocuments.UpdateAsync(player);
+
             if (player.Sectors.Count == 1)
             {
-                player.CurrentSector = new CurrentSectorDetails() { CurrentSectorId = sectorDocument.Id };
+                await _gameNotificationProcessor.ProcessAsync(new ChangeSectorCommand() { PlayerId = player.Id, SectorId = sectorDocument.Id });
             }
 
-            await _playerDocuments.UpdateAsync(player);
         }
     }
 }

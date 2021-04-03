@@ -10,7 +10,7 @@ namespace GameChanger.Core.MongoDB.Factories
 {
     public class BuildingStatusFactory : IBuildingStatusFactory
     {
-        public BuildingStatus CreateBuildingStatus(BuildingStatuses buildingStatus, DateTime? dateToComplete = null)
+        public BuildingStatus Create(BuildingStatuses buildingStatus, DateTime? dateToComplete = null)
         {
             return buildingStatus switch
             {

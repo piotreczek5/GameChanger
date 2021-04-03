@@ -3,9 +3,11 @@ using Convey.Persistence.MongoDB;
 using GameChanger.Core.Debugging;
 using GameChanger.Core.EventScheduler;
 using GameChanger.Core.MongoDB.Documents;
+using GameChanger.Core.MongoDB.Documents.Factories;
 using GameChanger.Core.MongoDB.Factories;
 using GameChanger.Core.Services;
 using GameChanger.Core.Services.Logging;
+using GameChanger.Core.Services.Map;
 using GameChanger.Core.Services.Sector;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -27,8 +29,9 @@ namespace GameChanger.Core.Extensions
                 .AddTransient<IGameLogger, GameLogger>()
                 .AddSingleton<IEventScheduler, EventScheduler.EventScheduler>()
                 .AddTransient<ISectorService, SectorService>()
-                .AddTransient<IBuildingStatusFactory,BuildingStatusFactory>();     
-            
+                .AddTransient<IBuildingStatusFactory, BuildingStatusFactory>()
+                .AddTransient<IPlayerStatusFactory, PlayerStatusFactory>()
+                .AddTransient<IDistanceService, DistanceService>();            
         }
 
         public static IConveyBuilder AddCoreModule(this IConveyBuilder builder)

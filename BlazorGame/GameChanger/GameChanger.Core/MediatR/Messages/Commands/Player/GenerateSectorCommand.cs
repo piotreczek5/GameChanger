@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using GameChanger.Core.GameData;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace GameChanger.Core.MediatR.Messages
 {
     public class GenerateSectorCommand : INotification
     {
-        public Guid PlayerId { get; set; }
-        public string CityCode  { get; set; }
+        public Guid? PlayerId { get; set; }
+        public CityCodes? CityCode  { get; set; }
         public override string ToString()
         {
             return $"GENERATING SECTORS FOR PLAYER {PlayerId} IN CITY {CityCode}";

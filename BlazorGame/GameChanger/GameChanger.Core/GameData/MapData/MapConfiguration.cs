@@ -27,12 +27,19 @@ namespace GameChanger.Core.GameData
 
     public class City
     {
-        public string Code { get; set; }
+        public CityCodes Code { get; set; }
         public string Name { get; set; }
         public decimal XCoordinate { get; set; }
         public decimal YCoordinate { get; set; }
         
     }
 
-
+    public enum CityCodes
+    {
+        POLS_PORA,
+        POLS_DUPI,
+        SZWA_HANG,
+        SZWA_FYRE,
+        SZWA_FART
+    }
 }

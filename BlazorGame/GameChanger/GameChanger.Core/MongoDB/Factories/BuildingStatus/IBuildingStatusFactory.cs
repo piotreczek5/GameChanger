@@ -9,6 +9,6 @@ namespace GameChanger.Core.MongoDB.Factories
 {
     public interface IBuildingStatusFactory
     {
-        BuildingStatus CreateBuildingStatus(BuildingStatuses buildingStatus, DateTime? dateToComplete = null);
+        BuildingStatus Create(BuildingStatuses buildingStatus, DateTime? dateToComplete = null);
     }
 }

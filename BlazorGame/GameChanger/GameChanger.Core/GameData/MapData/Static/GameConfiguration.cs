@@ -29,14 +29,14 @@ namespace GameChanger.Core.GameData
                         {
                             new City()
                             {
-                                Code = "POLS_PORA",
+                                Code =  CityCodes.POLS_PORA,
                                 Name = "Poraj",
                                 XCoordinate = 50.6765865m,
                                 YCoordinate = 19.1972253m
                             },
                             new City()
                             {
-                                Code = "POLS_DUPI",
+                                Code =  CityCodes.POLS_DUPI,
                                 Name = "Dupiakowo",
                                 XCoordinate = 50.2344422m,
                                 YCoordinate = 19.2342253m
@@ -83,21 +83,21 @@ namespace GameChanger.Core.GameData
                         {
                             new City()
                             {
-                                Code = "SZWA_HANG",
+                                Code = CityCodes.SZWA_HANG,
                                 Name = "Hangower",
                                 XCoordinate = 52.3797505m,
                                 YCoordinate = 9.6914322m
                             },
                             new City()
                             {
-                                Code = "SZWA_FYRE",
+                                Code = CityCodes.SZWA_FYRE,
                                 Name = "Fyrerlandia",
                                 XCoordinate = 52.2397505m,
                                 YCoordinate = 9.6211322m
                             },
                             new City()
                             {
-                                Code = "SZWA_FART",
+                                Code = CityCodes.SZWA_FART,
                                 Name = "Fartfurt",
                                 XCoordinate = 52.2111505m,
                                 YCoordinate = 9.6234222m

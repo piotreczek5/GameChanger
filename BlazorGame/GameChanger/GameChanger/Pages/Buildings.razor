@@ -268,7 +268,7 @@
         var authState = await AuthState;
         var currentUserId = Guid.Parse(authState.User.Claims.Where(c => c.Type == "PlayerGuid").Single().Value);
         CurrentlyLoggedPlayer = await Mediator.Send(new GetPlayerInfoQuery { Id = currentUserId });
-        CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer.CurrentSector.CurrentSectorId });
+        CurrentPlayerSector = await Mediator.Send(new GetSectorInfoQuery { Id = CurrentlyLoggedPlayer?.Status?.CurrentSectorDetails?.SectorId });
 
         CurrentCity = MapConfiguration.GetCityByCode(CurrentPlayerSector?.CityCode);
         CurrentLand = MapConfiguration.GetLandByCode(CurrentPlayerSector?.LandCode);

@@ -7,22 +7,34 @@
 <h1>Player Data</h1>
 <br />
 <p>UserLogged : @CurrentlyLoggedPlayer?.Nick </p>
-<p>CurrentSector : @CurrentlyLoggedPlayer?.CurrentSector.CurrentSectorId </p>
+<p>CurrentSector : @CurrentlyLoggedPlayer?.Status?.CurrentSectorDetails?.SectorId </p>
 
 <button class="btn btn-primary" @onclick="async () => await GenerateSectorForPlayer()">Generate Sector</button>
-<br /><br /><br />
+<br />
+<br />
+<br />
 <h1>All Player sectors:</h1>
 <br />
 
 @if (CurrentlyLoggedPlayer != null)
 {
-    @foreach (var sector in CurrentlyLoggedPlayer?.Sectors)
+    int i = 0;
+    @foreach (var city in Enum.GetValues(typeof(CityCodes)).Cast<CityCodes>())
     {
-        <p>No @CurrentlyLoggedPlayer?.Sectors.IndexOf(sector);</p>        
+        <p> No : @(i++)</p>
+        <p> City : @city</p>
         <p>
-            Sector id: @sector
-            <button class="btn btn-primary" @onclick="async () => await TravelToSector(sector)"> Move To Sector</button>
-            <button class="btn btn-danger" @onclick="async () => await RemoveSector(sector)"> Remove Sector</button>
+
+            @{
+                var sectorInCity = CurrentSectors.SingleOrDefault(s => s.CityCode == city);
+            }
+
+            <button class="btn btn-primary" @onclick="async () => await TravelToCity(city)"> Move To City</button>
+            @if (sectorInCity != null)
+            {
+                <p>Sector in the city : @sectorInCity.Id</p>
+                <button class="btn btn-danger" @onclick="async () => await RemoveSector(sectorInCity.Id)"> Remove Sector</button>
+            }
         </p>
     }
 }
@@ -32,6 +44,8 @@
 
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
+
+    private IReadOnlyCollection<SectorDocument> CurrentSectors = new List<SectorDocument>();
 
     protected async override Task OnInitializedAsync()
     {
@@ -45,13 +59,19 @@
         var currentUserMail = authState.User.Identity.Name;
 
         var playerGuid = await _mediator.Send(new GetPlayerIdOfUser { UserName = currentUserMail });
-
+        CurrentSectors = await _mediator.Send(new GetPlayerSectorsQuery { PlayerId = playerGuid });
         CurrentlyLoggedPlayer = await _mediator.Send(new GetPlayerInfoQuery { Id = playerGuid });
     }
 
     protected async Task GenerateSectorForPlayer()
     {
-        var cities = MapConfiguration.Lands.SelectMany(c => c.Cities).ToList();
+        var cities = MapConfiguration.Lands.SelectMany(c => c.Cities)
+            .Where(c => !CurrentSectors.Select(s => s.CityCode).ToList().Contains(c.Code))
+            .ToList();
+
+        if (cities.Count == 0)
+            return;
+
         int randomCityIndex = new Random().Next(0, cities.Count);
 
         await GameNotificationProcessor.ProcessAsync(new GenerateSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, CityCode = cities[randomCityIndex].Code });
@@ -64,9 +84,18 @@
         await RefreshGamedata();
     }
 
-    protected async Task TravelToSector(Guid? sectorId)
+    protected async Task TravelToCity(CityCodes destinationCityCode)
     {
-        await GameNotificationProcessor.ProcessAsync(new TravelSectorCommand { PlayerId = CurrentlyLoggedPlayer.Id, SectorId = sectorId });
-        await RefreshGamedata();
+        if (destinationCityCode != CurrentlyLoggedPlayer?.Status?.CurrentLandDetails?.CityCode)
+        {
+            await GameNotificationProcessor.ProcessAsync(new TravelToCityCommand
+            {
+                PlayerId = CurrentlyLoggedPlayer.Id,
+                SourceCityCode = CurrentlyLoggedPlayer?.Status?.CurrentLandDetails?.CityCode,
+                DestinationCityCode = destinationCityCode
+            });
+            Thread.Sleep(400);
+            await RefreshGamedata();
+        }
     }
 }

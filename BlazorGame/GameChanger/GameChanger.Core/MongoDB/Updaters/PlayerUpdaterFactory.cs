@@ -11,9 +11,9 @@ namespace GameChanger.Core.MongoDB.Updaters
 {
     public static class PlayerUpdaterFactory
     {
-        public static UpdateDefinition<PlayerDocument> SetCurrentSector(CurrentSectorDetails sectorDetails)
+        public static UpdateDefinition<PlayerDocument> SetCurrentSector(SectorDetails sectorDetails)
         {
-            return Builders<PlayerDocument>.Update.Set(c => c.CurrentSector, sectorDetails);
+            return Builders<PlayerDocument>.Update.Set(c => c.Status.CurrentSectorDetails, sectorDetails);
         }
 
         public static UpdateDefinition<PlayerDocument> RemoveSector(Guid sectorId)
